@@ -50,11 +50,21 @@ public class MessageTones extends JavaPlugin implements Listener{
     
     @EventHandler
     public void onPlayerCommand(PlayerCommandPreprocessEvent e) {
-        if (e.getMessage().startsWith("/msg") || e.getMessage().startsWith("/r") || e.getMessage().startsWith("/t") || e.getMessage().startsWith("/tell")) {
-            e.getPlayer().playSound(e.getPlayer().getLocation(),Sound.NOTE_PLING,1,0);
-        }
+        String[] args = e.getMessage().split(" ");
+        if (args.length >= 2){
+            String cmd = args[0];
+            String target = args[1];
+            if (cmd.contains("msg") || cmd.contains("tell") || cmd.contains("r") || cmd.contains("t")) {
+                Player targetPlayer = Bukkit.getServer().getPlayer(target);
+                if (targetPlayer == null) {
+                    return;
+                } else {
+                    targetPlayer.playSound(targetPlayer.getLocation(),Sound.NOTE_PLING,1,0);
+                    return;
+                }
+            }
+          }
     }
-    
     
     // ======================
     // Commands
