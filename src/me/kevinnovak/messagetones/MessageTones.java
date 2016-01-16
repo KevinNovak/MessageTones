@@ -48,22 +48,38 @@ public class MessageTones extends JavaPlugin implements Listener{
         return ChatColor.translateAlternateColorCodes('&', getConfig().getString(toConvert));
     }
     
+    // =========================
+    // Find Player
+    // =========================
+    Player findPlayer(String toFind) {
+        String toFindLower = toFind.toLowerCase();
+        for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+            String onlineLower = onlinePlayer.getName().toLowerCase();
+            if (onlineLower.contains(toFindLower)) {
+                return onlinePlayer;
+            }
+        }
+        return null;
+    }
+    
     @EventHandler
     public void onPlayerCommand(PlayerCommandPreprocessEvent e) {
         String[] args = e.getMessage().split(" ");
         if (args.length >= 2){
             String cmd = args[0];
             String target = args[1];
-            if (cmd.contains("msg") || cmd.contains("tell") || cmd.contains("r") || cmd.contains("t")) {
-                Player targetPlayer = Bukkit.getServer().getPlayer(target);
-                if (targetPlayer == null) {
-                    return;
-                } else {
-                    targetPlayer.playSound(targetPlayer.getLocation(),Sound.NOTE_PLING,1,0);
-                    return;
+            if (cmd.equals("/msg") || cmd.equals("/m") || cmd.equals("/t") || cmd.equals("/tell") || cmd.equals("/whisper") || cmd.equals("/w")) {
+                if (target.length() > 1) {
+                    Player targetPlayer = findPlayer(target);
+                    if (targetPlayer == null) {
+                        return;
+                    } else {
+                        targetPlayer.playSound(targetPlayer.getLocation(),Sound.NOTE_PLING,1,0);
+                        return;
+                    }
                 }
             }
-          }
+        }
     }
     
     // ======================
