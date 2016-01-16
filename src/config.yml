@@ -1,0 +1,6 @@
+# Configuration file for MessageTones
+
+metrics: true
+
+# Language
+noconsole: '&cConsole cannot run MessageTones commands!'
