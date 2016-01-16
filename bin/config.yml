@@ -1,5 +1,10 @@
 # Configuration file for MessageTones
 
+msgSound: NOTE_PLING
+replySound: NOTE_PLING
+
+
+
 metrics: true
 
 # Language
