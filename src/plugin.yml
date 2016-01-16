@@ -3,3 +3,8 @@ version: 1.0.0
 main: me.kevinnovak.messagetones.MessageTones
 author: KevinNovak
 description: Allows messages to have tones!
+
+commands:
+    ding:
+        usage: /<command>
+        description: Plays a test sound.

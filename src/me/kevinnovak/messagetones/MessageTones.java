@@ -4,10 +4,13 @@ import java.io.IOException;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class MessageTones extends JavaPlugin implements Listener{
@@ -45,6 +48,14 @@ public class MessageTones extends JavaPlugin implements Listener{
         return ChatColor.translateAlternateColorCodes('&', getConfig().getString(toConvert));
     }
     
+    @EventHandler
+    public void onPlayerCommand(PlayerCommandPreprocessEvent e) {
+        if (e.getMessage().startsWith("/msg") || e.getMessage().startsWith("/r") || e.getMessage().startsWith("/t") || e.getMessage().startsWith("/tell")) {
+            e.getPlayer().playSound(e.getPlayer().getLocation(),Sound.NOTE_PLING,1,0);
+        }
+    }
+    
+    
     // ======================
     // Commands
     // ======================
@@ -56,6 +67,14 @@ public class MessageTones extends JavaPlugin implements Listener{
             sender.sendMessage(convertedLang("noconsole"));
             return true;
         }
+        Player player = (Player) sender;
+        // ======================
+        // /ding
+        // ======================
+        if(cmd.getName().equalsIgnoreCase("ding")) {
+               player.playSound(player.getLocation(),Sound.NOTE_PLING,1,0);
+        }
+        
         return true;
     }
 }
