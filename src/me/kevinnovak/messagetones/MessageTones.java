@@ -482,12 +482,15 @@ public class MessageTones extends JavaPlugin implements Listener{
     @EventHandler
     public void onPlayerCommand(PlayerCommandPreprocessEvent e) {
         String[] args = e.getMessage().split(" ");
-        if (args.length >= 2){
-            String cmd = args[0];
+        if (args.length <= 1){
+            return;
+        }
+        String cmd = args[0];
+        // =========================
+        // /msg
+        // =========================
+        if (args.length > 2){
             String target = args[1];
-            // =========================
-            // /msg
-            // =========================
             if (cmd.equals("/msg") || cmd.equals("/m") || cmd.equals("/t") || cmd.equals("/tell") || cmd.equals("/whisper") || cmd.equals("/w")) {
                 if (target.length() > 1) {
                     Player targetPlayer = findPlayer(target);
@@ -501,37 +504,37 @@ public class MessageTones extends JavaPlugin implements Listener{
                             // TODO Auto-generated catch block
                             e1.printStackTrace();
                         }
-                        playSound(targetPlayer, 187);
+                        playSound(targetPlayer, getConfig().getInt("msgSound"));
                         return;
                     }
                 }
             }
-            // =========================
-            // /r
-            // =========================
-            if (cmd.equals("/r") || cmd.equals("/reply")) {
-                // if send command player exists in replies.yml file
-                if (replyData.getString(e.getPlayer().getName() + ".Reply") == null) {
-                    return;
-                }
-                // if reply to player exists on server
-                Player targetPlayer = Bukkit.getServer().getPlayer(replyData.getString(e.getPlayer().getName() + ".Reply"));
-                if (targetPlayer == null) {
-                    return;
-                }
-                // save a new reply to player
-                e.getPlayer().sendMessage(targetPlayer.getName());
-                replyData.set(targetPlayer.getName() + ".Reply", e.getPlayer().getName());
-                try {
-                    replyData.save(replyFile);
-                } catch (IOException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-                }
-                // play sound
-                targetPlayer.playSound(targetPlayer.getLocation(),Sound.NOTE_PLING,1,0);
+        }
+        // =========================
+        // /r
+        // =========================
+        if (cmd.equals("/r") || cmd.equals("/reply")) {
+            // if send command player exists in replies.yml file
+            if (replyData.getString(e.getPlayer().getName() + ".Reply") == null) {
                 return;
             }
+            // if reply to player exists on server
+            Player targetPlayer = Bukkit.getServer().getPlayer(replyData.getString(e.getPlayer().getName() + ".Reply"));
+            if (targetPlayer == null) {
+                return;
+            }
+            // save a new reply to player
+            e.getPlayer().sendMessage(targetPlayer.getName());
+            replyData.set(targetPlayer.getName() + ".Reply", e.getPlayer().getName());
+            try {
+                replyData.save(replyFile);
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+            // play sound
+            playSound(targetPlayer, getConfig().getInt("replySound"));
+            return;
         }
     }
     

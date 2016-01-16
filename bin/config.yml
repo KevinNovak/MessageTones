@@ -1,9 +1,7 @@
 # Configuration file for MessageTones
 
-msgSound: NOTE_PLING
-replySound: NOTE_PLING
-
-
+msgSound: 117
+replySound: 117
 
 metrics: true
 
