@@ -7,3 +7,5 @@ support for /ignore
 convertSound function with case statements
 /sounds list in-game with numbers and friendly names of sounds
 list sounds in config, with recommended options
+console messes up things
+make 0 a silent option

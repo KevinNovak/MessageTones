@@ -1,7 +1,10 @@
 # Configuration file for MessageTones
 
-msgSound: 117
-replySound: 117
+# Recommended Sounds: 16, 104, 117
+# default: msgSound: 104
+# default: replySound: 104
+msgSound: 104
+replySound: 104
 
 metrics: true
 

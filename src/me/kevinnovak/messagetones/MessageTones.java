@@ -477,8 +477,6 @@ public class MessageTones extends JavaPlugin implements Listener{
         player.playSound(player.getLocation(),sound,1,0);
     }
     
-    
-    
     @EventHandler
     public void onPlayerCommand(PlayerCommandPreprocessEvent e) {
         String[] args = e.getMessage().split(" ");
@@ -490,6 +488,7 @@ public class MessageTones extends JavaPlugin implements Listener{
         // /msg
         // =========================
         if (args.length > 2){
+            
             String target = args[1];
             if (cmd.equals("/msg") || cmd.equals("/m") || cmd.equals("/t") || cmd.equals("/tell") || cmd.equals("/whisper") || cmd.equals("/w")) {
                 if (target.length() > 1) {
@@ -524,7 +523,6 @@ public class MessageTones extends JavaPlugin implements Listener{
                 return;
             }
             // save a new reply to player
-            e.getPlayer().sendMessage(targetPlayer.getName());
             replyData.set(targetPlayer.getName() + ".Reply", e.getPlayer().getName());
             try {
                 replyData.save(replyFile);
