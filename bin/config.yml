@@ -2,11 +2,12 @@
 
 # Recommended Sounds: 16, 104, 117
 # default: msgSound: 104
-# default: replySound: 104
 msgSound: 104
-replySound: 104
-
-metrics: true
 
 # Language
 noconsole: '&cConsole cannot run MessageTones commands!'
+
+# Whether or not to collect data on plugin usage
+# Viewable at http://mcstats.org/plugin/MessageTones
+# default: metrics: true
+metrics: true

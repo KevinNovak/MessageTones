@@ -1,83 +1,127 @@
 package me.kevinnovak.messagetones;
 
-import java.io.File;
-import java.io.IOException;
-
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
-public class MessageTones extends JavaPlugin implements Listener{
-    public File replyFile = new File(getDataFolder()+"/replies.yml");
-    public FileConfiguration replyData = YamlConfiguration.loadConfiguration(replyFile);
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.reflect.StructureModifier;
+import com.comphenix.protocol.wrappers.WrappedChatComponent;
+
+public class MessageTones extends JavaPlugin implements Listener {
     
-    // ======================
-    // Enable
-    // ======================
+    // =========================
+    // ProtocolLib
+    // =========================
+    private interface Processor {
+        public Object process(Object value, Object parent);
+    }
+    @Override
     public void onEnable() {
-        saveDefaultConfig();
-        try {
-            replyData.save(replyFile);
-        } catch (IOException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        }
-        Bukkit.getServer().getPluginManager().registerEvents(this, this);
-        if (getConfig().getBoolean("metrics")) {
-            try {
-                MetricsLite metrics = new MetricsLite(this);
-                metrics.start();
-                Bukkit.getServer().getLogger().info("[MessageTones] Metrics Enabled!");
-            } catch (IOException e) {
-                Bukkit.getServer().getLogger().info("[MessageTones] Failed to Start Metrics.");
-            }
+        ProtocolLibrary.getProtocolManager().addPacketListener(
+            new PacketAdapter(this, PacketType.Play.Server.CHAT) {
+                private JSONParser parser = new JSONParser();
+                
+                @Override
+                public void onPacketSending(PacketEvent event) {
+                    PacketContainer packet = event.getPacket();
+                    StructureModifier<WrappedChatComponent> componets = packet.getChatComponents();
+                    
+                    try {
+                        Object data = parser.parse(componets.read(0).getJson());
+                        final boolean[] result = new boolean[1];
+                        
+                        transformPrimitives(data, null, new Processor() {
+                            @Override
+                            public Object process(Object value, Object parent) {
+                                if (value instanceof String) {
+                                    String stripped = ChatColor.stripColor((String) value);
+
+                                    if (stripped.contains("-> me")) {
+                                        playSound(event.getPlayer(), getConfig().getInt("msgSound"));
+                                        result[0] = true;
+                                    }
+                                }
+                                return value;
+                            }
+                        });
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+    }
+    private Object transformPrimitives(Object value, Object parent, Processor processor) {
+        // Check its type
+        if (value instanceof JSONObject) {
+            return transformPrimitives((JSONObject) value, processor);
+        } else if (value instanceof JSONArray) {
+            return transformPrimitives((JSONArray) value, processor);
         } else {
-            Bukkit.getServer().getLogger().info("[MessageTones] Metrics Disabled.");
+            return processor.process(value, parent);
         }
-        Bukkit.getServer().getLogger().info("[MessageTones] Plugin Enabled!");
     }
-    
-    // ======================
-    // Disable
-    // ======================
-    public void onDisable() {
-        replyFile.delete();
-        Bukkit.getServer().getLogger().info("[MessageTones] Plugin Disabled!");
+    @SuppressWarnings("unchecked")
+    private JSONObject transformPrimitives(JSONObject source, Processor processor) {
+        for (Object key : source.keySet().toArray()) {
+            Object value = source.get(key);
+            source.put(key, transformPrimitives(value, source, processor));
+        }
+        return source;
     }
-    
+    @SuppressWarnings("unchecked")
+    private JSONArray transformPrimitives(JSONArray source, Processor processor) {
+        for (int i = 0; i < source.size(); i++) {
+            Object value = source.get(i);
+            source.set(i, transformPrimitives(value, source, processor));
+        }
+        return source;
+    }
+
     // =========================
     // Convert String in Config
     // =========================
     String convertedLang(String toConvert) {
         return ChatColor.translateAlternateColorCodes('&', getConfig().getString(toConvert));
     }
-       
-    // =========================
-    // Find Player
-    // =========================
-    Player findPlayer(String toFind) {
-        String toFindLower = toFind.toLowerCase();
-        for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-            String onlineLower = onlinePlayer.getName().toLowerCase();
-            if (onlineLower.contains(toFindLower)) {
-                return onlinePlayer;
-            }
-        }
-        return null;
-    }
     
-    // =========================
+    // ======================
+    // Commands
+    // ======================
+    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
+        // ======================
+        // Console
+        // ======================
+        if (!(sender instanceof Player)) {
+            sender.sendMessage(convertedLang("noconsole"));
+            return true;
+        }
+        Player player = (Player) sender;
+        // ======================
+        // /ding
+        // ======================
+        if(cmd.getName().equalsIgnoreCase("ding")) {
+               player.playSound(player.getLocation(),Sound.NOTE_PLING,1,0);
+        }
+
+        return true;
+    }
+
+    // ======================
     // Play Sound
-    // =========================
+    // ======================
     void playSound(Player player, int soundID) {
         Sound sound = Sound.NOTE_PLING;
         switch(soundID) {
@@ -176,385 +220,304 @@ public class MessageTones extends JavaPlugin implements Listener{
         case 47: sound = Sound.DRINK;
                 break;
         case 48: sound = Sound.EAT;
-                break;           
+                break;
         case 49: sound = Sound.ENDERDRAGON_DEATH;
                 break;
         case 50: sound = Sound.ENDERDRAGON_GROWL;
-                break;           
+                break;
         case 51: sound = Sound.ENDERDRAGON_HIT;
                 break;
         case 52: sound = Sound.ENDERDRAGON_WINGS;
-                break;           
+                break;
         case 53: sound = Sound.ENDERMAN_DEATH;
                 break;
         case 54: sound = Sound.ENDERMAN_HIT;
-                break;           
+                break;
         case 55: sound = Sound.ENDERMAN_IDLE;
                 break;
         case 56: sound = Sound.ENDERMAN_SCREAM;
-                break;           
+                break;
         case 57: sound = Sound.ENDERMAN_STARE;
                 break;
         case 58: sound = Sound.ENDERMAN_TELEPORT;
-                break;           
+                break;
         case 59: sound = Sound.EXPLODE;
                 break;
         case 60: sound = Sound.FALL_BIG;
-                break;           
+                break;
         case 61: sound = Sound.FALL_SMALL;
                 break;
         case 62: sound = Sound.FIRE;
-                break;           
+                break;
         case 63: sound = Sound.FIRE_IGNITE;
-                break;  
+                break;
         case 64: sound = Sound.FIREWORK_BLAST;
-                break;           
+                break;
         case 65: sound = Sound.FIREWORK_BLAST2;
                 break;
         case 66: sound = Sound.FIREWORK_LARGE_BLAST;
-                break;           
+                break;
         case 67: sound = Sound.FIREWORK_LARGE_BLAST2;
                 break;
         case 68: sound = Sound.FIREWORK_LAUNCH;
-                break;           
+                break;
         case 69: sound = Sound.FIREWORK_TWINKLE;
                 break;
         case 70: sound = Sound.FIREWORK_TWINKLE2;
-                break;           
+                break;
         case 71: sound = Sound.FIZZ;
                 break;
         case 72: sound = Sound.FUSE;
-                break;           
+                break;
         case 73: sound = Sound.GHAST_CHARGE;
                 break;
         case 74: sound = Sound.GHAST_DEATH;
-                break;           
+                break;
         case 75: sound = Sound.GHAST_FIREBALL;
                 break;
         case 76: sound = Sound.GHAST_MOAN;
-                break;           
+                break;
         case 77: sound = Sound.GHAST_SCREAM;
                 break;
         case 78: sound = Sound.GHAST_SCREAM2;
-                break;           
+                break;
         case 79: sound = Sound.GLASS;
                 break;
         case 80: sound = Sound.HORSE_ANGRY;
-                break; 
+                break;
         case 81: sound = Sound.HORSE_ANGRY;
-                break; 
+                break;
         case 82: sound = Sound.HORSE_BREATHE;
                 break;
         case 83: sound = Sound.HORSE_DEATH;
-                break; 
+                break;
         case 84: sound = Sound.HORSE_GALLOP;
-                break;   
+                break;
         case 85: sound = Sound.HORSE_HIT;
                 break;
         case 86: sound = Sound.HORSE_IDLE;
-                break; 
+                break;
         case 87: sound = Sound.HORSE_JUMP;
-                break; 
+                break;
         case 88: sound = Sound.HORSE_LAND;
                 break;
         case 89: sound = Sound.HORSE_SADDLE;
-                break; 
+                break;
         case 90: sound = Sound.HORSE_SKELETON_DEATH;
-                break;    
+                break;
         case 91: sound = Sound.HORSE_SKELETON_HIT;
                 break;
         case 92: sound = Sound.HORSE_SKELETON_IDLE;
-                break; 
+                break;
         case 93: sound = Sound.HORSE_SOFT;
-                break; 
+                break;
         case 94: sound = Sound.HORSE_WOOD;
                 break;
         case 95: sound = Sound.HORSE_ZOMBIE_DEATH;
-                break; 
+                break;
         case 96: sound = Sound.HORSE_ZOMBIE_HIT;
-                break;   
+                break;
         case 97: sound = Sound.HORSE_ZOMBIE_IDLE;
                 break;
         case 98: sound = Sound.HURT_FLESH;
-                break; 
+                break;
         case 99: sound = Sound.IRONGOLEM_DEATH;
-                break; 
+                break;
         case 100: sound = Sound.IRONGOLEM_HIT;
                 break;
         case 101: sound = Sound.IRONGOLEM_THROW;
-                break; 
+                break;
         case 102: sound = Sound.IRONGOLEM_WALK;
-                break;  
+                break;
         case 103: sound = Sound.ITEM_BREAK;
                 break;
         case 104: sound = Sound.ITEM_PICKUP;
-                break; 
+                break;
         case 105: sound = Sound.LAVA;
-                break; 
+                break;
         case 106: sound = Sound.LAVA_POP;
                 break;
         case 107: sound = Sound.LEVEL_UP;
-                break; 
+                break;
         case 108: sound = Sound.MAGMACUBE_JUMP;
-                break;   
+                break;
         case 109: sound = Sound.MAGMACUBE_WALK;
                 break;
         case 110: sound = Sound.MAGMACUBE_WALK2;
-                break; 
+                break;
         case 111: sound = Sound.MINECART_BASE;
-                break; 
+                break;
         case 112: sound = Sound.MINECART_INSIDE;
                 break;
         case 113: sound = Sound.NOTE_BASS;
-                break; 
+                break;
         case 114: sound = Sound.NOTE_BASS_DRUM;
-                break;    
+                break;
         case 115: sound = Sound.NOTE_BASS_GUITAR;
                 break;
         case 116: sound = Sound.NOTE_PIANO;
-                break; 
+                break;
         case 117: sound = Sound.NOTE_PLING;
-                break; 
+                break;
         case 118: sound = Sound.NOTE_SNARE_DRUM;
                 break;
         case 119: sound = Sound.NOTE_STICKS;
-                break; 
+                break;
         case 120: sound = Sound.ORB_PICKUP;
-                break;   
+                break;
         case 121: sound = Sound.PIG_DEATH;
                 break;
         case 122: sound = Sound.PIG_IDLE;
-                break; 
+                break;
         case 123: sound = Sound.PIG_WALK;
-                break; 
+                break;
         case 124: sound = Sound.PISTON_EXTEND;
                 break;
         case 125: sound = Sound.PISTON_RETRACT;
-                break; 
+                break;
         case 126: sound = Sound.PISTON_RETRACT;
-                break;         
+                break;
         case 127: sound = Sound.PORTAL;
-                break; 
+                break;
         case 128: sound = Sound.PORTAL_TRAVEL;
-                break; 
+                break;
         case 129: sound = Sound.PORTAL_TRIGGER;
-                break; 
+                break;
         case 130: sound = Sound.SHEEP_IDLE;
-                break; 
+                break;
         case 131: sound = Sound.SHEEP_SHEAR;
-                break; 
+                break;
         case 132: sound = Sound.SHEEP_WALK;
-                break; 
+                break;
         case 133: sound = Sound.SHOOT_ARROW;
-                break; 
+                break;
         case 134: sound = Sound.SILVERFISH_HIT;
-                break;  
+                break;
         case 135: sound = Sound.SILVERFISH_IDLE;
-                break; 
+                break;
         case 136: sound = Sound.SILVERFISH_KILL;
-                break; 
+                break;
         case 137: sound = Sound.SILVERFISH_WALK;
-                break; 
+                break;
         case 138: sound = Sound.SKELETON_DEATH;
-                break; 
+                break;
         case 139: sound = Sound.SKELETON_HURT;
-                break; 
+                break;
         case 140: sound = Sound.SKELETON_IDLE;
-                break; 
+                break;
         case 141: sound = Sound.SKELETON_WALK;
-                break; 
+                break;
         case 142: sound = Sound.SLIME_ATTACK;
-                break;   
+                break;
         case 143: sound = Sound.SLIME_WALK;
-                break; 
+                break;
         case 144: sound = Sound.SLIME_WALK2;
-                break; 
+                break;
         case 145: sound = Sound.SPIDER_DEATH;
-                break; 
+                break;
         case 146: sound = Sound.SPIDER_IDLE;
-                break; 
+                break;
         case 147: sound = Sound.SPIDER_WALK;
-                break; 
+                break;
         case 148: sound = Sound.SPLASH;
-                break; 
+                break;
         case 149: sound = Sound.SPLASH2;
-                break; 
+                break;
         case 150: sound = Sound.STEP_GRASS;
-                break;  
+                break;
         case 151: sound = Sound.STEP_GRAVEL;
-                break; 
+                break;
         case 152: sound = Sound.STEP_LADDER;
-                break; 
+                break;
         case 153: sound = Sound.STEP_SAND;
-                break; 
+                break;
         case 154: sound = Sound.STEP_SNOW;
-                break; 
+                break;
         case 155: sound = Sound.STEP_STONE;
-                break; 
+                break;
         case 156: sound = Sound.STEP_WOOD;
-                break; 
+                break;
         case 157: sound = Sound.STEP_WOOL;
-                break; 
+                break;
         case 158: sound = Sound.SUCCESSFUL_HIT;
-                break;  
+                break;
         case 159: sound = Sound.SWIM;
-                break; 
+                break;
         case 160: sound = Sound.VILLAGER_DEATH;
-                break;  
+                break;
         case 161: sound = Sound.VILLAGER_HAGGLE;
-                break;    
+                break;
         case 162: sound = Sound.VILLAGER_HIT;
-                break;  
+                break;
         case 163: sound = Sound.VILLAGER_IDLE;
-                break; 
+                break;
         case 164: sound = Sound.VILLAGER_NO;
-                break;  
+                break;
         case 165: sound = Sound.VILLAGER_YES;
-                break;    
+                break;
         case 166: sound = Sound.WATER;
-                break;  
+                break;
         case 167: sound = Sound.WITHER_DEATH;
-                break; 
+                break;
         case 168: sound = Sound.WITHER_HURT;
-                break;  
+                break;
         case 169: sound = Sound.WITHER_IDLE;
-                break; 
+                break;
         case 170: sound = Sound.WITHER_SHOOT;
-                break;  
+                break;
         case 171: sound = Sound.WITHER_SPAWN;
-                break; 
+                break;
         case 172: sound = Sound.WOLF_BARK;
-                break;  
+                break;
         case 173: sound = Sound.WOLF_DEATH;
-                break;    
+                break;
         case 174: sound = Sound.WOLF_GROWL;
-                break;  
+                break;
         case 175: sound = Sound.WOLF_HOWL;
-                break; 
+                break;
         case 176: sound = Sound.WOLF_HURT;
-                break;  
+                break;
         case 177: sound = Sound.WOLF_PANT;
-                break;    
+                break;
         case 178: sound = Sound.WOLF_SHAKE;
-                break;  
+                break;
         case 179: sound = Sound.WOLF_WALK;
-                break; 
+                break;
         case 180: sound = Sound.WOLF_WHINE;
-                break;  
+                break;
         case 181: sound = Sound.WOOD_CLICK;
-                break;  
+                break;
         case 182: sound = Sound.ZOMBIE_DEATH;
-                break;  
+                break;
         case 183: sound = Sound.ZOMBIE_HURT;
-                break; 
+                break;
         case 184: sound = Sound.ZOMBIE_IDLE;
-                break;  
+                break;
         case 185: sound = Sound.ZOMBIE_INFECT;
-                break;    
+                break;
         case 186: sound = Sound.ZOMBIE_METAL;
-                break;  
+                break;
         case 187: sound = Sound.ZOMBIE_PIG_ANGRY;
-                break; 
+                break;
         case 188: sound = Sound.ZOMBIE_PIG_DEATH;
-                break;  
+                break;
         case 189: sound = Sound.ZOMBIE_PIG_HURT;
-                break;    
+                break;
         case 190: sound = Sound.ZOMBIE_PIG_IDLE;
-                break;  
+                break;
         case 191: sound = Sound.ZOMBIE_REMEDY;
-                break; 
+                break;
         case 192: sound = Sound.ZOMBIE_UNFECT;
-                break;  
+                break;
         case 193: sound = Sound.ZOMBIE_WALK;
-                break; 
+                break;
         case 194: sound = Sound.ZOMBIE_WOOD;
-                break;  
+                break;
         case 195: sound = Sound.ZOMBIE_WOODBREAK;
-                break;        
+                break;
         default: sound = Sound.NOTE_PLING;
                 break;
         }
-        player.playSound(player.getLocation(),sound,1,0);
-    }
-    
-    @EventHandler
-    public void onPlayerCommand(PlayerCommandPreprocessEvent e) {
-        String[] args = e.getMessage().split(" ");
-        if (args.length <= 1){
-            return;
-        }
-        String cmd = args[0];
-        // =========================
-        // /msg
-        // =========================
-        if (args.length > 2){
-            
-            String target = args[1];
-            if (cmd.equals("/msg") || cmd.equals("/m") || cmd.equals("/t") || cmd.equals("/tell") || cmd.equals("/whisper") || cmd.equals("/w")) {
-                if (target.length() > 1) {
-                    Player targetPlayer = findPlayer(target);
-                    if (targetPlayer == null) {
-                        return;
-                    } else {
-                        replyData.set(targetPlayer.getName() + ".Reply", e.getPlayer().getName());
-                        try {
-                            replyData.save(replyFile);
-                        } catch (IOException e1) {
-                            // TODO Auto-generated catch block
-                            e1.printStackTrace();
-                        }
-                        playSound(targetPlayer, getConfig().getInt("msgSound"));
-                        return;
-                    }
-                }
-            }
-        }
-        // =========================
-        // /r
-        // =========================
-        if (cmd.equals("/r") || cmd.equals("/reply")) {
-            // if send command player exists in replies.yml file
-            if (replyData.getString(e.getPlayer().getName() + ".Reply") == null) {
-                return;
-            }
-            // if reply to player exists on server
-            Player targetPlayer = Bukkit.getServer().getPlayer(replyData.getString(e.getPlayer().getName() + ".Reply"));
-            if (targetPlayer == null) {
-                return;
-            }
-            // save a new reply to player
-            replyData.set(targetPlayer.getName() + ".Reply", e.getPlayer().getName());
-            try {
-                replyData.save(replyFile);
-            } catch (IOException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            }
-            // play sound
-            playSound(targetPlayer, getConfig().getInt("replySound"));
-            return;
-        }
-    }
-    
-    // ======================
-    // Commands
-    // ======================
-    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-        // ======================
-        // Console
-        // ======================
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(convertedLang("noconsole"));
-            return true;
-        }
-        Player player = (Player) sender;
-        // ======================
-        // /ding
-        // ======================
-        if(cmd.getName().equalsIgnoreCase("ding")) {
-               player.playSound(player.getLocation(),Sound.NOTE_PLING,1,0);
-        }
-        
-        return true;
-    }
+        player.playSound(player.getLocation(),sound,(float) 0.5,0);
+    } 
 }

@@ -9,3 +9,12 @@ convertSound function with case statements
 list sounds in config, with recommended options
 console messes up things
 make 0 a silent option
+intercept, cancel, and resend all messages
+have a message aliases config, seperate with commas or spaces
+construct a message help based on permissions
+/sound says if on or off, what sound, etc
+ignore alias, etc
+
+OR find out how to legit intercept all messages
+
+alert on player name

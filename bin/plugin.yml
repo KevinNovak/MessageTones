@@ -3,6 +3,7 @@ version: 1.0.0
 main: me.kevinnovak.messagetones.MessageTones
 author: KevinNovak
 description: Allows messages to have tones!
+depend: [ProtocolLib]
 
 commands:
     ding:
