@@ -26,6 +26,11 @@ msgTrigger: '-> me'
 # Language
 noconsole: '&cConsole cannot run MessageTones commands!'
 
+# Whether or not to collect data on plugin usage
+# Viewable at http://mcstats.org/plugin/MessageTones
+# default: metrics: true
+metrics: true
+
 # ======================
 # Sound IDs
 # ======================
@@ -224,8 +229,3 @@ noconsole: '&cConsole cannot run MessageTones commands!'
 # 193 - ZOMBIE_WALK
 # 194 - ZOMBIE_WOOD
 # 195 - ZOMBIE_WOOD
-
-# Whether or not to collect data on plugin usage
-# Viewable at http://mcstats.org/plugin/MessageTones
-# default: metrics: true
-metrics: true
