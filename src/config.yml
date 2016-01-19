@@ -23,6 +23,8 @@ msgVolume: 0.5
 # default: msgTrigger: '-> me'
 msgTrigger: '-> me'
 
+broadcastSound: 66
+
 # Language
 noconsole: '&cConsole cannot run MessageTones commands!'
 
@@ -37,7 +39,7 @@ metrics: true
 # 1 - AMBIENCE_CAVE
 # 2 - AMBIENCE_RAIN
 # 3 - AMBIENCE_THUNDER
-# 4 - ANVIL_
+# 4 - ANVIL_BREAK
 # 5 - ANVIL_LAND
 # 6 - ANVIL_USE
 # 7 - ARROW_HIT
@@ -136,7 +138,7 @@ metrics: true
 # 100 - IRONGOLEM_HIT
 # 101 - IRONGOLEM_THROW
 # 102 - IRONGOLEM_WALK
-# 103 - ITEM_
+# 103 - ITEM_BREAK
 # 104 - ITEM_PICKUP
 # 105 - LAVA
 # 106 - LAVA_POP
@@ -228,4 +230,4 @@ metrics: true
 # 192 - ZOMBIE_UNFECT
 # 193 - ZOMBIE_WALK
 # 194 - ZOMBIE_WOOD
-# 195 - ZOMBIE_WOOD
+# 195 - ZOMBIE_WOODBREAK

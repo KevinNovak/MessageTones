@@ -10,3 +10,5 @@ construct a message help based on permissions
 alert on player name
 	configurable message identifier/trigger
 suggested identifiers for different plugins
+disallow players from saying the trigger in chat
+sound when a player with permission joins

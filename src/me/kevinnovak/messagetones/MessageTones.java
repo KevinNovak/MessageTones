@@ -8,7 +8,9 @@ import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -131,6 +133,26 @@ public class MessageTones extends JavaPlugin implements Listener {
             source.set(i, transformPrimitives(value, source, processor));
         }
         return source;
+    }
+    
+    // =========================
+    // Broadcast
+    // =========================
+    @EventHandler
+    public void onPlayerCommand(PlayerCommandPreprocessEvent e) {
+        if (!e.getPlayer().hasPermission("messagetones.broadcast")) {
+            return;
+        }
+        String[] args = e.getMessage().split(" ");
+        if (args.length <= 1){
+            return;
+        }
+        String cmd = args[0];
+        if (cmd.equals("/broadcast")) {
+            for(Player player : Bukkit.getOnlinePlayers()){
+                playSound(player, getConfig().getInt("broadcastSound"));
+            }
+        }
     }
 
     // =========================
