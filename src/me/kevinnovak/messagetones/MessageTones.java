@@ -561,6 +561,6 @@ public class MessageTones extends JavaPlugin implements Listener {
         default: sound = Sound.NOTE_PLING;
                 break;
         }
-        player.playSound(player.getLocation(),sound,(float) 0.5,0);
+        player.playSound(player.getLocation(),sound, (float) getConfig().getDouble("msgVolume"), (float) getConfig().getDouble("msgPitch"));
     } 
 }
