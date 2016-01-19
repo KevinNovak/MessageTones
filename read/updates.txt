@@ -1,20 +1,12 @@
 msg tones, admin tone
 volume and pitch options
-/r is going to be a problem, no target argument, might have to snoop players chats
-or use essentials api?
 opt in and out
-support for /ignore
-convertSound function with case statements
+	convertSound function with case statements
 /sounds list in-game with numbers and friendly names of sounds
-list sounds in config, with recommended options
-console messes up things
+	list sounds in config, with recommended options
 make 0 a silent option
-intercept, cancel, and resend all messages
 have a message aliases config, seperate with commas or spaces
 construct a message help based on permissions
 /sound says if on or off, what sound, etc
-ignore alias, etc
-
-OR find out how to legit intercept all messages
-
+	OR find out how to legit intercept all messages
 alert on player name

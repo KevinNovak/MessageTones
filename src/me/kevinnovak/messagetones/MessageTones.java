@@ -1,5 +1,8 @@
 package me.kevinnovak.messagetones;
 
+import java.io.IOException;
+
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
@@ -28,41 +31,81 @@ public class MessageTones extends JavaPlugin implements Listener {
     private interface Processor {
         public Object process(Object value, Object parent);
     }
+    // =========================
+    // Enable
+    // =========================
     @Override
     public void onEnable() {
-        ProtocolLibrary.getProtocolManager().addPacketListener(
-            new PacketAdapter(this, PacketType.Play.Server.CHAT) {
-                private JSONParser parser = new JSONParser();
-                
-                @Override
-                public void onPacketSending(PacketEvent event) {
-                    PacketContainer packet = event.getPacket();
-                    StructureModifier<WrappedChatComponent> componets = packet.getChatComponents();
-                    
-                    try {
-                        Object data = parser.parse(componets.read(0).getJson());
-                        final boolean[] result = new boolean[1];
-                        
-                        transformPrimitives(data, null, new Processor() {
-                            @Override
-                            public Object process(Object value, Object parent) {
-                                if (value instanceof String) {
-                                    String stripped = ChatColor.stripColor((String) value);
-
-                                    if (stripped.contains("-> me")) {
-                                        playSound(event.getPlayer(), getConfig().getInt("msgSound"));
-                                        result[0] = true;
-                                    }
-                                }
-                                return value;
-                            }
-                        });
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
+        if (getServer().getPluginManager().getPlugin("ProtocolLib") != null) {
+            Bukkit.getServer().getLogger().info("[MessageTones] ProtocolLib Detected!");
+            startProtocolLib();
+        } else {
+            Bukkit.getServer().getLogger().info("[MessageTones] ProtocolLib Not Detected!");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+        saveDefaultConfig();
+        Bukkit.getServer().getPluginManager().registerEvents(this, this);
+        if (getConfig().getBoolean("metrics")) {
+            try {
+                MetricsLite metrics = new MetricsLite(this);
+                metrics.start();
+                Bukkit.getServer().getLogger().info("[MessageTones] Metrics Enabled!");
+            } catch (IOException e) {
+                Bukkit.getServer().getLogger().info("[MessageTones] Failed to Start Metrics.");
+            }
+        } else {
+            Bukkit.getServer().getLogger().info("[MessageTones] Metrics Disabled.");
+        }
+        Bukkit.getServer().getLogger().info("[MessageTones] Plugin Enabled!");
     }
+    
+    // ======================
+    // Disable
+    // ======================
+    public void onDisable() {
+        Bukkit.getServer().getLogger().info("[MessageTones] Plugin Disabled!");
+    }
+    
+    // =========================
+    // ProtocolLib
+    // =========================
+    void startProtocolLib() {
+        ProtocolLibrary.getProtocolManager().addPacketListener(
+                new PacketAdapter(this, PacketType.Play.Server.CHAT) {
+                    private JSONParser parser = new JSONParser();
+                    
+                    @Override
+                    public void onPacketSending(PacketEvent event) {
+                        PacketContainer packet = event.getPacket();
+                        StructureModifier<WrappedChatComponent> componets = packet.getChatComponents();
+                        
+                        try {
+                            Object data = parser.parse(componets.read(0).getJson());
+                            final boolean[] result = new boolean[1];
+                            
+                            transformPrimitives(data, null, new Processor() {
+                                @Override
+                                public Object process(Object value, Object parent) {
+                                    if (value instanceof String) {
+                                        String stripped = ChatColor.stripColor((String) value);
+
+                                        if (stripped.contains("-> me")) {
+                                            playSound(event.getPlayer(), getConfig().getInt("msgSound"));
+                                            result[0] = true;
+                                        }
+                                    }
+                                    return value;
+                                }
+                            });
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
+    
+    
     private Object transformPrimitives(Object value, Object parent, Processor processor) {
         // Check its type
         if (value instanceof JSONObject) {
