@@ -40,7 +40,9 @@ public class MessageTones extends JavaPlugin implements Listener {
     public void onEnable() {
         if (getServer().getPluginManager().getPlugin("ProtocolLib") != null) {
             Bukkit.getServer().getLogger().info("[MessageTones] ProtocolLib Detected!");
-            startProtocolLib();
+            if (getConfig().getBoolean("msgEnabled")) {
+                startProtocolLib(); 
+            }
         } else {
             Bukkit.getServer().getLogger().info("[MessageTones] ProtocolLib Not Detected!");
             getServer().getPluginManager().disablePlugin(this);
@@ -93,7 +95,7 @@ public class MessageTones extends JavaPlugin implements Listener {
                                         String stripped = ChatColor.stripColor((String) value);
 
                                         if (stripped.contains(getConfig().getString("msgTrigger"))) {
-                                            playSound(event.getPlayer(), getConfig().getInt("msgSound"));
+                                            event.getPlayer().playSound(event.getPlayer().getLocation(), convertSound(getConfig().getInt("msgSound")), (float) getConfig().getDouble("msgVolume"), (float) getConfig().getDouble("msgPitch"));
                                             result[0] = true;
                                         }
                                     }
@@ -140,6 +142,9 @@ public class MessageTones extends JavaPlugin implements Listener {
     // =========================
     @EventHandler
     public void onPlayerCommand(PlayerCommandPreprocessEvent e) {
+        if (!getConfig().getBoolean("broadcastEnabled")) {
+            return;
+        }
         if (!e.getPlayer().hasPermission("messagetones.broadcast")) {
             return;
         }
@@ -148,9 +153,9 @@ public class MessageTones extends JavaPlugin implements Listener {
             return;
         }
         String cmd = args[0];
-        if (cmd.equals("/broadcast")) {
+        if (cmd.equals("/" + getConfig().getString("broadcastCommand"))) {
             for(Player player : Bukkit.getOnlinePlayers()){
-                playSound(player, getConfig().getInt("broadcastSound"));
+                player.playSound(player.getLocation(), convertSound(getConfig().getInt("broadcastSound")), (float) getConfig().getDouble("broadcastVolume"), (float) getConfig().getDouble("broadcastPitch"));
             }
         }
     }
@@ -178,7 +183,7 @@ public class MessageTones extends JavaPlugin implements Listener {
         // /ding
         // ======================
         if(cmd.getName().equalsIgnoreCase("ding")) {
-            playSound(player, getConfig().getInt("msgSound"));
+            player.playSound(player.getLocation(), convertSound(getConfig().getInt("msgSound")), (float) getConfig().getDouble("msgVolume"), (float) getConfig().getDouble("msgPitch"));
         }
 
         return true;
@@ -187,7 +192,7 @@ public class MessageTones extends JavaPlugin implements Listener {
     // ======================
     // Play Sound
     // ======================
-    void playSound(Player player, int soundID) {
+    Sound convertSound(int soundID) {
         Sound sound = Sound.NOTE_PLING;
         switch(soundID) {
         case 1: sound = Sound.AMBIENCE_CAVE;
@@ -583,6 +588,6 @@ public class MessageTones extends JavaPlugin implements Listener {
         default: sound = Sound.NOTE_PLING;
                 break;
         }
-        player.playSound(player.getLocation(),sound, (float) getConfig().getDouble("msgVolume"), (float) getConfig().getDouble("msgPitch"));
+        return sound;
     } 
 }
