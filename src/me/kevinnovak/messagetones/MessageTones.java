@@ -90,7 +90,7 @@ public class MessageTones extends JavaPlugin implements Listener {
                                     if (value instanceof String) {
                                         String stripped = ChatColor.stripColor((String) value);
 
-                                        if (stripped.contains("-> me")) {
+                                        if (stripped.contains(getConfig().getString("msgTrigger"))) {
                                             playSound(event.getPlayer(), getConfig().getInt("msgSound"));
                                             result[0] = true;
                                         }
@@ -156,7 +156,7 @@ public class MessageTones extends JavaPlugin implements Listener {
         // /ding
         // ======================
         if(cmd.getName().equalsIgnoreCase("ding")) {
-               player.playSound(player.getLocation(),Sound.NOTE_PLING,1,0);
+            playSound(player, getConfig().getInt("msgSound"));
         }
 
         return true;

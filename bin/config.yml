@@ -1,22 +1,27 @@
 # Configuration file for MessageTones
 
-# The ID of the sound to play for private messages
-# See the "Sound IDS" section for a list of IDs
+# The ID of the sound to play for private messages.
+# See the "Sound IDS" section for a list of IDs.
 # Recommended Sounds: 16 (Burp), 104 (ITEM_PICKUP), 117 (NOTE_PLING)
 # default: msgSound: 104
 msgSound: 104
-# The pitch to play the sound at
-# For example 1.0 is the normal sound pitch
-# 0.5 would create a lower pitch
-# and 2.0 would create a higher pitch
+# The pitch to play the sound at.
+# For example 1.0 is the normal sound pitch,
+# 0.5 would create a lower pitch,
+# and 2.0 would create a higher pitch.
 # default: msgPitch: 1.0
 msgPitch: 1.0
-# The volume to play the sound at
-# For example 1.0 is the normal sound volume
-# 0.5 would create a quieter sound
-# and 2.0 would create a louder sound
+# The volume to play the sound at.
+# For example 1.0 is the normal sound volume,
+# 0.5 would create a quieter sound,
+# and 2.0 would create a louder sound.
 # default: msgVolume: 0.5
 msgVolume: 0.5
+# The message text that triggers a sound.
+# Should uniquely identify private messages.
+# For example, in essentials every message contains "-> me".
+# default: msgTrigger: '-> me'
+msgTrigger: '-> me'
 
 # Language
 noconsole: '&cConsole cannot run MessageTones commands!'
