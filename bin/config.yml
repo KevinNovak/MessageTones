@@ -68,8 +68,8 @@ broadcastCommand: 'broadcast'
 # Player Joins
 # ============================================
 # Whether to play a sound when normal players join.
-# default: joinPlayerEnabled: true
-joinPlayerEnabled: true
+# default: joinPlayerEnabled: false
+joinPlayerEnabled: false
 
 # The ID of the sound to play for when a normal player joins.
 # See the "Sound IDS" section for a list of IDs.
@@ -95,8 +95,8 @@ joinPlayerVolume: 0.5
 # Admin Joins
 # ============================================
 # Whether to play a sound when an admin joins.
-# default: joinAdminEnabled: true
-joinAdminEnabled: true
+# default: joinAdminEnabled: false
+joinAdminEnabled: false
 
 # The ID of the sound to play for when an admin joins.
 # See the "Sound IDS" section for a list of IDs.
