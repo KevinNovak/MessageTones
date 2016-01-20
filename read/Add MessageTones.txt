@@ -14,3 +14,5 @@ disallow players from saying the trigger in chat
 	sound when a player with permission joins
 picture for curse site
 owner join sound
+sound when switching items in hotbar
+simplify config
