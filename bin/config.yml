@@ -6,23 +6,27 @@
 # Whether private messages should play sounds to players.
 # default: msgEnabled: true
 msgEnabled: true
+
 # The ID of the sound to play for private messages.
 # See the "Sound IDS" section for a list of IDs.
 # Recommended Sounds: 16 (Burp), 104 (ITEM_PICKUP), 117 (NOTE_PLING)
 # default: msgSound: 104
 msgSound: 104
+
 # The pitch to play the sound at.
 # For example 1.0 is the normal sound pitch,
 # 0.5 would create a lower pitch,
 # and 2.0 would create a higher pitch.
 # default: msgPitch: 1.0
 msgPitch: 1.0
+
 # The volume to play the sound at.
 # For example 1.0 is the normal sound volume,
 # 0.5 would create a quieter sound,
 # and 2.0 would create a louder sound.
 # default: msgVolume: 0.5
 msgVolume: 0.5
+
 # The message text that triggers a sound.
 # Should uniquely identify private messages.
 # For example, in essentials every message contains "-> me".
@@ -35,26 +39,84 @@ msgTrigger: '-> me'
 # Whether broadcasted messages should play sounds to players.
 # default: broadcastEnabled: true
 broadcastEnabled: true
+
 # The ID of the sound to play for broadcasted messages.
 # See the "Sound IDs" section for a list of IDs.
-# Recommended Sounds: 66 (FIREWORK_LARGE_BLAST)
+# Recommended Sounds: 3 (AMBIENCE_THUNDER), 66 (FIREWORK_LARGE_BLAST)
 # default: broadcastSound: 66
 broadcastSound: 66
+
 # The pitch to play the sound at.
 # For example 1.0 is the normal sound pitch,
 # 0.5 would create a lower pitch,
 # and 2.0 would create a higher pitch.
 # default: broadcastPitch: 1.0
 broadcastPitch: 1.0
+
 # The volume to play the sound at.
 # For example 1.0 is the normal sound volume,
 # 0.5 would create a quieter sound,
 # and 2.0 would create a louder sound.
 # default: broadcastVolume: 1.0
 broadcastVolume: 1.0
+
 # The broadcast command that triggers a sound.
 # default: broadcastCommand: 'broadcast'
 broadcastCommand: 'broadcast'
+
+# ============================================
+# Player Joins
+# ============================================
+# Whether to play a sound when normal players join.
+# default: joinPlayerEnabled: true
+joinPlayerEnabled: true
+
+# The ID of the sound to play for when a normal player joins.
+# See the "Sound IDS" section for a list of IDs.
+# Recommended Sounds: 46 (DOOR_OPEN)
+# default: joinPlayerSound: 46
+joinPlayerSound: 46
+
+# The pitch to play the sound at.
+# For example 1.0 is the normal sound pitch,
+# 0.5 would create a lower pitch,
+# and 2.0 would create a higher pitch.
+# default: joinPlayerPitch: 1.0
+joinPlayerPitch: 1.0
+
+# The volume to play the sound at.
+# For example 1.0 is the normal sound volume,
+# 0.5 would create a quieter sound,
+# and 2.0 would create a louder sound.
+# default: joinPlayerVolume: 0.5
+joinPlayerVolume: 0.5
+
+# ============================================
+# Admin Joins
+# ============================================
+# Whether to play a sound when an admin joins.
+# default: joinAdminEnabled: true
+joinAdminEnabled: true
+
+# The ID of the sound to play for when an admin joins.
+# See the "Sound IDS" section for a list of IDs.
+# Recommended Sounds: 69 (FIREWORK_TWINKLE)
+# default: joinAdminSound: 69
+joinAdminSound: 69
+
+# The pitch to play the sound at.
+# For example 1.0 is the normal sound pitch,
+# 0.5 would create a lower pitch,
+# and 2.0 would create a higher pitch.
+# default: joinAdminPitch: 1.0
+joinAdminPitch: 1.0
+
+# The volume to play the sound at.
+# For example 1.0 is the normal sound volume,
+# 0.5 would create a quieter sound,
+# and 2.0 would create a louder sound.
+# default: joinAdminVolume: 0.5
+joinAdminVolume: 0.5
 
 # ============================================
 # Language

@@ -1,5 +1,5 @@
 name: MessageTones
-version: 1.0.2
+version: 1.2.0
 main: me.kevinnovak.messagetones.MessageTones
 author: KevinNovak
 description: Allows messages to have tones!
@@ -14,3 +14,6 @@ permissions:
     messagetones.broadcast:
         description: Plays sound on /broadcast.
         default: op
+    messagetones.admin:
+        description: Plays admin login sound.
+        default: false
