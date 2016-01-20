@@ -11,5 +11,6 @@ alert on player name
 	configurable message identifier/trigger
 suggested identifiers for different plugins
 disallow players from saying the trigger in chat
-sound when a player with permission joins
+	sound when a player with permission joins
 picture for curse site
+owner join sound
