@@ -1,12 +1,12 @@
 name: MessageTones
-version: 1.2.0
+version: 1.2.1
 main: me.kevinnovak.messagetones.MessageTones
 author: KevinNovak
 description: Allows messages to have tones!
 depend: [ProtocolLib]
 
 commands:
-    ding:
+    mt:
         usage: /<command>
         description: Plays a test sound.
         

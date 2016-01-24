@@ -1,5 +1,6 @@
 package me.kevinnovak.messagetones;
 
+
 import java.io.IOException;
 
 import org.bukkit.Bukkit;
@@ -27,21 +28,17 @@ import com.comphenix.protocol.wrappers.WrappedChatComponent;
 
 public class MessageTones extends JavaPlugin implements Listener {
     ConvertSound other = new ConvertSound();
-    
-    // =========================
-    // ProtocolLib
-    // =========================
-    private interface Processor {
-        public Object process(Object value, Object parent);
-    }
+
     // =========================
     // Enable
     // =========================
     @Override
     public void onEnable() {
+        // send message if ProtocolLib is detected or not
         if (getServer().getPluginManager().getPlugin("ProtocolLib") != null) {
             Bukkit.getServer().getLogger().info("[MessageTones] ProtocolLib Detected!");
             if (getConfig().getBoolean("msgEnabled")) {
+                // start ProtocolLib
                 startProtocolLib(); 
             }
         } else {
@@ -49,8 +46,10 @@ public class MessageTones extends JavaPlugin implements Listener {
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
+        // copy over default config file if doesn't exist
         saveDefaultConfig();
         Bukkit.getServer().getPluginManager().registerEvents(this, this);
+        // send message if Metrics is enabled or not
         if (getConfig().getBoolean("metrics")) {
             try {
                 MetricsLite metrics = new MetricsLite(this);
@@ -62,6 +61,7 @@ public class MessageTones extends JavaPlugin implements Listener {
         } else {
             Bukkit.getServer().getLogger().info("[MessageTones] Metrics Disabled.");
         }
+        // send message if plugin is enabled
         Bukkit.getServer().getLogger().info("[MessageTones] Plugin Enabled!");
     }
     
@@ -71,10 +71,112 @@ public class MessageTones extends JavaPlugin implements Listener {
     public void onDisable() {
         Bukkit.getServer().getLogger().info("[MessageTones] Plugin Disabled!");
     }
+      
+    // =========================
+    // Broadcast
+    // =========================
+    @EventHandler
+    public void onPlayerCommand(PlayerCommandPreprocessEvent e) {
+        if (!getConfig().getBoolean("broadcastEnabled")) {
+            return;
+        }
+        if (!e.getPlayer().hasPermission("messagetones.broadcast")) {
+            return;
+        }
+        String[] args = e.getMessage().split(" ");
+        if (args.length <= 1){
+            return;
+        }
+        String cmd = args[0];
+        if (cmd.equals("/" + getConfig().getString("broadcastCommand"))) {
+            for(Player player : Bukkit.getOnlinePlayers()){
+                player.playSound(player.getLocation(), other.convertSound(getConfig().getInt("broadcastSound")), (float) getConfig().getDouble("broadcastVolume"), (float) getConfig().getDouble("broadcastPitch"));
+            }
+        }
+    }
+   
+    // =========================
+    // Login
+    // =========================
+    @EventHandler
+    public void playerJoin(PlayerJoinEvent event) {
+        if (!event.getPlayer().hasPermission("messagetones.admin")) {
+            if (!getConfig().getBoolean("joinPlayerEnabled")) {
+                return;
+            }
+            for(Player player : Bukkit.getOnlinePlayers()){
+                player.playSound(player.getLocation(), other.convertSound(getConfig().getInt("joinPlayerSound")), (float) getConfig().getDouble("joinPlayerVolume"), (float) getConfig().getDouble("joinPlayerPitch"));
+            }
+            return;
+        } else {
+            if (!getConfig().getBoolean("joinAdminEnabled")) {
+                return;
+            }
+            for(Player player : Bukkit.getOnlinePlayers()){
+                player.playSound(player.getLocation(), other.convertSound(getConfig().getInt("joinAdminSound")), (float) getConfig().getDouble("joinAdminVolume"), (float) getConfig().getDouble("joinAdminPitch"));
+            }
+            return;
+        }
+    }
+    
+    // ======================
+    // Commands
+    // ======================
+    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
+        // ======================
+        // Console
+        // ======================
+        if (!(sender instanceof Player)) {
+            sender.sendMessage(convertedLang("noconsole"));
+            return true;
+        }
+        Player player = (Player) sender;
+        // ======================
+        // /ding
+        // ======================
+        if(cmd.getName().equalsIgnoreCase("mt")) {
+            if(args.length == 0) {
+                player.sendMessage(convertedLang("noargs"));
+                return true;
+            }
+            if (args[0].equalsIgnoreCase("message")) {
+                player.playSound(player.getLocation(), other.convertSound(getConfig().getInt("msgSound")), (float) getConfig().getDouble("msgVolume"), (float) getConfig().getDouble("msgPitch"));
+                player.sendMessage(convertedLang("testmessage"));
+                return true;
+            } else if (args[0].equalsIgnoreCase("broadcast")) {
+                player.playSound(player.getLocation(), other.convertSound(getConfig().getInt("broadcastSound")), (float) getConfig().getDouble("broadcastVolume"), (float) getConfig().getDouble("broadcastPitch"));
+                player.sendMessage(convertedLang("testbroadcast"));
+                return true;
+            } else if (args[0].equalsIgnoreCase("playerjoin")) {
+                player.playSound(player.getLocation(), other.convertSound(getConfig().getInt("joinPlayerSound")), (float) getConfig().getDouble("joinPlayerVolume"), (float) getConfig().getDouble("joinPlayerPitch"));
+                player.sendMessage(convertedLang("testplayerjoin"));
+                return true;
+            } else if (args[0].equalsIgnoreCase("adminjoin")) {
+                player.playSound(player.getLocation(), other.convertSound(getConfig().getInt("joinAdminSound")), (float) getConfig().getDouble("joinAdminVolume"), (float) getConfig().getDouble("joinAdminPitch"));
+                player.sendMessage(convertedLang("testadminjoin"));
+                return true;
+            } else {
+                player.sendMessage(convertedLang("noargs"));
+                return true;
+            }
+        }
+
+        return true;
+    }
+    
+    // =========================
+    // Convert String in Config
+    // =========================
+    String convertedLang(String toConvert) {
+        return ChatColor.translateAlternateColorCodes('&', getConfig().getString(toConvert));
+    }
     
     // =========================
     // ProtocolLib
     // =========================
+    private interface Processor {
+        public Object process(Object value, Object parent);
+    }
     void startProtocolLib() {
         ProtocolLibrary.getProtocolManager().addPacketListener(
                 new PacketAdapter(this, PacketType.Play.Server.CHAT) {
@@ -109,8 +211,6 @@ public class MessageTones extends JavaPlugin implements Listener {
                     }
                 });
     }
-    
-    
     private Object transformPrimitives(Object value, Object parent, Processor processor) {
         // Check its type
         if (value instanceof JSONObject) {
@@ -137,82 +237,4 @@ public class MessageTones extends JavaPlugin implements Listener {
         }
         return source;
     }
-    
-    // =========================
-    // Broadcast
-    // =========================
-    @EventHandler
-    public void onPlayerCommand(PlayerCommandPreprocessEvent e) {
-        if (!getConfig().getBoolean("broadcastEnabled")) {
-            return;
-        }
-        if (!e.getPlayer().hasPermission("messagetones.broadcast")) {
-            return;
-        }
-        String[] args = e.getMessage().split(" ");
-        if (args.length <= 1){
-            return;
-        }
-        String cmd = args[0];
-        if (cmd.equals("/" + getConfig().getString("broadcastCommand"))) {
-            for(Player player : Bukkit.getOnlinePlayers()){
-                player.playSound(player.getLocation(), other.convertSound(getConfig().getInt("broadcastSound")), (float) getConfig().getDouble("broadcastVolume"), (float) getConfig().getDouble("broadcastPitch"));
-            }
-        }
-    }
-    
-    // =========================
-    // Login
-    // =========================
-    @EventHandler
-    public void playerJoin(PlayerJoinEvent event) {
-        if (!event.getPlayer().hasPermission("messagetones.admin")) {
-            if (!getConfig().getBoolean("joinPlayerEnabled")) {
-                return;
-            }
-            for(Player player : Bukkit.getOnlinePlayers()){
-                player.playSound(player.getLocation(), other.convertSound(getConfig().getInt("joinPlayerSound")), (float) getConfig().getDouble("joinPlayerVolume"), (float) getConfig().getDouble("joinPlayerPitch"));
-            }
-            return;
-        } else {
-            if (!getConfig().getBoolean("joinAdminEnabled")) {
-                return;
-            }
-            for(Player player : Bukkit.getOnlinePlayers()){
-                player.playSound(player.getLocation(), other.convertSound(getConfig().getInt("joinAdminSound")), (float) getConfig().getDouble("joinAdminVolume"), (float) getConfig().getDouble("joinAdminPitch"));
-            }
-            return;
-        }
-    }
-
-    // =========================
-    // Convert String in Config
-    // =========================
-    String convertedLang(String toConvert) {
-        return ChatColor.translateAlternateColorCodes('&', getConfig().getString(toConvert));
-    }
-    
-    // ======================
-    // Commands
-    // ======================
-    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-        // ======================
-        // Console
-        // ======================
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(convertedLang("noconsole"));
-            return true;
-        }
-        Player player = (Player) sender;
-        // ======================
-        // /ding
-        // ======================
-        if(cmd.getName().equalsIgnoreCase("ding")) {
-            player.playSound(player.getLocation(), other.convertSound(getConfig().getInt("msgSound")), (float) getConfig().getDouble("msgVolume"), (float) getConfig().getDouble("msgPitch"));
-        }
-
-        return true;
-    }
-
-    
 }
