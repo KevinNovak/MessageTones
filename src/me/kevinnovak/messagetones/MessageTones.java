@@ -2,6 +2,8 @@ package me.kevinnovak.messagetones;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -136,7 +138,9 @@ public class MessageTones extends JavaPlugin implements Listener {
         // ======================
         if(cmd.getName().equalsIgnoreCase("mt")) {
             if(args.length == 0) {
-                player.sendMessage(convertedLang("noargs"));
+                List<String> list = getConfig().getStringList("help");
+                List<String> convertedList = convertedLang(list);
+                player.sendMessage(convertedList.toArray(new String[convertedList.size()]));
                 return true;
             }
             if (args[0].equalsIgnoreCase("message")) {
@@ -156,7 +160,9 @@ public class MessageTones extends JavaPlugin implements Listener {
                 player.sendMessage(convertedLang("testadminjoin"));
                 return true;
             } else {
-                player.sendMessage(convertedLang("noargs"));
+                List<String> list = getConfig().getStringList("help");
+                List<String> convertedList = convertedLang(list);
+                player.sendMessage(convertedList.toArray(new String[convertedList.size()]));
                 return true;
             }
         }
@@ -169,6 +175,14 @@ public class MessageTones extends JavaPlugin implements Listener {
     // =========================
     String convertedLang(String toConvert) {
         return ChatColor.translateAlternateColorCodes('&', getConfig().getString(toConvert));
+    }
+    List<String> convertedLang(List<String> toConvert) {
+        List<String> translatedColors = new ArrayList<String>();
+        for (String stringToTranslate: toConvert){
+            translatedColors.add(ChatColor.translateAlternateColorCodes('&',stringToTranslate));
+             
+        }
+        return translatedColors;
     }
     
     // =========================

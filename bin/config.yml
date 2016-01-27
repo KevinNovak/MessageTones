@@ -106,6 +106,12 @@ testmessage: '&7Played test message sound.'
 testbroadcast: '&7Played test broadcast sound.'
 testplayerjoin: '&7Played test player join sound.'
 testadminjoin: '&7Played test admin join sound.'
+help:
+- '&e---------- &6MessageTones &e----------'
+- '&b/mt message &7- Test message sound.'
+- '&b/mt broadcast &7- Test broadcast sound.'
+- '&b/mt playerjoin &7- Test player join sound.'
+- '&b/mt adminjoin &7- Test admin join sound.'
 
 # ============================================
 # Metrics
