@@ -1,4 +1,3 @@
-msg tones, admin tone
 opt in and out
 /sounds list in-game with numbers and friendly names of sounds
 construct a message help based on permissions
@@ -7,8 +6,8 @@ alert on player name
 suggested identifiers for different plugins
 disallow players from saying the trigger in chat
 picture for curse site
-owner join sound
-sound when switching items in hotbar
+	owner join sound
+	sound when switching items in hotbar
 message buyers
 	message help
 	configurable message identifier/trigger
@@ -19,3 +18,5 @@ message buyers
 	simplify config
 	metrics for all
 	sound when a player with permission joins
+fix initial hotbar sound on join server
+test hotbar command

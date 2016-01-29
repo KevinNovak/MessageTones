@@ -98,20 +98,57 @@ joinAdminPitch: 1.0
 joinAdminVolume: 0.5
 
 # ============================================
+# Owner Joins
+# ============================================
+# Whether to play a sound when an owner joins.
+# Owner must have the messagetones.owner permission.
+# default: joinOwnerEnabled: false
+joinOwnerEnabled: false
+
+# Recommended Sounds: 107 (LEVEL_UP)
+# default: joinOwnerSound: 107
+joinOwnerSound: 107
+
+# default: joinOwnerPitch: 1.0
+joinOwnerPitch: 1.0
+
+# default: joinOwnerVolume: 0.5
+joinOwnerVolume: 0.5
+
+# ============================================
+# Hotbar
+# ============================================
+# Whether to play a sound when players switch items in the hotbar.
+# default: hotbarEnabled: false
+hotbarEnabled: false
+
+# Recommended Sounds: 104 (ITEM_PICKUP)
+# default: hotbarSound: 104
+hotbarSound: 104
+
+# default: hotbarPitch: 0.5
+hotbarPitch: 0.5
+
+# default: hotbarVolume: 0.1
+hotbarVolume: 0.1
+
+# ============================================
 # Language
 # ============================================
 noconsole: '&cConsole cannot run MessageTones commands!'
 noargs: '&cPlease type a sound to test!'
 testmessage: '&7Played test message sound.'
 testbroadcast: '&7Played test broadcast sound.'
-testplayerjoin: '&7Played test player join sound.'
+testownerjoin: '&7Played test owner join sound.'
 testadminjoin: '&7Played test admin join sound.'
+testplayerjoin: '&7Played test player join sound.'
 help:
 - '&e---------- &6MessageTones &e----------'
 - '&b/mt message &7- Test message sound.'
 - '&b/mt broadcast &7- Test broadcast sound.'
-- '&b/mt playerjoin &7- Test player join sound.'
+- '&b/mt ownerjoin &7- Test owner join sound.'
 - '&b/mt adminjoin &7- Test admin join sound.'
+- '&b/mt playerjoin &7- Test player join sound.'
 
 # ============================================
 # Metrics

@@ -1,5 +1,5 @@
 name: MessageTones
-version: 1.2.2
+version: 1.2.3
 main: me.kevinnovak.messagetones.MessageTones
 author: KevinNovak
 description: Allows messages to have tones!
@@ -8,7 +8,7 @@ depend: [ProtocolLib]
 commands:
     mt:
         usage: /<command>
-        description: Plays a test sound.
+        description: Lists MessageTones commands.
         
 permissions:
     messagetones.broadcast:
@@ -16,4 +16,7 @@ permissions:
         default: op
     messagetones.admin:
         description: Plays admin login sound.
+        default: false
+    messagetones.owner:
+        description: Plays owner login sound.
         default: false
