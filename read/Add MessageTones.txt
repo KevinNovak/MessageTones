@@ -19,4 +19,5 @@ message buyers
 	metrics for all
 	sound when a player with permission joins
 fix initial hotbar sound on join server
-test hotbar command
+	test hotbar command
+	autocomplete
