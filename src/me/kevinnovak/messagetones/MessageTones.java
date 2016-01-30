@@ -203,6 +203,37 @@ public class MessageTones extends JavaPlugin implements Listener {
 
         return true;
     }
+ 
+    // ======================
+    // Auto-complete
+    // ======================
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command cmd, String commandLabel, String[] args) {
+        if (cmd.getName().equalsIgnoreCase("mt")) {
+            
+            ArrayList<String> autocomplete = new ArrayList<String>();
+            autocomplete.add("message");
+            autocomplete.add("broadcast");
+            autocomplete.add("playerjoin");
+            autocomplete.add("adminjoin");
+            autocomplete.add("ownerjoin");
+            autocomplete.add("hotbar");
+   
+            if (args.length == 1) {
+                ArrayList<String> toReturn = new ArrayList<String>();
+                if (!args[0].equals("")) {
+                    for (String arg : autocomplete) {
+                        if (arg.startsWith(args[0].toLowerCase())) {
+                            toReturn.add(arg);
+                        }
+                    }
+                }
+                return toReturn;
+            }
+            
+        }
+        return null;
+    }
     
     // =========================
     // Convert String in Config
