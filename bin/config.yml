@@ -129,8 +129,8 @@ hotbarSound: 104
 # default: hotbarPitch: 0.5
 hotbarPitch: 0.5
 
-# default: hotbarVolume: 0.1
-hotbarVolume: 0.1
+# default: hotbarVolume: 0.2
+hotbarVolume: 0.2
 
 # ============================================
 # Language
@@ -149,6 +149,7 @@ help:
 - '&b/mt ownerjoin &7- Test owner join sound.'
 - '&b/mt adminjoin &7- Test admin join sound.'
 - '&b/mt playerjoin &7- Test player join sound.'
+- '&b/mt hotbar &7- Test hotbar sound.'
 
 # ============================================
 # Metrics

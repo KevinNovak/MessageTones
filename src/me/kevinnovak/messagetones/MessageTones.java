@@ -189,6 +189,10 @@ public class MessageTones extends JavaPlugin implements Listener {
                 player.playSound(player.getLocation(), other.convertSound(getConfig().getInt("joinOwnerSound")), (float) getConfig().getDouble("joinOwnerVolume"), (float) getConfig().getDouble("joinOwnerPitch"));
                 player.sendMessage(convertedLang("testownerjoin"));
                 return true;
+            } else if (args[0].equalsIgnoreCase("hotbar")) {
+                player.playSound(player.getLocation(), other.convertSound(getConfig().getInt("hotbarSound")), (float) getConfig().getDouble("hotbarVolume"), (float) getConfig().getDouble("hotbarPitch"));
+                player.sendMessage(convertedLang("testownerjoin"));
+                return true;
             } else {
                 List<String> list = getConfig().getStringList("help");
                 List<String> convertedList = convertedLang(list);
