@@ -1,0 +1,363 @@
+# Configuration file for MessageTones 1.8
+# Created by KevinNovak
+
+# ============================================
+# Help
+# ============================================
+# Sound
+#  - The ID of the sound to play.
+#  - See the "Sound IDS" section for a list of IDs.
+# Pitch
+#  - The pitch to play the sound at.
+#  - For example 1.0 is the normal sound pitch.
+#  - 0.5 would create a lower pitch.
+#  - 2.0 would create a higher pitch.
+# Volume
+#  - The volume to play the sound at.
+#  - For example 1.0 is the normal sound volume.
+#  - 0.5 would create a quieter sound.
+#  - 2.0 would create a louder sound.
+
+# ============================================
+# Metrics
+# ============================================
+# Whether or not to collect data on plugin usage
+# Viewable at http://mcstats.org/plugin/MessageTones
+# default: metrics: true
+metrics: true
+
+# ============================================
+# Private Messages
+# ============================================
+# Whether private messages should play sounds to players.
+# default: msgEnabled: true
+msgEnabled: true
+
+# Recommended Sounds: 26 (ITEM_PICKUP), 38 (NOTE_PLING), 8 (BURP)
+# default: msgSound: 26
+msgSound: 26
+
+# default: msgPitch: 1.0
+msgPitch: 1.0
+
+# default: msgVolume: 0.8
+msgVolume: 0.8
+
+# The message text that triggers a sound.
+# Should uniquely identify private messages.
+# For example, in essentials every message contains " -> me]".
+# default: msgTrigger: ' -> me]'
+msgTrigger: ' -> me]'
+
+# ============================================
+# Broadcast
+# ============================================
+# Whether broadcasted messages should play sounds to players.
+# Broadcaster must have the messagetones.broadcast permission.
+# default: broadcastEnabled: true
+broadcastEnabled: true
+
+# Recommended Sounds: 161 (FIREWORK_LARGE_BLAST), 3 (AMBIENCE_THUNDER)
+# default: broadcastSound: 161
+broadcastSound: 161
+
+# default: broadcastPitch: 1.0
+broadcastPitch: 1.0
+
+# default: broadcastVolume: 1.0
+broadcastVolume: 1.0
+
+# The broadcast command that triggers a sound.
+# default: broadcastCommand: 'broadcast'
+broadcastCommand: 'broadcast'
+
+# ============================================
+# Player Joins
+# ============================================
+# Whether to play a sound when normal players join.
+# default: joinPlayerEnabled: false
+joinPlayerEnabled: false
+
+# Recommended Sounds: 13 (DOOR_OPEN)
+# default: joinPlayerSound: 13
+joinPlayerSound: 13
+
+# default: joinPlayerPitch: 1.0
+joinPlayerPitch: 1.0
+
+# default: joinPlayerVolume: 0.5
+joinPlayerVolume: 0.5
+
+# ============================================
+# Admin Joins
+# ============================================
+# Whether to play a sound when an admin joins.
+# Admin must have the messagetones.admin permission.
+# default: joinAdminEnabled: false
+joinAdminEnabled: false
+
+# Recommended Sounds: 163 (FIREWORK_TWINKLE)
+# default: joinAdminSound: 163
+joinAdminSound: 163
+
+# default: joinAdminPitch: 1.0
+joinAdminPitch: 1.0
+
+# default: joinAdminVolume: 0.5
+joinAdminVolume: 0.5
+
+# ============================================
+# Owner Joins
+# ============================================
+# Whether to play a sound when an owner joins.
+# Owner must have the messagetones.owner permission.
+# default: joinOwnerEnabled: false
+joinOwnerEnabled: false
+
+# Recommended Sounds: 29 (LEVEL_UP)
+# default: joinOwnerSound: 29
+joinOwnerSound: 29
+
+# default: joinOwnerPitch: 1.0
+joinOwnerPitch: 1.0
+
+# default: joinOwnerVolume: 0.5
+joinOwnerVolume: 0.5
+
+# ============================================
+# Hotbar
+# ============================================
+# Whether to play a sound when players switch items in the hotbar.
+# default: hotbarEnabled: false
+hotbarEnabled: false
+
+# Recommended Sounds: 26 (ITEM_PICKUP)
+# default: hotbarSound: 26
+hotbarSound: 26
+
+# default: hotbarPitch: 0.5
+hotbarPitch: 0.5
+
+# default: hotbarVolume: 0.2
+hotbarVolume: 0.2
+
+# ============================================
+# Language
+# ============================================
+noconsole: '&cConsole cannot run MessageTones commands!'
+noargs: '&cPlease type a sound to test!'
+testmessage: '&7Played test message sound.'
+testbroadcast: '&7Played test broadcast sound.'
+testownerjoin: '&7Played test owner join sound.'
+testadminjoin: '&7Played test admin join sound.'
+testplayerjoin: '&7Played test player join sound.'
+testhotbar: '&7Played test hotbar sound.'
+help:
+- '&e---------- &6MessageTones &e----------'
+- '&b/mt message &7- Test message sound.'
+- '&b/mt broadcast &7- Test broadcast sound.'
+- '&b/mt ownerjoin &7- Test owner join sound.'
+- '&b/mt adminjoin &7- Test admin join sound.'
+- '&b/mt playerjoin &7- Test player join sound.'
+- '&b/mt hotbar &7- Test hotbar sound.'
+
+# ============================================
+# Minecraft 1.8 - Sound IDs
+# ============================================
+# 1 - AMBIENCE_CAVE
+# 2 - AMBIENCE_RAIN
+# 3 - AMBIENCE_THUNDER
+# 4 - ANVIL_BREAK
+# 5 - ANVIL_LAND
+# 6 - ANVIL_USE
+# 7 - ARROW_HIT
+# 8 - BURP
+# 9 - CHEST_CLOSE
+# 10 - CHEST_OPEN
+# 11 - CLICK
+# 12 - DOOR_CLOSE
+# 13 - DOOR_OPEN
+# 14 - DRINK
+# 15 - EAT
+# 16 - EXPLODE
+# 17 - FALL_BIG
+# 18 - FALL_SMALL
+# 19 - FIRE
+# 20 - FIRE_IGNITE
+# 21 - FIZZ
+# 22 - FUSE
+# 23 - GLASS
+# 24 - HURT_FLESH
+# 25 - ITEM_BREAK
+# 26 - ITEM_PICKUP
+# 27 - LAVA
+# 28 - LAVA_POP
+# 29 - LEVEL_UP
+# 30 - MINECART_BASE
+# 31 - MINECART_INSIDE
+# 32 - NOTE_BASS
+# 33 - NOTE_PIANO
+# 34 - NOTE_BASS_DRUM
+# 35 - NOTE_STICKS
+# 36 - NOTE_BASS_GUITAR
+# 37 - NOTE_SNARE_DRUM
+# 38 - NOTE_PLING
+# 39 - ORB_PICKUP
+# 40 - PISTON_EXTEND
+# 41 - PISTON_RETRACT
+# 42 - PORTAL
+# 43 - PORTAL_TRAVEL
+# 44 - PORTAL_TRIGGER
+# 45 - SHOOT_ARROW
+# 46 - SPLASH
+# 47 - SPLASH# 2
+# 48 - STEP_GRASS
+# 49 - STEP_GRAVEL
+# 50 - STEP_LADDER
+# 51 - STEP_SAND
+# 52 - STEP_SNOW
+# 53 - STEP_STONE
+# 54 - STEP_WOOD
+# 55 - STEP_WOOL
+# 56 - SWIM
+# 57 - WATER
+# 58 - WOOD_CLICK
+# 59 - BAT_DEATH
+# 60 - BAT_HURT
+# 61 - BAT_IDLE
+# 62 - BAT_LOOP
+# 63 - BAT_TAKEOFF
+# 64 - BLAZE_BREATH
+# 65 - BLAZE_DEATH
+# 66 - BLAZE_HIT
+# 67 - CAT_HISS
+# 68 - CAT_HIT
+# 69 - CAT_MEOW
+# 70 - CAT_PURR
+# 71 - CAT_PURREOW
+# 72 - CHICKEN_IDLE
+# 73 - CHICKEN_HURT
+# 74 - CHICKEN_EGG_POP
+# 75 - CHICKEN_WALK
+# 76 - COW_IDLE
+# 77 - COW_HURT
+# 78 - COW_WALK
+# 79 - CREEPER_HISS
+# 80 - CREEPER_DEATH
+# 81 - ENDERDRAGON_DEATH
+# 82 - ENDERDRAGON_GROWL
+# 83 - ENDERDRAGON_HIT
+# 84 - ENDERDRAGON_WINGS
+# 85 - ENDERMAN_DEATH
+# 86 - ENDERMAN_HIT
+# 87 - ENDERMAN_IDLE
+# 88 - ENDERMAN_TELEPORT
+# 89 - ENDERMAN_SCREAM
+# 90 - ENDERMAN_STARE
+# 91 - GHAST_SCREAM
+# 92 - GHAST_SCREAM# 2
+# 93 - GHAST_CHARGE
+# 94 - GHAST_DEATH
+# 95 - GHAST_FIREBALL
+# 96 - GHAST_MOAN
+# 97 - IRONGOLEM_DEATH
+# 98 - IRONGOLEM_HIT
+# 99 - IRONGOLEM_THROW
+# 100 - IRONGOLEM_WALK
+# 101 - MAGMACUBE_WALK
+# 102 - MAGMACUBE_WALK# 2
+# 103 - MAGMACUBE_JUMP
+# 104 - PIG_IDLE
+# 105 - PIG_DEATH
+# 106 - PIG_WALK
+# 107 - SHEEP_IDLE
+# 108 - SHEEP_SHEAR
+# 109 - SHEEP_WALK
+# 110 - SILVERFISH_HIT
+# 111 - SILVERFISH_KILL
+# 112 - SILVERFISH_IDLE
+# 113 - SILVERFISH_WALK
+# 114 - SKELETON_IDLE
+# 115 - SKELETON_DEATH
+# 116 - SKELETON_HURT
+# 117 - SKELETON_WALK
+# 118 - SLIME_ATTACK
+# 119 - SLIME_WALK
+# 120 - SLIME_WALK# 2
+# 121 - SPIDER_IDLE
+# 122 - SPIDER_DEATH
+# 123 - SPIDER_WALK
+# 124 - WITHER_DEATH
+# 125 - WITHER_HURT
+# 126 - WITHER_IDLE
+# 127 - WITHER_SHOOT
+# 128 - WITHER_SPAWN
+# 129 - WOLF_BARK
+# 130 - WOLF_DEATH
+# 131 - WOLF_GROWL
+# 132 - WOLF_HOWL
+# 133 - WOLF_HURT
+# 134 - WOLF_PANT
+# 135 - WOLF_SHAKE
+# 136 - WOLF_WALK
+# 137 - WOLF_WHINE
+# 138 - ZOMBIE_METAL
+# 139 - ZOMBIE_WOOD
+# 140 - ZOMBIE_WOODBREAK
+# 141 - ZOMBIE_IDLE
+# 142 - ZOMBIE_DEATH
+# 143 - ZOMBIE_HURT
+# 144 - ZOMBIE_INFECT
+# 145 - ZOMBIE_UNFECT
+# 146 - ZOMBIE_REMEDY
+# 147 - ZOMBIE_WALK
+# 148 - ZOMBIE_PIG_IDLE
+# 149 - ZOMBIE_PIG_ANGRY
+# 150 - ZOMBIE_PIG_DEATH
+# 151 - ZOMBIE_PIG_HURT
+# 152 - DIG_WOOL
+# 153 - DIG_GRASS
+# 154 - DIG_GRAVEL
+# 155 - DIG_SAND
+# 156 - DIG_SNOW
+# 157 - DIG_STONE
+# 158 - DIG_WOOD
+# 159 - FIREWORK_BLAST
+# 160 - FIREWORK_BLAST# 2
+# 161 - FIREWORK_LARGE_BLAST
+# 162 - FIREWORK_LARGE_BLAST# 2
+# 163 - FIREWORK_TWINKLE
+# 164 - FIREWORK_TWINKLE# 2
+# 165 - FIREWORK_LAUNCH
+# 166 - SUCCESSFUL_HIT
+# 167 - HORSE_ANGRY
+# 168 - HORSE_ARMOR
+# 169 - HORSE_BREATHE
+# 170 - HORSE_DEATH
+# 171 - HORSE_GALLOP
+# 172 - HORSE_HIT
+# 173 - HORSE_IDLE
+# 174 - HORSE_JUMP
+# 175 - HORSE_LAND
+# 176 - HORSE_SADDLE
+# 177 - HORSE_SOFT
+# 178 - HORSE_WOOD
+# 179 - DONKEY_ANGRY
+# 180 - DONKEY_DEATH
+# 181 - DONKEY_HIT
+# 182 - DONKEY_IDLE
+# 183 - HORSE_SKELETON_DEATH
+# 184 - HORSE_SKELETON_HIT
+# 185 - HORSE_SKELETON_IDLE
+# 186 - HORSE_ZOMBIE_DEATH
+# 187 - HORSE_ZOMBIE_HIT
+# 188 - HORSE_ZOMBIE_IDLE
+# 189 - VILLAGER_DEATH
+# 190 - VILLAGER_HAGGLE
+# 191 - VILLAGER_HIT
+# 192 - VILLAGER_IDLE
+# 193 - VILLAGER_NO
+# 194 - VILLAGER_YES
+
+# Do not touch:
+copied: true
