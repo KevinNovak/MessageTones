@@ -87,21 +87,6 @@ public class MessageTones extends JavaPlugin implements Listener {
 
         Bukkit.getServer().getLogger().info("[MessageTones] Plugin enabled!");
     }
-    
-	private void initSounds() throws InterruptedException {
-		message = new CustomSound("Private Message", "message", soundConv.convertSound(getConfig().getInt("msgSound")), (float) getConfig().getDouble("msgPitch"), (float) getConfig().getDouble("msgVolume"), getConfig().getBoolean("msgEnabled"), getConfig().getBoolean("msgDefaultOn"), "PrivateMessage", colorConv.convertConfig("testmessage"));
-		broadcast = new CustomSound("Broadcast", "broadcast", soundConv.convertSound(getConfig().getInt("broadcastSound")), (float) getConfig().getDouble("broadcastPitch"), (float) getConfig().getDouble("broadcastVolume"), getConfig().getBoolean("broadcastEnabled"), getConfig().getBoolean("broadcastDefaultOn"), "Broadcast", colorConv.convertConfig("testbroadcast"));
-		playerJoin = new CustomSound("Player Join", "playerjoin", soundConv.convertSound(getConfig().getInt("joinPlayerSound")), (float) getConfig().getDouble("joinPlayerPitch"), (float) getConfig().getDouble("joinPlayerVolume"), getConfig().getBoolean("joinPlayerEnabled"), getConfig().getBoolean("playerJoinDefaultOn"), "PlayerJoin", colorConv.convertConfig("testplayerjoin"));
-		adminJoin = new CustomSound("Admin Join", "adminjoin", soundConv.convertSound(getConfig().getInt("joinAdminSound")), (float) getConfig().getDouble("joinAdminPitch"), (float) getConfig().getDouble("joinAdminVolume"), getConfig().getBoolean("joinAdminEnabled"), getConfig().getBoolean("adminJoinDefaultOn"), "AdminJoin", colorConv.convertConfig("testadminjoin"));
-		ownerJoin = new CustomSound("Owner Join", "ownerjoin", soundConv.convertSound(getConfig().getInt("joinOwnerSound")), (float) getConfig().getDouble("joinOwnerPitch"), (float) getConfig().getDouble("joinOwnerVolume"), getConfig().getBoolean("joinOwnerEnabled"), getConfig().getBoolean("ownerJoinDefaultOn"), "OwnerJoin", colorConv.convertConfig("testownerjoin"));
-		hotbar = new CustomSound("Hotbar", "hotbar", soundConv.convertSound(getConfig().getInt("hotbarSound")), (float) getConfig().getDouble("hotbarPitch"), (float) getConfig().getDouble("hotbarVolume"), getConfig().getBoolean("hotbarEnabled"), getConfig().getBoolean("hotbarDefaultOn"), "Hotbar", colorConv.convertConfig("testhotbar"));
-		soundList.add(message);
-		soundList.add(broadcast);
-		soundList.add(playerJoin);
-		soundList.add(adminJoin);
-		soundList.add(ownerJoin);
-		soundList.add(hotbar);
-	}
 
 	// ======================
     // Disable
@@ -214,6 +199,24 @@ public class MessageTones extends JavaPlugin implements Listener {
         	Bukkit.getServer().getLogger().warning("[MessageTones] Unknown Minecraft version.");
         }
 	}
+    
+    // =========================
+    // Initialize Sounds
+    // =========================
+	private void initSounds() throws InterruptedException {
+		message = new CustomSound("Private Message", "message", soundConv.convertSound(getConfig().getInt("msgSound")), (float) getConfig().getDouble("msgPitch"), (float) getConfig().getDouble("msgVolume"), getConfig().getBoolean("msgEnabled"), getConfig().getBoolean("msgDefaultOn"), "PrivateMessage", colorConv.convertConfig("testmessage"));
+		broadcast = new CustomSound("Broadcast", "broadcast", soundConv.convertSound(getConfig().getInt("broadcastSound")), (float) getConfig().getDouble("broadcastPitch"), (float) getConfig().getDouble("broadcastVolume"), getConfig().getBoolean("broadcastEnabled"), getConfig().getBoolean("broadcastDefaultOn"), "Broadcast", colorConv.convertConfig("testbroadcast"));
+		playerJoin = new CustomSound("Player Join", "playerjoin", soundConv.convertSound(getConfig().getInt("joinPlayerSound")), (float) getConfig().getDouble("joinPlayerPitch"), (float) getConfig().getDouble("joinPlayerVolume"), getConfig().getBoolean("joinPlayerEnabled"), getConfig().getBoolean("playerJoinDefaultOn"), "PlayerJoin", colorConv.convertConfig("testplayerjoin"));
+		adminJoin = new CustomSound("Admin Join", "adminjoin", soundConv.convertSound(getConfig().getInt("joinAdminSound")), (float) getConfig().getDouble("joinAdminPitch"), (float) getConfig().getDouble("joinAdminVolume"), getConfig().getBoolean("joinAdminEnabled"), getConfig().getBoolean("adminJoinDefaultOn"), "AdminJoin", colorConv.convertConfig("testadminjoin"));
+		ownerJoin = new CustomSound("Owner Join", "ownerjoin", soundConv.convertSound(getConfig().getInt("joinOwnerSound")), (float) getConfig().getDouble("joinOwnerPitch"), (float) getConfig().getDouble("joinOwnerVolume"), getConfig().getBoolean("joinOwnerEnabled"), getConfig().getBoolean("ownerJoinDefaultOn"), "OwnerJoin", colorConv.convertConfig("testownerjoin"));
+		hotbar = new CustomSound("Hotbar", "hotbar", soundConv.convertSound(getConfig().getInt("hotbarSound")), (float) getConfig().getDouble("hotbarPitch"), (float) getConfig().getDouble("hotbarVolume"), getConfig().getBoolean("hotbarEnabled"), getConfig().getBoolean("hotbarDefaultOn"), "Hotbar", colorConv.convertConfig("testhotbar"));
+		soundList.add(message);
+		soundList.add(broadcast);
+		soundList.add(playerJoin);
+		soundList.add(adminJoin);
+		soundList.add(ownerJoin);
+		soundList.add(hotbar);
+	}
       
     // =========================
     // Broadcast
@@ -296,7 +299,7 @@ public class MessageTones extends JavaPlugin implements Listener {
         }
         Player player = (Player) sender;
         // ======================
-        // /ding
+        // Player
         // ======================
         if (cmd.getName().equalsIgnoreCase("mt")) {
             if (args.length == 0) {
@@ -356,6 +359,9 @@ public class MessageTones extends JavaPlugin implements Listener {
         return true;
     }
  
+    // =========================
+    // Helper Functions
+    // =========================
     private void printStatus(Player player) {
     	for (CustomSound sound : soundList) {
     		if (sound.isEnabled()) {
@@ -367,6 +373,22 @@ public class MessageTones extends JavaPlugin implements Listener {
     		}
     	}
 	}
+    
+    boolean shouldPlaySound(Player player, CustomSound sound) {
+		if (sound.isEnabled()) {
+			if (playerData.isSet(player.getName() + "." + sound.getDataName())) {
+				return playerData.getBoolean(player.getName() + "." + sound.getDataName());
+			} else {
+				return sound.isDefaultOn();
+			}
+		}
+		return false;
+    }
+    
+    void printHelp(Player player) {
+        List<String> convertedList = colorConv.convertConfigList("help");
+        player.sendMessage(convertedList.toArray(new String[convertedList.size()]));
+    }
 
 	// ======================
     // Auto-complete
@@ -397,22 +419,6 @@ public class MessageTones extends JavaPlugin implements Listener {
             
         }
         return null;
-    }
-    
-    boolean shouldPlaySound(Player player, CustomSound sound) {
-		if (sound.isEnabled()) {
-			if (playerData.isSet(player.getName() + "." + sound.getDataName())) {
-				return playerData.getBoolean(player.getName() + "." + sound.getDataName());
-			} else {
-				return sound.isDefaultOn();
-			}
-		}
-		return false;
-    }
-    
-    void printHelp(Player player) {
-        List<String> convertedList = colorConv.convertConfigList("help");
-        player.sendMessage(convertedList.toArray(new String[convertedList.size()]));
     }
     
     // =========================
