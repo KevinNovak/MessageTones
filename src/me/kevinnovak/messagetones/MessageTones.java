@@ -13,7 +13,6 @@ import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -47,6 +46,16 @@ public class MessageTones extends JavaPlugin implements Listener {
     
     // Create a sound converter
     ConvertSound soundConv = new ConvertSound();
+    ColorConverter colorConv = new ColorConverter(getConfig());
+    
+    
+    ArrayList<CustomSound> soundList = new ArrayList<CustomSound>();
+    CustomSound message = null;
+    CustomSound broadcast = null;
+    CustomSound playerJoin = null;
+    CustomSound adminJoin = null;
+    CustomSound ownerJoin = null;
+    CustomSound hotbar = null;
     
     // Initialize version number to 0
     int version = 0;
@@ -68,10 +77,33 @@ public class MessageTones extends JavaPlugin implements Listener {
         checkProtocolLib();
         checkMetrics();
         checkSoundVersion();
+        try {
+			initSounds();
+		} catch (InterruptedException e) {
+			Bukkit.getServer().getLogger().warning("[MessageTones] Failed to initialize sounds.");
+			e.printStackTrace();
+			Bukkit.getServer().getLogger().info("[MessageTones] Disabling plugin.");
+            getServer().getPluginManager().disablePlugin(this);
+		}
 
         Bukkit.getServer().getLogger().info("[MessageTones] Plugin enabled!");
     }
     
+	private void initSounds() throws InterruptedException {
+		message = new CustomSound("Private Message", "message", soundConv.convertSound(getConfig().getInt("msgSound")), (float) getConfig().getDouble("msgPitch"), (float) getConfig().getDouble("msgVolume"), getConfig().getBoolean("msgEnabled"), getConfig().getBoolean("msgDefaultOn"), "PrivateMessage", colorConv.convert(getConfig().getString("testmessage")));
+		broadcast = new CustomSound("Broadcast", "broadcast", soundConv.convertSound(getConfig().getInt("broadcastSound")), (float) getConfig().getDouble("broadcastPitch"), (float) getConfig().getDouble("broadcastVolume"), getConfig().getBoolean("broadcastEnabled"), getConfig().getBoolean("broadcastDefaultOn"), "Broadcast", colorConv.convert(getConfig().getString("testbroadcast")));
+		playerJoin = new CustomSound("Player Join", "playerjoin", soundConv.convertSound(getConfig().getInt("joinPlayerSound")), (float) getConfig().getDouble("joinPlayerPitch"), (float) getConfig().getDouble("joinPlayerVolume"), getConfig().getBoolean("joinPlayerEnabled"), getConfig().getBoolean("playerJoinDefaultOn"), "PlayerJoin", colorConv.convert(getConfig().getString("testplayerjoin")));
+		adminJoin = new CustomSound("Admin Join", "adminjoin", soundConv.convertSound(getConfig().getInt("joinAdminSound")), (float) getConfig().getDouble("joinAdminPitch"), (float) getConfig().getDouble("joinAdminVolume"), getConfig().getBoolean("joinAdminEnabled"), getConfig().getBoolean("adminJoinDefaultOn"), "AdminJoin", colorConv.convert(getConfig().getString("testadminjoin")));
+		ownerJoin = new CustomSound("Owner Join", "ownerjoin", soundConv.convertSound(getConfig().getInt("joinOwnerSound")), (float) getConfig().getDouble("joinOwnerPitch"), (float) getConfig().getDouble("joinOwnerVolume"), getConfig().getBoolean("joinOwnerEnabled"), getConfig().getBoolean("ownerJoinDefaultOn"), "OwnerJoin", colorConv.convert(getConfig().getString("testownerjoin")));
+		hotbar = new CustomSound("Hotbar", "hotbar", soundConv.convertSound(getConfig().getInt("hotbarSound")), (float) getConfig().getDouble("hotbarPitch"), (float) getConfig().getDouble("hotbarVolume"), getConfig().getBoolean("hotbarEnabled"), getConfig().getBoolean("hotbarDefaultOn"), "Hotbar", colorConv.convert(getConfig().getString("testhotbar")));
+		soundList.add(message);
+		soundList.add(broadcast);
+		soundList.add(playerJoin);
+		soundList.add(adminJoin);
+		soundList.add(ownerJoin);
+		soundList.add(hotbar);
+	}
+
 	// ======================
     // Disable
     // ======================
@@ -189,15 +221,15 @@ public class MessageTones extends JavaPlugin implements Listener {
     // =========================
     @EventHandler
     public void onPlayerCommand(PlayerCommandPreprocessEvent e) throws InterruptedException {
-        if (getConfig().getBoolean("broadcastEnabled") && e.getPlayer().hasPermission("messagetones.broadcast")) {
+        if (broadcast.isEnabled() && e.getPlayer().hasPermission("messagetones.broadcast")) {
             String[] args = e.getMessage().split(" ");
             if (args.length > 1) {
                 String cmd = args[0];
                 if (cmd.equals("/" + getConfig().getString("broadcastCommand"))) {
-                    for(Player player : Bukkit.getOnlinePlayers()){
-                    	if (shouldPlaySound(player, "broadcast")) {
-                    		player.playSound(player.getLocation(), soundConv.convertSound(getConfig().getInt("broadcastSound")), (float) getConfig().getDouble("broadcastVolume"), (float) getConfig().getDouble("broadcastPitch"));
-                    	}
+                    for (Player player: Bukkit.getOnlinePlayers()) {
+                        if (shouldPlaySound(player, broadcast)) {
+                            broadcast.playSound(player);
+                        }
                     }
                 }
             }
@@ -209,34 +241,31 @@ public class MessageTones extends JavaPlugin implements Listener {
     // =========================
     @EventHandler
     public void playerJoin(PlayerJoinEvent event) throws InterruptedException {
-        if (event.getPlayer().hasPermission("messagetones.owner")) {
-            if (!getConfig().getBoolean("joinOwnerEnabled")) {
+        if (ownerJoin.isEnabled()) {
+            if (event.getPlayer().hasPermission("messagetones.owner")) {
+                for (Player player: Bukkit.getOnlinePlayers()) {
+                    if (shouldPlaySound(player, playerJoin)) {
+                        playerJoin.playSound(player);
+                    }
+                }
                 return;
             }
-            for(Player player : Bukkit.getOnlinePlayers()){
-            	if (shouldPlaySound(player, "playerjoin")) {
-            		player.playSound(player.getLocation(), soundConv.convertSound(getConfig().getInt("joinOwnerSound")), (float) getConfig().getDouble("joinOwnerVolume"), (float) getConfig().getDouble("joinOwnerPitch"));
-            	}
-            }
-            return;
-        } else if (event.getPlayer().hasPermission("messagetones.admin")) {
-            if (!getConfig().getBoolean("joinAdminEnabled")) {
+        }
+        if (adminJoin.isEnabled()) {
+            if (event.getPlayer().hasPermission("messagetones.admin")) {
+                for (Player player: Bukkit.getOnlinePlayers()) {
+                    if (shouldPlaySound(player, adminJoin)) {
+                        adminJoin.playSound(player);
+                    }
+                }
                 return;
             }
-            for(Player player : Bukkit.getOnlinePlayers()){
-            	if (shouldPlaySound(player, "adminjoin")) {
-            		player.playSound(player.getLocation(), soundConv.convertSound(getConfig().getInt("joinAdminSound")), (float) getConfig().getDouble("joinAdminVolume"), (float) getConfig().getDouble("joinAdminPitch"));
-            	}
-            }
-            return;
-        } else {
-            if (!getConfig().getBoolean("joinPlayerEnabled")) {
-                return;
-            }
-            for(Player player : Bukkit.getOnlinePlayers()){
-            	if (shouldPlaySound(player, "playerjoin")) {
-            		player.playSound(player.getLocation(), soundConv.convertSound(getConfig().getInt("joinPlayerSound")), (float) getConfig().getDouble("joinPlayerVolume"), (float) getConfig().getDouble("joinPlayerPitch"));
-            	}
+        }
+        if (playerJoin.isEnabled()) {
+            for (Player player: Bukkit.getOnlinePlayers()) {
+                if (shouldPlaySound(player, playerJoin)) {
+                    playerJoin.playSound(player);
+                }
             }
             return;
         }
@@ -247,10 +276,10 @@ public class MessageTones extends JavaPlugin implements Listener {
     // =========================
     @EventHandler
     public void hotbarSwitch(PlayerItemHeldEvent event) throws InterruptedException {
-    	if (getConfig().getBoolean("hotbarEnabled")) {
+    	if (hotbar.isEnabled()) {
 	        Player player = event.getPlayer();
-	        if (shouldPlaySound(player, "hotbar")) {
-	            player.playSound(player.getLocation(), soundConv.convertSound(getConfig().getInt("hotbarSound")), (float) getConfig().getDouble("hotbarVolume"), (float) getConfig().getDouble("hotbarPitch"));
+	        if (shouldPlaySound(player, hotbar)) {
+	            hotbar.playSound(player);
 	        }
     	}
     }
@@ -273,79 +302,65 @@ public class MessageTones extends JavaPlugin implements Listener {
         if (cmd.getName().equalsIgnoreCase("mt")) {
             if (args.length == 0) {
                 printHelp(player);
-            } else {
-            	if (args[0].equalsIgnoreCase("status")) {
-            		printStatus(player);
-            		return true;
+            } else if (args.length == 1) {
+            	boolean playedSound = false;
+            	for (CustomSound sound : soundList) {
+            		if (args[0].equalsIgnoreCase(sound.getCommandName())) {
+            			sound.playSound(player);
+            			playedSound = true;
+            			sound.printTestMessage(player);
+            		}
             	}
-            	else if (args[0].equalsIgnoreCase("message")) {
-                    processSound(args, player, "message");
-                    return true;
-                } else if (args[0].equalsIgnoreCase("broadcast")) {
-                    processSound(args, player, "broadcast");
-                    return true;
-                } else if (args[0].equalsIgnoreCase("ownerjoin")) {
-                    processSound(args, player, "ownerjoin");
-                    return true;
-                } else if (args[0].equalsIgnoreCase("adminjoin")) {
-                    processSound(args, player, "adminjoin");
-                    return true;
-                } else if (args[0].equalsIgnoreCase("playerjoin")) {
-                    processSound(args, player, "playerjoin");
-                    return true;
-                } else if (args[0].equalsIgnoreCase("hotbar")) {
-                    processSound(args, player, "hotbar");
-                    return true;
-                } else {
-                	printHelp(player);
-                	return true;
-                }
+            	if (playedSound != true) {
+            		if (args[0].equalsIgnoreCase("status")) {
+            			printStatus(player);
+            		} else {
+                		printHelp(player);
+            		}
+            	}
+            } else if (args.length == 2) {
+            	boolean toggledSound = false;
+            	for (CustomSound sound : soundList) {
+            		if (args[0].equalsIgnoreCase(sound.getCommandName())) {
+                		if (args[1].equalsIgnoreCase("on")) {
+                			playerData.set(player.getName() + "." + sound.getDataName(), true);
+                			toggledSound = true;
+                			sound.printToggleMessage(player, "On");
+                            try {
+                            	playerData.save(playerFile);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                		} else if (args[1].equalsIgnoreCase("off")) {
+                			playerData.set(player.getName() + "." + sound.getDataName(), false);
+                			toggledSound = true;
+                			sound.printToggleMessage(player, "Off");
+                            try {
+                            	playerData.save(playerFile);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                		}
+            		}
+            	}
+            	if (toggledSound != true) {
+            		printHelp(player);
+            	}
+            } else {
+            	printHelp(player);
             }
         }
         return true;
     }
  
     private void printStatus(Player player) {
-    	if (getConfig().getBoolean("msgEnabled")) {
-    		if (shouldPlaySound(player, "message")) {
-    			player.sendMessage("Message: On");
-    		} else {
-    			player.sendMessage("Message: Off");
-    		}
-    	}
-    	if (getConfig().getBoolean("broadcastEnabled")) {
-    		if (shouldPlaySound(player, "hotbar")) {
-    			player.sendMessage("Broadcast: On");
-    		} else {
-    			player.sendMessage("Broadcast: Off");
-    		}
-    	}
-    	if (getConfig().getBoolean("joinPlayerEnabled")) {
-    		if (shouldPlaySound(player, "playerjoin")) {
-    			player.sendMessage("Player Join: On");
-    		} else {
-    			player.sendMessage("Player Join: Off");
-    		}
-    	}
-    	if (getConfig().getBoolean("joinAdminEnabled")) {
-    		if (shouldPlaySound(player, "adminjoin")) {
-    			player.sendMessage("Admin Join: On");
-    		} else {
-    			player.sendMessage("Admin Join: Off");
-    		}
-    	}
-    	if (getConfig().getBoolean("joinOwnerEnabled")) {
-    		if (shouldPlaySound(player, "ownerjoin")) {
-    			player.sendMessage("Owner Join: On");
-    		} else {
-    			player.sendMessage("Owner Join: Off");
-    		}
-    	}
-    	if (getConfig().getBoolean("hotbarEnabled")) {
-    		if (shouldPlaySound(player, "hotbar")) {
-    			player.sendMessage("Hotbar: On");
-    		} else {
-    			player.sendMessage("Hotbar: Off");
+    	for (CustomSound sound : soundList) {
+    		if (sound.isEnabled()) {
+    			if (shouldPlaySound(player, sound)) {
+        			sound.printToggleMessage(player, "On");
+    			} else {
+        			sound.printToggleMessage(player, "Off");
+    			}
     		}
     	}
 	}
@@ -359,12 +374,11 @@ public class MessageTones extends JavaPlugin implements Listener {
             
             ArrayList<String> autocomplete = new ArrayList<String>();
             autocomplete.add("status");
-            autocomplete.add("message");
-            autocomplete.add("broadcast");
-            autocomplete.add("playerjoin");
-            autocomplete.add("adminjoin");
-            autocomplete.add("ownerjoin");
-            autocomplete.add("hotbar");
+            for (CustomSound sound : soundList) {
+            	if (sound.isEnabled()) {
+            		autocomplete.add(sound.getCommandName());
+            	}
+            }
    
             if (args.length == 1) {
                 ArrayList<String> toReturn = new ArrayList<String>();
@@ -382,184 +396,22 @@ public class MessageTones extends JavaPlugin implements Listener {
         return null;
     }
     
-    boolean shouldPlaySound(Player player, String sound) {
-    	if (sound == "message") {
-        	if(getConfig().getBoolean("msgEnabled")) {
-        		if (playerData.isSet(player.getName() + "." + "PrivateMessage")) {
-        			return playerData.getBoolean(player.getName() + "." + "PrivateMessage");
-        		} else {
-        			return getConfig().getBoolean("msgDeafultOn");
-        		}
-        	}
-    	} else if (sound == "broadcast") {
-        	if(getConfig().getBoolean("broadcastEnabled")) {
-        		if (playerData.isSet(player.getName() + "." + "Broadcast")) {
-        			return playerData.getBoolean(player.getName() + "." + "Broadcast");
-        		} else {
-        			return getConfig().getBoolean("broadcastDefaultOn");
-        		}
-        	}   		
-    	} else if (sound == "ownerjoin") {
-        	if(getConfig().getBoolean("joinOwnerEnabled")) {
-        		if (playerData.isSet(player.getName() + "." + "OwnerJoin")) {
-        			return playerData.getBoolean(player.getName() + "." + "OwnerJoin");
-        		} else {
-        			return getConfig().getBoolean("joinOwnerDeafultOn");
-        		}
-        	}    		
-    	} else if (sound == "adminjoin") {
-        	if(getConfig().getBoolean("msgEnabled")) {
-        		if (playerData.isSet(player.getName() + "." + "AdminJoin")) {
-        			return playerData.getBoolean(player.getName() + "." + "AdminJoin");
-        		} else {
-        			return getConfig().getBoolean("joinAdminDeafultOn");
-        		}
-        	}    		
-    	} else if (sound == "playerjoin") {
-        	if(getConfig().getBoolean("msgEnabled")) {
-        		if (playerData.isSet(player.getName() + "." + "PlayerJoin")) {
-        			return playerData.getBoolean(player.getName() + "." + "PlayerJoin");
-        		} else {
-        			return getConfig().getBoolean("joinPlayerDeafultOn");
-        		}
-        	}    		
-    	} else if (sound == "hotbar") {
-        	if(getConfig().getBoolean("msgEnabled")) {
-        		if (playerData.isSet(player.getName() + "." + "Hotbar")) {
-        			return playerData.getBoolean(player.getName() + "." + "Hotbar");
-        		} else {
-        			return getConfig().getBoolean("hotbarDeafultOn");
-        		}
-        	}    		
-    	}
-    	return false;
+    boolean shouldPlaySound(Player player, CustomSound sound) {
+		if (sound.isEnabled()) {
+			if (playerData.isSet(player.getName() + "." + sound.getDataName())) {
+				return playerData.getBoolean(player.getName() + "." + sound.getDataName());
+			} else {
+				return sound.isDefaultOn();
+			}
+		}
+		return false;
     }
     
     void printHelp(Player player) {
         List<String> list = getConfig().getStringList("help");
         List<String> convertedList = convertedLang(list);
         player.sendMessage(convertedList.toArray(new String[convertedList.size()]));
-    }
-    
-    void processSound(String[] args, Player player, String sound) {
-    	Sound soundID = null;
-    	float soundVolume = (float) 0.0;
-    	float soundPitch = (float) 0.0;
-    	String soundMessage = null;
-    	String soundOnMessage = null;
-    	String soundOffMessage = null;
-    	String soundData = null;
-    	
-    	if (sound.equalsIgnoreCase("message")) {
-    		try {
-				soundID = soundConv.convertSound(getConfig().getInt("msgSound"));
-			} catch (InterruptedException e) {
-				
-				e.printStackTrace();
-			}
-        	soundVolume = (float) getConfig().getDouble("msgVolume");
-        	soundPitch = (float) getConfig().getDouble("msgPitch");
-        	soundMessage = convertedLang("testmessage");
-        	soundOnMessage = "Changed Private Message to On";
-        	soundOffMessage = "Changed Private Message to Off";
-        	soundData = "PrivateMessage";
-    	} else if (sound.equalsIgnoreCase("broadcast")) {
-    		try {
-				soundID = soundConv.convertSound(getConfig().getInt("broadcastSound"));
-			} catch (InterruptedException e) {
-				
-				e.printStackTrace();
-			}
-        	soundVolume = (float) getConfig().getDouble("broadcastVolume");
-        	soundPitch = (float) getConfig().getDouble("broadcastPitch");
-        	soundMessage = convertedLang("testbroadcast");
-        	soundOnMessage = "Changed Broadcast to On";
-        	soundOffMessage = "Changed Broadcast to Off";
-        	soundData = "Broadcast";
-    	} else if (sound.equalsIgnoreCase("playerjoin")) {
-    		try {
-				soundID = soundConv.convertSound(getConfig().getInt("joinPlayerSound"));
-			} catch (InterruptedException e) {
-				
-				e.printStackTrace();
-			}
-        	soundVolume = (float) getConfig().getDouble("joinPlayerVolume");
-        	soundPitch = (float) getConfig().getDouble("joinPlayerPitch");
-        	soundMessage = convertedLang("testplayerjoin");
-        	soundOnMessage = "Changed Player Join to On";
-        	soundOffMessage = "Changed Player Join to Off";
-        	soundData = "PlayerJoin";
-    	} else if (sound.equalsIgnoreCase("adminjoin")) {
-    		try {
-				soundID = soundConv.convertSound(getConfig().getInt("joinAdminSound"));
-			} catch (InterruptedException e) {
-				
-				e.printStackTrace();
-			}
-        	soundVolume = (float) getConfig().getDouble("joinAdminVolume");
-        	soundPitch = (float) getConfig().getDouble("joinAdminPitch");
-        	soundMessage = convertedLang("testadminjoin");
-        	soundOnMessage = "Changed Admin Join to On";
-        	soundOffMessage = "Changed Admin Join to Off";
-        	soundData = "AdminJoin";
-    	} else if (sound.equalsIgnoreCase("ownerjoin")) {
-    		try {
-				soundID = soundConv.convertSound(getConfig().getInt("joinOwnerSound"));
-			} catch (InterruptedException e) {
-				
-				e.printStackTrace();
-			}
-        	soundVolume = (float) getConfig().getDouble("joinOwnerVolume");
-        	soundPitch = (float) getConfig().getDouble("joinOwnerPitch");
-        	soundMessage = convertedLang("testownerjoin");
-        	soundOnMessage = "Changed Owner Join to On";
-        	soundOffMessage = "Changed Owner Join to Off";
-        	soundData = "OwnerJoin";
-    	} else if (sound.equalsIgnoreCase("hotbar")) {
-    		try {
-				soundID = soundConv.convertSound(getConfig().getInt("hotbarSound"));
-			} catch (InterruptedException e) {
-				
-				e.printStackTrace();
-			}
-        	soundVolume = (float) getConfig().getDouble("hotbarVolume");
-        	soundPitch = (float) getConfig().getDouble("hotbarPitch");
-        	soundMessage = convertedLang("testhotbar");
-        	soundOnMessage = "Changed Hotbar to On";
-        	soundOffMessage = "Changed Hotbar to Off";
-        	soundData = "Hotbar";
-    	} else {
-    		printHelp(player);
-    		return;
-    	}
-    	
-    	if (args.length == 1) {
-            player.playSound(player.getLocation(), soundID, soundVolume, soundPitch);
-            player.sendMessage(soundMessage);
-    	} else {
-    		if (args[1].equalsIgnoreCase("on")) {
-    			playerData.set(player.getName() + "." + soundData, true);
-    			player.sendMessage(soundOnMessage);
-                try {
-                	playerData.save(playerFile);
-                } catch (IOException e1) {
-                    
-                    e1.printStackTrace();
-                }
-    		} else if (args[1].equalsIgnoreCase("off")) {
-    			playerData.set(player.getName() + "." + soundData, false);
-    			player.sendMessage(soundOffMessage);
-                try {
-                	playerData.save(playerFile);
-                } catch (IOException e1) {
-                    
-                    e1.printStackTrace();
-                }
-    		} else {
-    			printHelp(player);
-    		}
-    	}
-    }
+    }   
     
     // =========================
     // Convert String in Config
@@ -617,8 +469,8 @@ public class MessageTones extends JavaPlugin implements Listener {
                                     }
                                 }
                                 if (chatLine.contains(getConfig().getString("msgTrigger"))) {
-                                	if (shouldPlaySound(event.getPlayer(), "message")) {
-	                                    event.getPlayer().playSound(event.getPlayer().getLocation(), soundConv.convertSound(getConfig().getInt("msgSound")), (float) getConfig().getDouble("msgVolume"), (float) getConfig().getDouble("msgPitch"));
+                                	if (shouldPlaySound(event.getPlayer(), message)) {
+	                                    message.playSound(event.getPlayer());
 	                                    result[0] = true;
                                 	}
                                 }
@@ -626,10 +478,7 @@ public class MessageTones extends JavaPlugin implements Listener {
                         }
                     } catch (ParseException e) {
                         e.printStackTrace();
-                    } catch (InterruptedException e) {
-						
-						e.printStackTrace();
-					}
+                    }
                 }
             });
     }
