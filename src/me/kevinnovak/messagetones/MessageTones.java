@@ -69,14 +69,14 @@ public class MessageTones extends JavaPlugin implements Listener {
         checkMetrics();
         checkSoundVersion();
 
-        Bukkit.getServer().getLogger().info("[MessageTones] Plugin Enabled!");
+        Bukkit.getServer().getLogger().info("[MessageTones] Plugin enabled!");
     }
     
 	// ======================
     // Disable
     // ======================
     public void onDisable() {
-        Bukkit.getServer().getLogger().info("[MessageTones] Plugin Disabled!");
+        Bukkit.getServer().getLogger().info("[MessageTones] Plugin disabled!");
     }
     
     // =========================
@@ -87,7 +87,12 @@ public class MessageTones extends JavaPlugin implements Listener {
         Pattern versionPattern = Pattern.compile("\\d[.](\\d{1,2})[.]\\d{1,2}");
         Matcher versionMatcher = versionPattern.matcher(fullVersion);
         if (versionMatcher.find()) {
-        	version = Integer.parseInt(versionMatcher.group(1));
+            try{
+            	version = Integer.parseInt(versionMatcher.group(1));
+            }catch(NumberFormatException e){
+            	Bukkit.getServer().getLogger().warning("[MessageTones] Error parsing version as integer.");
+            	e.printStackTrace();
+            }
         }
 	}
 	
@@ -112,20 +117,22 @@ public class MessageTones extends JavaPlugin implements Listener {
 			out = new FileOutputStream(targetFile);
 			ByteStreams.copy(in, out);
 		} catch (FileNotFoundException e) {
+			Bukkit.getServer().getLogger().warning("[MessageTones] FileNotFoundException - Copying config failed.");
 			e.printStackTrace();
 		} catch (IOException e) {
+			Bukkit.getServer().getLogger().warning("[MessageTones] IOException - Copying config failed.");
 			e.printStackTrace();
 		}
 		try {
 			in.close();
 		} catch (IOException e) {
-			
+			Bukkit.getServer().getLogger().warning("[MessageTones] IOException - Closing internal config failed.");
 			e.printStackTrace();
 		}
 		try {
 			out.close();
 		} catch (IOException e) {
-			
+			Bukkit.getServer().getLogger().warning("[MessageTones] IOException - Closing external config failed.");
 			e.printStackTrace();
 		}
 		reloadConfig();
@@ -136,13 +143,13 @@ public class MessageTones extends JavaPlugin implements Listener {
     // =========================
 	private void checkProtocolLib() {
         if (getServer().getPluginManager().getPlugin("ProtocolLib") != null) {
-            Bukkit.getServer().getLogger().info("[MessageTones] ProtocolLib Detected!");
+            Bukkit.getServer().getLogger().info("[MessageTones] ProtocolLib detected!");
             if (getConfig().getBoolean("msgEnabled")) {
-                // start ProtocolLib
                 startProtocolLib(); 
             }
         } else {
-            Bukkit.getServer().getLogger().info("[MessageTones] ProtocolLib Not Detected!");
+            Bukkit.getServer().getLogger().info("[MessageTones] ProtocolLib not detected!");
+            Bukkit.getServer().getLogger().info("[MessageTones] Disabling plugin.");
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
@@ -152,14 +159,14 @@ public class MessageTones extends JavaPlugin implements Listener {
     // Check Metrics
     // =========================
 	private void checkMetrics() {
-        // send message if Metrics is enabled or not
         if (getConfig().getBoolean("metrics")) {
             try {
                 MetricsLite metrics = new MetricsLite(this);
                 metrics.start();
-                Bukkit.getServer().getLogger().info("[MessageTones] Metrics Enabled!");
+                Bukkit.getServer().getLogger().info("[MessageTones] Metrics enabled!");
             } catch (IOException e) {
-                Bukkit.getServer().getLogger().info("[MessageTones] Failed to Start Metrics.");
+                Bukkit.getServer().getLogger().info("[MessageTones] Failed to start metrics.");
+                e.printStackTrace();
             }
         } else {
             Bukkit.getServer().getLogger().info("[MessageTones] Metrics Disabled.");
@@ -182,22 +189,17 @@ public class MessageTones extends JavaPlugin implements Listener {
     // =========================
     @EventHandler
     public void onPlayerCommand(PlayerCommandPreprocessEvent e) throws InterruptedException {
-        if (!getConfig().getBoolean("broadcastEnabled")) {
-            return;
-        }
-        if (!e.getPlayer().hasPermission("messagetones.broadcast")) {
-            return;
-        }
-        String[] args = e.getMessage().split(" ");
-        if (args.length <= 1){
-            return;
-        }
-        String cmd = args[0];
-        if (cmd.equals("/" + getConfig().getString("broadcastCommand"))) {
-            for(Player player : Bukkit.getOnlinePlayers()){
-            	if (shouldPlaySound(player, "broadcast")) {
-            		player.playSound(player.getLocation(), soundConv.convertSound(getConfig().getInt("broadcastSound")), (float) getConfig().getDouble("broadcastVolume"), (float) getConfig().getDouble("broadcastPitch"));
-            	}
+        if (getConfig().getBoolean("broadcastEnabled") && e.getPlayer().hasPermission("messagetones.broadcast")) {
+            String[] args = e.getMessage().split(" ");
+            if (args.length > 1) {
+                String cmd = args[0];
+                if (cmd.equals("/" + getConfig().getString("broadcastCommand"))) {
+                    for(Player player : Bukkit.getOnlinePlayers()){
+                    	if (shouldPlaySound(player, "broadcast")) {
+                    		player.playSound(player.getLocation(), soundConv.convertSound(getConfig().getInt("broadcastSound")), (float) getConfig().getDouble("broadcastVolume"), (float) getConfig().getDouble("broadcastPitch"));
+                    	}
+                    }
+                }
             }
         }
     }
