@@ -45,7 +45,10 @@ public class MessageTones extends JavaPlugin implements Listener {
     public File playerFile = new File(getDataFolder()+"/players.yml");
     public FileConfiguration playerData = YamlConfiguration.loadConfiguration(playerFile);
     
-    ConvertSound other = new ConvertSound();
+    // Create a sound converter
+    ConvertSound soundConv = new ConvertSound();
+    
+    // Initialize version number to 0
     int version = 0;
     
     // =========================
@@ -53,60 +56,45 @@ public class MessageTones extends JavaPlugin implements Listener {
     // =========================
     @Override
     public void onEnable() {
-        // copy over default config file if doesn't exist
         saveDefaultConfig();
-        
-        // register events
         Bukkit.getServer().getPluginManager().registerEvents(this, this);
-    	
+        setVersion();
+        
+        // copy config file if not copied already
+        if (getConfig().getBoolean("copied") != true) {
+			copyFile();
+        }
+        
+        checkProtocolLib();
+        checkMetrics();
+        checkSoundVersion();
+
+        Bukkit.getServer().getLogger().info("[MessageTones] Plugin Enabled!");
+    }
+    
+	// ======================
+    // Disable
+    // ======================
+    public void onDisable() {
+        Bukkit.getServer().getLogger().info("[MessageTones] Plugin Disabled!");
+    }
+    
+    // =========================
+    // Set Version
+    // =========================
+	private void setVersion() {
         String fullVersion = Bukkit.getServer().getVersion();
         Pattern versionPattern = Pattern.compile("\\d[.](\\d{1,2})[.]\\d{1,2}");
         Matcher versionMatcher = versionPattern.matcher(fullVersion);
         if (versionMatcher.find()) {
         	version = Integer.parseInt(versionMatcher.group(1));
         }
-        
-        if (getConfig().getBoolean("copied") != true) {
-			copyFile();
-        }
-        
-        // send message if ProtocolLib is detected or not
-        if (getServer().getPluginManager().getPlugin("ProtocolLib") != null) {
-            Bukkit.getServer().getLogger().info("[MessageTones] ProtocolLib Detected!");
-            if (getConfig().getBoolean("msgEnabled")) {
-                // start ProtocolLib
-                startProtocolLib(); 
-            }
-        } else {
-            Bukkit.getServer().getLogger().info("[MessageTones] ProtocolLib Not Detected!");
-            getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
-
-        // send message if Metrics is enabled or not
-        if (getConfig().getBoolean("metrics")) {
-            try {
-                MetricsLite metrics = new MetricsLite(this);
-                metrics.start();
-                Bukkit.getServer().getLogger().info("[MessageTones] Metrics Enabled!");
-            } catch (IOException e) {
-                Bukkit.getServer().getLogger().info("[MessageTones] Failed to Start Metrics.");
-            }
-        } else {
-            Bukkit.getServer().getLogger().info("[MessageTones] Metrics Disabled.");
-        }
-        
-        if (version > 7 && version < 100) {
-        	Bukkit.getServer().getLogger().info("[MessageTones] Using Minecraft 1." + version + " sounds.");
-        } else {
-        	Bukkit.getServer().getLogger().warning("[MessageTones] Unknown Minecraft version.");
-        }
-
-        // send message if plugin is enabled
-        Bukkit.getServer().getLogger().info("[MessageTones] Plugin Enabled!");
-    }
-    
-    private void copyFile() {
+	}
+	
+    // =========================
+    // Copy File
+    // =========================
+	private void copyFile() {
     	InputStream in = null;
     	if (version <= 8) {
     		in = getClass().getResourceAsStream("/config-1.8.yml");
@@ -124,33 +112,70 @@ public class MessageTones extends JavaPlugin implements Listener {
 			out = new FileOutputStream(targetFile);
 			ByteStreams.copy(in, out);
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
 			in.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		try {
 			out.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		reloadConfig();
 	}
-
-	// ======================
-    // Disable
-    // ======================
-    public void onDisable() {
-        Bukkit.getServer().getLogger().info("[MessageTones] Plugin Disabled!");
-    }
+	
+    // =========================
+    // Check ProtocolLib
+    // =========================
+	private void checkProtocolLib() {
+        if (getServer().getPluginManager().getPlugin("ProtocolLib") != null) {
+            Bukkit.getServer().getLogger().info("[MessageTones] ProtocolLib Detected!");
+            if (getConfig().getBoolean("msgEnabled")) {
+                // start ProtocolLib
+                startProtocolLib(); 
+            }
+        } else {
+            Bukkit.getServer().getLogger().info("[MessageTones] ProtocolLib Not Detected!");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+	}
+	
+    // =========================
+    // Check Metrics
+    // =========================
+	private void checkMetrics() {
+        // send message if Metrics is enabled or not
+        if (getConfig().getBoolean("metrics")) {
+            try {
+                MetricsLite metrics = new MetricsLite(this);
+                metrics.start();
+                Bukkit.getServer().getLogger().info("[MessageTones] Metrics Enabled!");
+            } catch (IOException e) {
+                Bukkit.getServer().getLogger().info("[MessageTones] Failed to Start Metrics.");
+            }
+        } else {
+            Bukkit.getServer().getLogger().info("[MessageTones] Metrics Disabled.");
+        }
+	}
+    
+    // =========================
+    // Check Sound Version
+    // =========================
+    private void checkSoundVersion() {
+        if (version > 7 && version < 100) {
+        	Bukkit.getServer().getLogger().info("[MessageTones] Using Minecraft 1." + version + " sounds.");
+        } else {
+        	Bukkit.getServer().getLogger().warning("[MessageTones] Unknown Minecraft version.");
+        }
+	}
       
     // =========================
     // Broadcast
@@ -171,7 +196,7 @@ public class MessageTones extends JavaPlugin implements Listener {
         if (cmd.equals("/" + getConfig().getString("broadcastCommand"))) {
             for(Player player : Bukkit.getOnlinePlayers()){
             	if (shouldPlaySound(player, "broadcast")) {
-            		player.playSound(player.getLocation(), other.convertSound(getConfig().getInt("broadcastSound")), (float) getConfig().getDouble("broadcastVolume"), (float) getConfig().getDouble("broadcastPitch"));
+            		player.playSound(player.getLocation(), soundConv.convertSound(getConfig().getInt("broadcastSound")), (float) getConfig().getDouble("broadcastVolume"), (float) getConfig().getDouble("broadcastPitch"));
             	}
             }
         }
@@ -188,7 +213,7 @@ public class MessageTones extends JavaPlugin implements Listener {
             }
             for(Player player : Bukkit.getOnlinePlayers()){
             	if (shouldPlaySound(player, "playerjoin")) {
-            		player.playSound(player.getLocation(), other.convertSound(getConfig().getInt("joinOwnerSound")), (float) getConfig().getDouble("joinOwnerVolume"), (float) getConfig().getDouble("joinOwnerPitch"));
+            		player.playSound(player.getLocation(), soundConv.convertSound(getConfig().getInt("joinOwnerSound")), (float) getConfig().getDouble("joinOwnerVolume"), (float) getConfig().getDouble("joinOwnerPitch"));
             	}
             }
             return;
@@ -198,7 +223,7 @@ public class MessageTones extends JavaPlugin implements Listener {
             }
             for(Player player : Bukkit.getOnlinePlayers()){
             	if (shouldPlaySound(player, "adminjoin")) {
-            		player.playSound(player.getLocation(), other.convertSound(getConfig().getInt("joinAdminSound")), (float) getConfig().getDouble("joinAdminVolume"), (float) getConfig().getDouble("joinAdminPitch"));
+            		player.playSound(player.getLocation(), soundConv.convertSound(getConfig().getInt("joinAdminSound")), (float) getConfig().getDouble("joinAdminVolume"), (float) getConfig().getDouble("joinAdminPitch"));
             	}
             }
             return;
@@ -208,7 +233,7 @@ public class MessageTones extends JavaPlugin implements Listener {
             }
             for(Player player : Bukkit.getOnlinePlayers()){
             	if (shouldPlaySound(player, "playerjoin")) {
-            		player.playSound(player.getLocation(), other.convertSound(getConfig().getInt("joinPlayerSound")), (float) getConfig().getDouble("joinPlayerVolume"), (float) getConfig().getDouble("joinPlayerPitch"));
+            		player.playSound(player.getLocation(), soundConv.convertSound(getConfig().getInt("joinPlayerSound")), (float) getConfig().getDouble("joinPlayerVolume"), (float) getConfig().getDouble("joinPlayerPitch"));
             	}
             }
             return;
@@ -223,7 +248,7 @@ public class MessageTones extends JavaPlugin implements Listener {
     	if (getConfig().getBoolean("hotbarEnabled")) {
 	        Player player = event.getPlayer();
 	        if (shouldPlaySound(player, "hotbar")) {
-	            player.playSound(player.getLocation(), other.convertSound(getConfig().getInt("hotbarSound")), (float) getConfig().getDouble("hotbarVolume"), (float) getConfig().getDouble("hotbarPitch"));
+	            player.playSound(player.getLocation(), soundConv.convertSound(getConfig().getInt("hotbarSound")), (float) getConfig().getDouble("hotbarVolume"), (float) getConfig().getDouble("hotbarPitch"));
 	        }
     	}
     }
@@ -425,9 +450,9 @@ public class MessageTones extends JavaPlugin implements Listener {
     	
     	if (sound.equalsIgnoreCase("message")) {
     		try {
-				soundID = other.convertSound(getConfig().getInt("msgSound"));
+				soundID = soundConv.convertSound(getConfig().getInt("msgSound"));
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
         	soundVolume = (float) getConfig().getDouble("msgVolume");
@@ -438,9 +463,9 @@ public class MessageTones extends JavaPlugin implements Listener {
         	soundData = "PrivateMessage";
     	} else if (sound.equalsIgnoreCase("broadcast")) {
     		try {
-				soundID = other.convertSound(getConfig().getInt("broadcastSound"));
+				soundID = soundConv.convertSound(getConfig().getInt("broadcastSound"));
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
         	soundVolume = (float) getConfig().getDouble("broadcastVolume");
@@ -451,9 +476,9 @@ public class MessageTones extends JavaPlugin implements Listener {
         	soundData = "Broadcast";
     	} else if (sound.equalsIgnoreCase("playerjoin")) {
     		try {
-				soundID = other.convertSound(getConfig().getInt("joinPlayerSound"));
+				soundID = soundConv.convertSound(getConfig().getInt("joinPlayerSound"));
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
         	soundVolume = (float) getConfig().getDouble("joinPlayerVolume");
@@ -464,9 +489,9 @@ public class MessageTones extends JavaPlugin implements Listener {
         	soundData = "PlayerJoin";
     	} else if (sound.equalsIgnoreCase("adminjoin")) {
     		try {
-				soundID = other.convertSound(getConfig().getInt("joinAdminSound"));
+				soundID = soundConv.convertSound(getConfig().getInt("joinAdminSound"));
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
         	soundVolume = (float) getConfig().getDouble("joinAdminVolume");
@@ -477,9 +502,9 @@ public class MessageTones extends JavaPlugin implements Listener {
         	soundData = "AdminJoin";
     	} else if (sound.equalsIgnoreCase("ownerjoin")) {
     		try {
-				soundID = other.convertSound(getConfig().getInt("joinOwnerSound"));
+				soundID = soundConv.convertSound(getConfig().getInt("joinOwnerSound"));
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
         	soundVolume = (float) getConfig().getDouble("joinOwnerVolume");
@@ -490,9 +515,9 @@ public class MessageTones extends JavaPlugin implements Listener {
         	soundData = "OwnerJoin";
     	} else if (sound.equalsIgnoreCase("hotbar")) {
     		try {
-				soundID = other.convertSound(getConfig().getInt("hotbarSound"));
+				soundID = soundConv.convertSound(getConfig().getInt("hotbarSound"));
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
         	soundVolume = (float) getConfig().getDouble("hotbarVolume");
@@ -516,7 +541,7 @@ public class MessageTones extends JavaPlugin implements Listener {
                 try {
                 	playerData.save(playerFile);
                 } catch (IOException e1) {
-                    // TODO Auto-generated catch block
+                    
                     e1.printStackTrace();
                 }
     		} else if (args[1].equalsIgnoreCase("off")) {
@@ -525,7 +550,7 @@ public class MessageTones extends JavaPlugin implements Listener {
                 try {
                 	playerData.save(playerFile);
                 } catch (IOException e1) {
-                    // TODO Auto-generated catch block
+                    
                     e1.printStackTrace();
                 }
     		} else {
@@ -591,7 +616,7 @@ public class MessageTones extends JavaPlugin implements Listener {
                                 }
                                 if (chatLine.contains(getConfig().getString("msgTrigger"))) {
                                 	if (shouldPlaySound(event.getPlayer(), "message")) {
-	                                    event.getPlayer().playSound(event.getPlayer().getLocation(), other.convertSound(getConfig().getInt("msgSound")), (float) getConfig().getDouble("msgVolume"), (float) getConfig().getDouble("msgPitch"));
+	                                    event.getPlayer().playSound(event.getPlayer().getLocation(), soundConv.convertSound(getConfig().getInt("msgSound")), (float) getConfig().getDouble("msgVolume"), (float) getConfig().getDouble("msgPitch"));
 	                                    result[0] = true;
                                 	}
                                 }
@@ -600,7 +625,7 @@ public class MessageTones extends JavaPlugin implements Listener {
                     } catch (ParseException e) {
                         e.printStackTrace();
                     } catch (InterruptedException e) {
-						// TODO Auto-generated catch block
+						
 						e.printStackTrace();
 					}
                 }
