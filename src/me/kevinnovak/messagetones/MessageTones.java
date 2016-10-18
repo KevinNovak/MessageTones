@@ -397,6 +397,7 @@ public class MessageTones extends JavaPlugin implements Listener {
     
     void printHelp(Player player) {
     	player.sendMessage(colorConv.convertConfig("helpHeader"));
+    	player.sendMessage("/mt status");
     	for (CustomSound sound : soundList) {
     		if (sound.isEnabled()) {
     			player.sendMessage("/mt " + sound.getCommandName());
