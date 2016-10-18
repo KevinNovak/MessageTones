@@ -47,7 +47,6 @@ public class MessageTones extends JavaPlugin implements Listener {
     ConvertSound soundConv = new ConvertSound();
     ColorConverter colorConv = new ColorConverter(getConfig());
     
-    
     ArrayList<CustomSound> soundList = new ArrayList<CustomSound>();
     CustomSound message = null;
     CustomSound broadcast = null;
@@ -247,7 +246,7 @@ public class MessageTones extends JavaPlugin implements Listener {
             if (event.getPlayer().hasPermission("messagetones.owner")) {
                 for (Player player: Bukkit.getOnlinePlayers()) {
                     if (shouldPlaySound(player, playerJoin)) {
-                        playerJoin.playSound(player);
+                        ownerJoin.playSound(player);
                     }
                 }
                 return;
