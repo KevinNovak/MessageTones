@@ -327,23 +327,32 @@ public class MessageTones extends JavaPlugin implements Listener {
             		if (sound.isEnabled()) {
                 		if (args[0].equalsIgnoreCase(sound.getCommandName())) {
                     		if (args[1].equalsIgnoreCase("on")) {
-                    			playerData.set(player.getName() + "." + sound.getDataName(), true);
+                    			if (player.hasPermission(sound.getTogglePerm())) {
+                        			playerData.set(player.getName() + "." + sound.getDataName(), true);
+                        			
+                        			sound.printToggleMessage(player, "On");
+                                    try {
+                                    	playerData.save(playerFile);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                    			} else {
+                    				player.sendMessage(colorConv.convertConfig("notpermitted"));
+                    			}
                     			toggledSound = true;
-                    			sound.printToggleMessage(player, "On");
-                                try {
-                                	playerData.save(playerFile);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
                     		} else if (args[1].equalsIgnoreCase("off")) {
-                    			playerData.set(player.getName() + "." + sound.getDataName(), false);
+                    			if (player.hasPermission(sound.getTogglePerm())) {
+                        			playerData.set(player.getName() + "." + sound.getDataName(), false);
+                        			sound.printToggleMessage(player, "Off");
+                                    try {
+                                    	playerData.save(playerFile);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                    			} else {
+                    				player.sendMessage(colorConv.convertConfig("notpermitted"));
+                    			}
                     			toggledSound = true;
-                    			sound.printToggleMessage(player, "Off");
-                                try {
-                                	playerData.save(playerFile);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
                     		}
                 		}
             		}

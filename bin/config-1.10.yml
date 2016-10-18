@@ -170,7 +170,7 @@ hotbarVolume: 0.2
 # Language
 # ============================================
 noconsole: '&cConsole cannot run MessageTones commands!'
-noargs: '&cPlease type a sound to test!'
+notpermitted: '&cYou are not permitted to do this!'
 testmessage: '&7Played test message sound.'
 testbroadcast: '&7Played test broadcast sound.'
 testownerjoin: '&7Played test owner join sound.'
