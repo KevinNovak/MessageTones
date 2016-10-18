@@ -185,6 +185,10 @@ help:
 - '&b/mt adminjoin &7- Test admin join sound.'
 - '&b/mt playerjoin &7- Test player join sound.'
 - '&b/mt hotbar &7- Test hotbar sound.'
+statusMessage: '&b{SOUND} &7- {STATUS}'
+statusOn: '&aOn'
+statusOff: '&cOff'
+
 
 # ============================================
 # Minecraft 1.10 - Sound IDs
