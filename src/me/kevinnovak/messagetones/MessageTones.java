@@ -203,12 +203,12 @@ public class MessageTones extends JavaPlugin implements Listener {
     // Initialize Sounds
     // =========================
 	private void initSounds() throws InterruptedException {
-		message = new CustomSound("Private Message", "message", soundConv.convertSound(getConfig().getInt("msgSound")), (float) getConfig().getDouble("msgPitch"), (float) getConfig().getDouble("msgVolume"), getConfig().getBoolean("msgEnabled"), getConfig().getBoolean("msgDefaultOn"), "PrivateMessage", colorConv.convertConfig("testmessage"), colorConv.convertConfig("statusMessage"));
-		broadcast = new CustomSound("Broadcast", "broadcast", soundConv.convertSound(getConfig().getInt("broadcastSound")), (float) getConfig().getDouble("broadcastPitch"), (float) getConfig().getDouble("broadcastVolume"), getConfig().getBoolean("broadcastEnabled"), getConfig().getBoolean("broadcastDefaultOn"), "Broadcast", colorConv.convertConfig("testbroadcast"), colorConv.convertConfig("statusMessage"));
-		playerJoin = new CustomSound("Player Join", "playerjoin", soundConv.convertSound(getConfig().getInt("joinPlayerSound")), (float) getConfig().getDouble("joinPlayerPitch"), (float) getConfig().getDouble("joinPlayerVolume"), getConfig().getBoolean("joinPlayerEnabled"), getConfig().getBoolean("playerJoinDefaultOn"), "PlayerJoin", colorConv.convertConfig("testplayerjoin"), colorConv.convertConfig("statusMessage"));
-		adminJoin = new CustomSound("Admin Join", "adminjoin", soundConv.convertSound(getConfig().getInt("joinAdminSound")), (float) getConfig().getDouble("joinAdminPitch"), (float) getConfig().getDouble("joinAdminVolume"), getConfig().getBoolean("joinAdminEnabled"), getConfig().getBoolean("adminJoinDefaultOn"), "AdminJoin", colorConv.convertConfig("testadminjoin"), colorConv.convertConfig("statusMessage"));
-		ownerJoin = new CustomSound("Owner Join", "ownerjoin", soundConv.convertSound(getConfig().getInt("joinOwnerSound")), (float) getConfig().getDouble("joinOwnerPitch"), (float) getConfig().getDouble("joinOwnerVolume"), getConfig().getBoolean("joinOwnerEnabled"), getConfig().getBoolean("ownerJoinDefaultOn"), "OwnerJoin", colorConv.convertConfig("testownerjoin"), colorConv.convertConfig("statusMessage"));
-		hotbar = new CustomSound("Hotbar", "hotbar", soundConv.convertSound(getConfig().getInt("hotbarSound")), (float) getConfig().getDouble("hotbarPitch"), (float) getConfig().getDouble("hotbarVolume"), getConfig().getBoolean("hotbarEnabled"), getConfig().getBoolean("hotbarDefaultOn"), "Hotbar", colorConv.convertConfig("testhotbar"), colorConv.convertConfig("statusMessage"));
+		message = new CustomSound("Private Message", "message", soundConv.convertSound(getConfig().getInt("msgSound")), (float) getConfig().getDouble("msgPitch"), (float) getConfig().getDouble("msgVolume"), getConfig().getBoolean("msgEnabled"), getConfig().getBoolean("msgDefaultOn"), "PrivateMessage", colorConv.convertConfig("testmessage"), colorConv.convertConfig("statusMessage"), colorConv.convertConfig("toggleMessage"));
+		broadcast = new CustomSound("Broadcast", "broadcast", soundConv.convertSound(getConfig().getInt("broadcastSound")), (float) getConfig().getDouble("broadcastPitch"), (float) getConfig().getDouble("broadcastVolume"), getConfig().getBoolean("broadcastEnabled"), getConfig().getBoolean("broadcastDefaultOn"), "Broadcast", colorConv.convertConfig("testbroadcast"), colorConv.convertConfig("statusMessage"), colorConv.convertConfig("toggleMessage"));
+		playerJoin = new CustomSound("Player Join", "playerjoin", soundConv.convertSound(getConfig().getInt("joinPlayerSound")), (float) getConfig().getDouble("joinPlayerPitch"), (float) getConfig().getDouble("joinPlayerVolume"), getConfig().getBoolean("joinPlayerEnabled"), getConfig().getBoolean("playerJoinDefaultOn"), "PlayerJoin", colorConv.convertConfig("testplayerjoin"), colorConv.convertConfig("statusMessage"), colorConv.convertConfig("toggleMessage"));
+		adminJoin = new CustomSound("Admin Join", "adminjoin", soundConv.convertSound(getConfig().getInt("joinAdminSound")), (float) getConfig().getDouble("joinAdminPitch"), (float) getConfig().getDouble("joinAdminVolume"), getConfig().getBoolean("joinAdminEnabled"), getConfig().getBoolean("adminJoinDefaultOn"), "AdminJoin", colorConv.convertConfig("testadminjoin"), colorConv.convertConfig("statusMessage"), colorConv.convertConfig("toggleMessage"));
+		ownerJoin = new CustomSound("Owner Join", "ownerjoin", soundConv.convertSound(getConfig().getInt("joinOwnerSound")), (float) getConfig().getDouble("joinOwnerPitch"), (float) getConfig().getDouble("joinOwnerVolume"), getConfig().getBoolean("joinOwnerEnabled"), getConfig().getBoolean("ownerJoinDefaultOn"), "OwnerJoin", colorConv.convertConfig("testownerjoin"), colorConv.convertConfig("statusMessage"), colorConv.convertConfig("toggleMessage"));
+		hotbar = new CustomSound("Hotbar", "hotbar", soundConv.convertSound(getConfig().getInt("hotbarSound")), (float) getConfig().getDouble("hotbarPitch"), (float) getConfig().getDouble("hotbarVolume"), getConfig().getBoolean("hotbarEnabled"), getConfig().getBoolean("hotbarDefaultOn"), "Hotbar", colorConv.convertConfig("testhotbar"), colorConv.convertConfig("statusMessage"), colorConv.convertConfig("toggleMessage"));
 		soundList.add(message);
 		soundList.add(broadcast);
 		soundList.add(playerJoin);
@@ -371,7 +371,7 @@ public class MessageTones extends JavaPlugin implements Listener {
     // Helper Functions
     // =========================
     private void printStatus(Player player) {
-    	player.sendMessage("========== MessageTones - Status ==========");
+    	player.sendMessage(colorConv.convertConfig("statusHeader"));
     	for (CustomSound sound : soundList) {
     		if (sound.isEnabled()) {
     			if (shouldPlaySound(player, sound)) {
@@ -381,7 +381,7 @@ public class MessageTones extends JavaPlugin implements Listener {
     			}
     		}
     	}
-    	player.sendMessage("===========================================");
+    	player.sendMessage(colorConv.convertConfig("statusFooter"));
 	}
     
     boolean shouldPlaySound(Player player, CustomSound sound) {

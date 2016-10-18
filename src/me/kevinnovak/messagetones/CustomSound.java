@@ -14,8 +14,9 @@ public class CustomSound {
 	private String dataName;
 	private String testMessage;
 	private String statusMessage;
+	private String toggleMessage;
 	
-	public CustomSound(String friendlyName, String commandName, Sound sound, float pitch, float volume, Boolean enabled, Boolean defaultOn, String dataName, String testMessage, String statusMessage) {
+	public CustomSound(String friendlyName, String commandName, Sound sound, float pitch, float volume, Boolean enabled, Boolean defaultOn, String dataName, String testMessage, String statusMessage, String toggleMessage) {
 		this.friendlyName = friendlyName;
 		this.commandName = commandName;
 		this.sound = sound;
@@ -26,6 +27,7 @@ public class CustomSound {
 		this.dataName = dataName;
 		this.testMessage = testMessage;
 		this.statusMessage = statusMessage;
+		this.toggleMessage = toggleMessage;
 	}
 	
 	public String getFriendlyName() {
@@ -60,11 +62,11 @@ public class CustomSound {
 		player.sendMessage(testMessage);
 	}
 	
-	public void printToggleMessage(Player player, String toggleStatus) {
-		player.sendMessage(friendlyName + ": " + toggleStatus);
+	public void printToggleMessage(Player player, String toggledStatus) {
+		player.sendMessage(toggleMessage.replace("{SOUND}", friendlyName).replace("{STATUS}", toggledStatus));
 	}
 	
-	public void printStatusMessage(Player player, String status) {
-		player.sendMessage(statusMessage.replace("{SOUND}", friendlyName).replace("{STATUS}", status));
+	public void printStatusMessage(Player player, String currentStatus) {
+		player.sendMessage(statusMessage.replace("{SOUND}", friendlyName).replace("{STATUS}", currentStatus));
 	}
 }
