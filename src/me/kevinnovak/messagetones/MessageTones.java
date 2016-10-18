@@ -305,10 +305,12 @@ public class MessageTones extends JavaPlugin implements Listener {
             } else if (args.length == 1) {
             	boolean playedSound = false;
             	for (CustomSound sound : soundList) {
-            		if (args[0].equalsIgnoreCase(sound.getCommandName())) {
-            			sound.playSound(player);
-            			playedSound = true;
-            			sound.printTestMessage(player);
+            		if (sound.isEnabled()) {
+                		if (args[0].equalsIgnoreCase(sound.getCommandName())) {
+                			sound.playSound(player);
+                			playedSound = true;
+                			sound.printTestMessage(player);
+                		}
             		}
             	}
             	if (playedSound != true) {
@@ -321,25 +323,27 @@ public class MessageTones extends JavaPlugin implements Listener {
             } else if (args.length == 2) {
             	boolean toggledSound = false;
             	for (CustomSound sound : soundList) {
-            		if (args[0].equalsIgnoreCase(sound.getCommandName())) {
-                		if (args[1].equalsIgnoreCase("on")) {
-                			playerData.set(player.getName() + "." + sound.getDataName(), true);
-                			toggledSound = true;
-                			sound.printToggleMessage(player, "On");
-                            try {
-                            	playerData.save(playerFile);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                		} else if (args[1].equalsIgnoreCase("off")) {
-                			playerData.set(player.getName() + "." + sound.getDataName(), false);
-                			toggledSound = true;
-                			sound.printToggleMessage(player, "Off");
-                            try {
-                            	playerData.save(playerFile);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+            		if (sound.isEnabled()) {
+                		if (args[0].equalsIgnoreCase(sound.getCommandName())) {
+                    		if (args[1].equalsIgnoreCase("on")) {
+                    			playerData.set(player.getName() + "." + sound.getDataName(), true);
+                    			toggledSound = true;
+                    			sound.printToggleMessage(player, "On");
+                                try {
+                                	playerData.save(playerFile);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                    		} else if (args[1].equalsIgnoreCase("off")) {
+                    			playerData.set(player.getName() + "." + sound.getDataName(), false);
+                    			toggledSound = true;
+                    			sound.printToggleMessage(player, "Off");
+                                try {
+                                	playerData.save(playerFile);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                    		}
                 		}
             		}
             	}
