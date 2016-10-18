@@ -245,8 +245,16 @@ public class MessageTones extends JavaPlugin implements Listener {
         if (ownerJoin.isEnabled()) {
             if (event.getPlayer().hasPermission("messagetones.owner")) {
                 for (Player player: Bukkit.getOnlinePlayers()) {
-                    if (shouldPlaySound(player, playerJoin)) {
-                        ownerJoin.playSound(player);
+                    if (shouldPlaySound(player, ownerJoin)) {
+                    	new java.util.Timer().schedule( 
+                    	        new java.util.TimerTask() {
+                    	            @Override
+                    	            public void run() {
+                                        ownerJoin.playSound(player);
+                    	            }
+                    	        }, 
+                    	        1000 
+                    	);
                     }
                 }
                 return;
@@ -256,7 +264,15 @@ public class MessageTones extends JavaPlugin implements Listener {
             if (event.getPlayer().hasPermission("messagetones.admin")) {
                 for (Player player: Bukkit.getOnlinePlayers()) {
                     if (shouldPlaySound(player, adminJoin)) {
-                        adminJoin.playSound(player);
+                    	new java.util.Timer().schedule( 
+                    	        new java.util.TimerTask() {
+                    	            @Override
+                    	            public void run() {
+                    	            	adminJoin.playSound(player);
+                    	            }
+                    	        }, 
+                    	        1000 
+                    	);
                     }
                 }
                 return;
@@ -265,7 +281,15 @@ public class MessageTones extends JavaPlugin implements Listener {
         if (playerJoin.isEnabled()) {
             for (Player player: Bukkit.getOnlinePlayers()) {
                 if (shouldPlaySound(player, playerJoin)) {
-                    playerJoin.playSound(player);
+                	new java.util.Timer().schedule( 
+                	        new java.util.TimerTask() {
+                	            @Override
+                	            public void run() {
+                                    playerJoin.playSound(player);
+                	            }
+                	        }, 
+                	        1000 
+                	);
                 }
             }
             return;
