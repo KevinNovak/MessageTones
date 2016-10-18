@@ -46,7 +46,7 @@ msgVolume: 0.8
 
 # The message text that triggers a sound.
 # Should uniquely identify private messages.
-# For example, in essentials every message contains " -> me]".
+# For example, in Essentials/EssentialsX every message contains " -> me]".
 # default: msgTrigger: ' -> me]'
 msgTrigger: ' -> me]'
 
