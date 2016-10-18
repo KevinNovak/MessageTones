@@ -12,7 +12,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -90,12 +89,12 @@ public class MessageTones extends JavaPlugin implements Listener {
     }
     
 	private void initSounds() throws InterruptedException {
-		message = new CustomSound("Private Message", "message", soundConv.convertSound(getConfig().getInt("msgSound")), (float) getConfig().getDouble("msgPitch"), (float) getConfig().getDouble("msgVolume"), getConfig().getBoolean("msgEnabled"), getConfig().getBoolean("msgDefaultOn"), "PrivateMessage", colorConv.convert(getConfig().getString("testmessage")));
-		broadcast = new CustomSound("Broadcast", "broadcast", soundConv.convertSound(getConfig().getInt("broadcastSound")), (float) getConfig().getDouble("broadcastPitch"), (float) getConfig().getDouble("broadcastVolume"), getConfig().getBoolean("broadcastEnabled"), getConfig().getBoolean("broadcastDefaultOn"), "Broadcast", colorConv.convert(getConfig().getString("testbroadcast")));
-		playerJoin = new CustomSound("Player Join", "playerjoin", soundConv.convertSound(getConfig().getInt("joinPlayerSound")), (float) getConfig().getDouble("joinPlayerPitch"), (float) getConfig().getDouble("joinPlayerVolume"), getConfig().getBoolean("joinPlayerEnabled"), getConfig().getBoolean("playerJoinDefaultOn"), "PlayerJoin", colorConv.convert(getConfig().getString("testplayerjoin")));
-		adminJoin = new CustomSound("Admin Join", "adminjoin", soundConv.convertSound(getConfig().getInt("joinAdminSound")), (float) getConfig().getDouble("joinAdminPitch"), (float) getConfig().getDouble("joinAdminVolume"), getConfig().getBoolean("joinAdminEnabled"), getConfig().getBoolean("adminJoinDefaultOn"), "AdminJoin", colorConv.convert(getConfig().getString("testadminjoin")));
-		ownerJoin = new CustomSound("Owner Join", "ownerjoin", soundConv.convertSound(getConfig().getInt("joinOwnerSound")), (float) getConfig().getDouble("joinOwnerPitch"), (float) getConfig().getDouble("joinOwnerVolume"), getConfig().getBoolean("joinOwnerEnabled"), getConfig().getBoolean("ownerJoinDefaultOn"), "OwnerJoin", colorConv.convert(getConfig().getString("testownerjoin")));
-		hotbar = new CustomSound("Hotbar", "hotbar", soundConv.convertSound(getConfig().getInt("hotbarSound")), (float) getConfig().getDouble("hotbarPitch"), (float) getConfig().getDouble("hotbarVolume"), getConfig().getBoolean("hotbarEnabled"), getConfig().getBoolean("hotbarDefaultOn"), "Hotbar", colorConv.convert(getConfig().getString("testhotbar")));
+		message = new CustomSound("Private Message", "message", soundConv.convertSound(getConfig().getInt("msgSound")), (float) getConfig().getDouble("msgPitch"), (float) getConfig().getDouble("msgVolume"), getConfig().getBoolean("msgEnabled"), getConfig().getBoolean("msgDefaultOn"), "PrivateMessage", colorConv.convertConfig("testmessage"));
+		broadcast = new CustomSound("Broadcast", "broadcast", soundConv.convertSound(getConfig().getInt("broadcastSound")), (float) getConfig().getDouble("broadcastPitch"), (float) getConfig().getDouble("broadcastVolume"), getConfig().getBoolean("broadcastEnabled"), getConfig().getBoolean("broadcastDefaultOn"), "Broadcast", colorConv.convertConfig("testbroadcast"));
+		playerJoin = new CustomSound("Player Join", "playerjoin", soundConv.convertSound(getConfig().getInt("joinPlayerSound")), (float) getConfig().getDouble("joinPlayerPitch"), (float) getConfig().getDouble("joinPlayerVolume"), getConfig().getBoolean("joinPlayerEnabled"), getConfig().getBoolean("playerJoinDefaultOn"), "PlayerJoin", colorConv.convertConfig("testplayerjoin"));
+		adminJoin = new CustomSound("Admin Join", "adminjoin", soundConv.convertSound(getConfig().getInt("joinAdminSound")), (float) getConfig().getDouble("joinAdminPitch"), (float) getConfig().getDouble("joinAdminVolume"), getConfig().getBoolean("joinAdminEnabled"), getConfig().getBoolean("adminJoinDefaultOn"), "AdminJoin", colorConv.convertConfig("testadminjoin"));
+		ownerJoin = new CustomSound("Owner Join", "ownerjoin", soundConv.convertSound(getConfig().getInt("joinOwnerSound")), (float) getConfig().getDouble("joinOwnerPitch"), (float) getConfig().getDouble("joinOwnerVolume"), getConfig().getBoolean("joinOwnerEnabled"), getConfig().getBoolean("ownerJoinDefaultOn"), "OwnerJoin", colorConv.convertConfig("testownerjoin"));
+		hotbar = new CustomSound("Hotbar", "hotbar", soundConv.convertSound(getConfig().getInt("hotbarSound")), (float) getConfig().getDouble("hotbarPitch"), (float) getConfig().getDouble("hotbarVolume"), getConfig().getBoolean("hotbarEnabled"), getConfig().getBoolean("hotbarDefaultOn"), "Hotbar", colorConv.convertConfig("testhotbar"));
 		soundList.add(message);
 		soundList.add(broadcast);
 		soundList.add(playerJoin);
@@ -292,7 +291,7 @@ public class MessageTones extends JavaPlugin implements Listener {
         // Console
         // ======================
         if (!(sender instanceof Player)) {
-            sender.sendMessage(convertedLang("noconsole"));
+            sender.sendMessage(colorConv.convertConfig("noconsole"));
             return true;
         }
         Player player = (Player) sender;
@@ -412,24 +411,8 @@ public class MessageTones extends JavaPlugin implements Listener {
     }
     
     void printHelp(Player player) {
-        List<String> list = getConfig().getStringList("help");
-        List<String> convertedList = convertedLang(list);
+        List<String> convertedList = colorConv.convertConfigList("help");
         player.sendMessage(convertedList.toArray(new String[convertedList.size()]));
-    }   
-    
-    // =========================
-    // Convert String in Config
-    // =========================
-    String convertedLang(String toConvert) {
-        return ChatColor.translateAlternateColorCodes('&', getConfig().getString(toConvert));
-    }
-    List<String> convertedLang(List<String> toConvert) {
-        List<String> translatedColors = new ArrayList<String>();
-        for (String stringToTranslate: toConvert){
-            translatedColors.add(ChatColor.translateAlternateColorCodes('&',stringToTranslate));
-             
-        }
-        return translatedColors;
     }
     
     // =========================
