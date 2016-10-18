@@ -185,6 +185,11 @@ help:
 - '&b/mt adminjoin &7- Test admin join sound.'
 - '&b/mt playerjoin &7- Test player join sound.'
 - '&b/mt hotbar &7- Test hotbar sound.'
+
+helpHeader: '&e---------- &6MessageTones &e- &6Help &e----------'
+helpFooter: '&e---------------------------------------'
+helpMessage: '&b/mt {COMMAND} &7- {DESCRIPTION}'
+helpToggleMessage: '&b/mt {COMMAND} on/off &7- {DESCRIPTION}'
 toggleMessage: '&b{SOUND} &7is now {STATUS}&7!'
 statusHeader: '&e--------- &6MessageTones &e- &6Status &e---------'
 statusFooter: '&e---------------------------------------'
