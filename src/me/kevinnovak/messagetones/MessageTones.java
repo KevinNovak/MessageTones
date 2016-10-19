@@ -67,9 +67,12 @@ public class MessageTones extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(this, this);
         setVersion();
         
-        // copy config file if not copied already
-        if (getConfig().getBoolean("copied") != true) {
-			copyFile();
+        if (getConfig().isSet("copied")) {
+            if (getConfig().getBoolean("copied") != true) {
+    			copyFile();
+            }
+        } else {
+        	copyFile();
         }
         
         checkProtocolLib();
