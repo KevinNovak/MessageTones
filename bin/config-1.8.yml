@@ -178,25 +178,41 @@ hotbarVolume: 0.2
 # ============================================
 # Help Language
 # ============================================
-helpHeader: '&e---------- &6MessageTones &e- &6Help &e----------'
-helpFooter: '&e---------------------------------------'
+helpHeader: '&e ---- &6MessageTones &e- &6Help &e---------------'
+helpFooter: '&e --------------------------------------'
+# for helpMessage, place the variable "{COMMAND}" where you would like the command name,
+# and place the variable "{INFO}" where you would like the command description/info.
+# default: helpMessage: '&b{COMMAND} &7- {INFO}.'
 helpMessage: '&b{COMMAND} &7- {INFO}.'
-helpPage: '&7Type &6/mt {PAGE} &7for more info.'
-helpNoCommands: '&7You are not allowed to use commands.'
+# for helpPage, place the variable "{PAGE}" where you would like the next page number.
+# default: helpPage: '&7 Type &6/mt {PAGE} &7for more info.'
+helpPage: '&7 Type &6/mt {PAGE} &7for more info.'
+helpNoCommands: '&7 You are not allowed to use commands.'
 
 infoStatus: 'shows your preferences'
+# for infoTestSound, place the variable "{SOUND}" where you would like the sound name.
+# default: infoTestSound: 'plays a test {SOUND} sound'
 infoTestSound: 'plays a test {SOUND} sound'
+# for infoToggleSound, place the variable "{SOUND}" where you would like the sound name.
+# default: infoToggleSound: 'toggles {SOUND} sound'
 infoToggleSound: 'toggles {SOUND} sound'
 
 # ============================================
 # Status Language
 # ============================================
-statusHeader: '&e--------- &6MessageTones &e- &6Status &e---------'
-statusFooter: '&e---------------------------------------'
-statusMessage: '&b{SOUND} &7- {STATUS}'
+statusHeader: '&e ---- &6MessageTones &e- &6Status &e----'
+statusFooter: '&e -----------------------------'
+# for statusMessage, place the variable "{SOUND}" where you would like the sound name,
+# and place the variable "{STATUS}" where you would like the status (ex. On or Off).
+# default: statusMessage: '&b {SOUND} &7- {STATUS}'
+statusMessage: '&b {SOUND} &7- {STATUS}'
 
-toggleMessage: '&b{SOUND} &7is now {STATUS}&7!'
+statusOn: '&aOn'
+statusOff: '&cOff'
 
+# ============================================
+# Sound Names
+# ============================================
 nameMessage: 'Message'
 nameBroadcast: 'Broadcast'
 namePlayerJoin: 'Player Join'
@@ -204,13 +220,16 @@ nameAdminJoin: 'Admin Join'
 nameOwnerJoin: 'Owner Join'
 nameHotbar: 'Hotbar'
 
-statusOn: '&aOn'
-statusOff: '&cOff'
-
 # ============================================
 # Misc Language
 # ============================================
+# for testMessage, place the variable "{SOUND}" where you would like the sound name.
+# default: testMessage: '&7Played a test {SOUND} sound.'
 testMessage: '&7Played a test {SOUND} sound.'
+# for toggleMessage, place the variable "{SOUND}" where you would like the sound name,
+# and place the variable "{STATUS}" where you would like the status (ex. On or Off).
+# default: toggleMessage: '&b{SOUND} &7is now {STATUS}&7!'
+toggleMessage: '&b{SOUND} &7is now {STATUS}&7!'
 
 noConsole: '&cConsole cannot run MessageTones commands!'
 notPermitted: '&cYou are not permitted to do this!'
