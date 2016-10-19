@@ -167,35 +167,42 @@ hotbarPitch: 0.5
 hotbarVolume: 0.2
 
 # ============================================
-# Language
+# Help Language
 # ============================================
-noconsole: '&cConsole cannot run MessageTones commands!'
-notpermitted: '&cYou are not permitted to do this!'
-testmessage: '&7Played test message sound.'
-testbroadcast: '&7Played test broadcast sound.'
-testownerjoin: '&7Played test owner join sound.'
-testadminjoin: '&7Played test admin join sound.'
-testplayerjoin: '&7Played test player join sound.'
-testhotbar: '&7Played test hotbar sound.'
-help:
-- '&e---------- &6MessageTones &e----------'
-- '&b/mt message &7- Test message sound.'
-- '&b/mt broadcast &7- Test broadcast sound.'
-- '&b/mt ownerjoin &7- Test owner join sound.'
-- '&b/mt adminjoin &7- Test admin join sound.'
-- '&b/mt playerjoin &7- Test player join sound.'
-- '&b/mt hotbar &7- Test hotbar sound.'
-
 helpHeader: '&e---------- &6MessageTones &e- &6Help &e----------'
 helpFooter: '&e---------------------------------------'
-helpMessage: '&b/mt {COMMAND} &7- {DESCRIPTION}'
-helpToggleMessage: '&b/mt {COMMAND} on/off &7- {DESCRIPTION}'
-toggleMessage: '&b{SOUND} &7is now {STATUS}&7!'
+helpMessage: '&b{COMMAND} &7- {INFO}.'
+
+infoStatus: 'shows your preferences'
+infoTestSound: 'plays a test {SOUND} sound'
+infoToggleSound: 'toggles {SOUND} sound'
+
+# ============================================
+# Status Language
+# ============================================
 statusHeader: '&e--------- &6MessageTones &e- &6Status &e---------'
 statusFooter: '&e---------------------------------------'
 statusMessage: '&b{SOUND} &7- {STATUS}'
+
+toggleMessage: '&b{SOUND} &7is now {STATUS}&7!'
+
+nameMessage: 'Message'
+nameBroadcast: 'Broadcast'
+namePlayerJoin: 'Player Join'
+nameAdminJoin: 'Admin Join'
+nameOwnerJoin: 'Owner Join'
+nameHotbar: 'Hotbar'
+
 statusOn: '&aOn'
 statusOff: '&cOff'
+
+# ============================================
+# Misc Language
+# ============================================
+testmessage: '&7Played a test {SOUND} sound.'
+
+noconsole: '&cConsole cannot run MessageTones commands!'
+notpermitted: '&cYou are not permitted to do this!'
 
 
 # ============================================

@@ -12,11 +12,14 @@ public class CustomSound {
 	private Boolean enabled;
 	private Boolean defaultOn;
 	private String dataName;
-	private String testMessage;
 	private String statusMessage;
 	private String toggleMessage;
+	private String testMessage;
+	private String helpMessage;
+	private String infoTestSound;
+	private String infoToggleSound;
 	
-	public CustomSound(String friendlyName, String commandName, Sound sound, float pitch, float volume, Boolean enabled, Boolean defaultOn, String dataName, String testMessage, String statusMessage, String toggleMessage) {
+	public CustomSound(String friendlyName, String commandName, Sound sound, float pitch, float volume, Boolean enabled, Boolean defaultOn, String dataName, String testMessage, String statusMessage, String toggleMessage, String helpMessage, String infoTestSound, String infoToggleSound) {
 		this.friendlyName = friendlyName;
 		this.commandName = commandName;
 		this.sound = sound;
@@ -28,6 +31,9 @@ public class CustomSound {
 		this.testMessage = testMessage;
 		this.statusMessage = statusMessage;
 		this.toggleMessage = toggleMessage;
+		this.helpMessage = helpMessage;
+		this.infoTestSound = infoTestSound;
+		this.infoToggleSound = infoToggleSound;
 	}
 	
 	public String getFriendlyName() {
@@ -57,9 +63,14 @@ public class CustomSound {
 	public void playSound(Player player) {
 		player.playSound(player.getLocation(), sound, volume, pitch);
 	}
-	
+	public void printHelpTestMessage(Player player) {
+		player.sendMessage(helpMessage.replace("{COMMAND}", "/mt " + commandName).replace("{INFO}", infoTestSound).replace("{SOUND}", friendlyName));
+	}
+	public void printHelpToggleMessage(Player player) {
+		player.sendMessage(helpMessage.replace("{COMMAND}", "/mt " + commandName + " [on/off]").replace("{INFO}", infoToggleSound).replace("{SOUND}", friendlyName));
+	}
 	public void printTestMessage(Player player) {
-		player.sendMessage(testMessage);
+		player.sendMessage(testMessage.replace("{SOUND}", friendlyName));
 	}
 	
 	public void printToggleMessage(Player player, String toggledStatus) {
