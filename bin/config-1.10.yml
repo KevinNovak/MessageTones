@@ -664,8 +664,8 @@ notPermitted: '&cYou are not permitted to do this!'
 # 446 - MUSIC_GAME
 # 447 - MUSIC_MENU
 # 448 - MUSIC_NETHER
-# 449 - RECORD_11 -
-# 450 - RECORD_13 -
+# 449 - RECORD_11
+# 450 - RECORD_13
 # 451 - RECORD_BLOCKS
 # 452 - RECORD_CAT
 # 453 - RECORD_CHIRP

@@ -34,6 +34,10 @@ metrics: true
 # default: msgEnabled: true
 msgEnabled: true
 
+# Should private messages sounds should be "On" for new players?
+# default: msgDefaultOn: true
+msgDefaultOn: true
+
 # Recommended Sounds: 26 (ITEM_PICKUP), 38 (NOTE_PLING), 8 (BURP)
 # default: msgSound: 26
 msgSound: 26
@@ -58,6 +62,10 @@ msgTrigger: ' -> me]'
 # default: broadcastEnabled: true
 broadcastEnabled: true
 
+# Should broadcast sounds be "On" for new players?
+# default: msgDefaultOn: true
+broadcastDefaultOn: true
+
 # Recommended Sounds: 161 (FIREWORK_LARGE_BLAST), 3 (AMBIENCE_THUNDER)
 # default: broadcastSound: 161
 broadcastSound: 161
@@ -73,11 +81,24 @@ broadcastVolume: 1.0
 broadcastCommand: 'broadcast'
 
 # ============================================
+# Joining
+# ============================================
+# The time in milliseconds to wait after a 
+# player login before playing a sound.
+# Useful to prevent sound glitches.
+# default: delaySoundAfterJoin: 500
+delaySoundAfterJoin: 500
+
+# ============================================
 # Player Joins
 # ============================================
 # Whether to play a sound when normal players join.
 # default: joinPlayerEnabled: false
-joinPlayerEnabled: false
+joinPlayerEnabled: true
+
+# Should player join sounds should be "On" for new players?
+# default: joinPlayerDefaultOn: true
+joinPlayerDefaultOn: true
 
 # Recommended Sounds: 13 (DOOR_OPEN)
 # default: joinPlayerSound: 13
@@ -95,7 +116,11 @@ joinPlayerVolume: 0.5
 # Whether to play a sound when an admin joins.
 # Admin must have the messagetones.admin permission.
 # default: joinAdminEnabled: false
-joinAdminEnabled: false
+joinAdminEnabled: true
+
+# Should admin join sounds should be "On" for new players?
+# default: joinAdminDefaultOn: true
+joinAdminDefaultOn: true
 
 # Recommended Sounds: 163 (FIREWORK_TWINKLE)
 # default: joinAdminSound: 163
@@ -113,7 +138,11 @@ joinAdminVolume: 0.5
 # Whether to play a sound when an owner joins.
 # Owner must have the messagetones.owner permission.
 # default: joinOwnerEnabled: false
-joinOwnerEnabled: false
+joinOwnerEnabled: true
+
+# Should owner join sounds should be "On" for new players?
+# default: joinOwnerDefaultOn: true
+joinOwnerDefaultOn: true
 
 # Recommended Sounds: 29 (LEVEL_UP)
 # default: joinOwnerSound: 29
@@ -132,6 +161,10 @@ joinOwnerVolume: 0.5
 # default: hotbarEnabled: false
 hotbarEnabled: false
 
+# Should hotbar sounds should be "On" for new players?
+# default: hotbarDefaultOn: true
+hotbarDefaultOn: true
+
 # Recommended Sounds: 26 (ITEM_PICKUP)
 # default: hotbarSound: 26
 hotbarSound: 26
@@ -143,24 +176,42 @@ hotbarPitch: 0.5
 hotbarVolume: 0.2
 
 # ============================================
-# Language
+# Help Language
 # ============================================
-noconsole: '&cConsole cannot run MessageTones commands!'
-noargs: '&cPlease type a sound to test!'
-testmessage: '&7Played test message sound.'
-testbroadcast: '&7Played test broadcast sound.'
-testownerjoin: '&7Played test owner join sound.'
-testadminjoin: '&7Played test admin join sound.'
-testplayerjoin: '&7Played test player join sound.'
-testhotbar: '&7Played test hotbar sound.'
-help:
-- '&e---------- &6MessageTones &e----------'
-- '&b/mt message &7- Test message sound.'
-- '&b/mt broadcast &7- Test broadcast sound.'
-- '&b/mt ownerjoin &7- Test owner join sound.'
-- '&b/mt adminjoin &7- Test admin join sound.'
-- '&b/mt playerjoin &7- Test player join sound.'
-- '&b/mt hotbar &7- Test hotbar sound.'
+helpHeader: '&e---------- &6MessageTones &e- &6Help &e----------'
+helpFooter: '&e---------------------------------------'
+helpMessage: '&b{COMMAND} &7- {INFO}.'
+
+infoStatus: 'shows your preferences'
+infoTestSound: 'plays a test {SOUND} sound'
+infoToggleSound: 'toggles {SOUND} sound'
+
+# ============================================
+# Status Language
+# ============================================
+statusHeader: '&e--------- &6MessageTones &e- &6Status &e---------'
+statusFooter: '&e---------------------------------------'
+statusMessage: '&b{SOUND} &7- {STATUS}'
+
+toggleMessage: '&b{SOUND} &7is now {STATUS}&7!'
+
+nameMessage: 'Message'
+nameBroadcast: 'Broadcast'
+namePlayerJoin: 'Player Join'
+nameAdminJoin: 'Admin Join'
+nameOwnerJoin: 'Owner Join'
+nameHotbar: 'Hotbar'
+
+statusOn: '&aOn'
+statusOff: '&cOff'
+
+# ============================================
+# Misc Language
+# ============================================
+testMessage: '&7Played a test {SOUND} sound.'
+
+noConsole: '&cConsole cannot run MessageTones commands!'
+notPermitted: '&cYou are not permitted to do this!'
 
 # ============================================
 # Minecraft 1.8 - Sound IDs
@@ -211,7 +262,7 @@ help:
 # 44 - PORTAL_TRIGGER
 # 45 - SHOOT_ARROW
 # 46 - SPLASH
-# 47 - SPLASH# 2
+# 47 - SPLASH2
 # 48 - STEP_GRASS
 # 49 - STEP_GRAVEL
 # 50 - STEP_LADDER
@@ -256,7 +307,7 @@ help:
 # 89 - ENDERMAN_SCREAM
 # 90 - ENDERMAN_STARE
 # 91 - GHAST_SCREAM
-# 92 - GHAST_SCREAM# 2
+# 92 - GHAST_SCREAM2
 # 93 - GHAST_CHARGE
 # 94 - GHAST_DEATH
 # 95 - GHAST_FIREBALL
@@ -266,7 +317,7 @@ help:
 # 99 - IRONGOLEM_THROW
 # 100 - IRONGOLEM_WALK
 # 101 - MAGMACUBE_WALK
-# 102 - MAGMACUBE_WALK# 2
+# 102 - MAGMACUBE_WALK_2
 # 103 - MAGMACUBE_JUMP
 # 104 - PIG_IDLE
 # 105 - PIG_DEATH
@@ -284,7 +335,7 @@ help:
 # 117 - SKELETON_WALK
 # 118 - SLIME_ATTACK
 # 119 - SLIME_WALK
-# 120 - SLIME_WALK# 2
+# 120 - SLIME_WALK2
 # 121 - SPIDER_IDLE
 # 122 - SPIDER_DEATH
 # 123 - SPIDER_WALK
@@ -324,11 +375,11 @@ help:
 # 157 - DIG_STONE
 # 158 - DIG_WOOD
 # 159 - FIREWORK_BLAST
-# 160 - FIREWORK_BLAST# 2
+# 160 - FIREWORK_BLAST2
 # 161 - FIREWORK_LARGE_BLAST
-# 162 - FIREWORK_LARGE_BLAST# 2
+# 162 - FIREWORK_LARGE_BLAST2
 # 163 - FIREWORK_TWINKLE
-# 164 - FIREWORK_TWINKLE# 2
+# 164 - FIREWORK_TWINKLE2
 # 165 - FIREWORK_LAUNCH
 # 166 - SUCCESSFUL_HIT
 # 167 - HORSE_ANGRY

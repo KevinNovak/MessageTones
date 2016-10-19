@@ -34,6 +34,10 @@ metrics: true
 # default: msgEnabled: true
 msgEnabled: true
 
+# Should private messages sounds should be "On" for new players?
+# default: msgDefaultOn: true
+msgDefaultOn: true
+
 # Recommended Sounds: 259 (ENTITY_ITEM_PICKUP), 72 (BLOCK_NOTE_PLING), 290 (ENTITY_PLAYER_BURP)
 # default: msgSound: 259
 msgSound: 259
@@ -58,6 +62,10 @@ msgTrigger: ' -> me]'
 # default: broadcastEnabled: true
 broadcastEnabled: true
 
+# Should broadcast sounds be "On" for new players?
+# default: msgDefaultOn: true
+broadcastDefaultOn: true
+
 # Recommended Sounds: 199 (ENTITY_FIREWORK_LARGE_BLAST), 263 (ENTITY_LIGHTNING_THUNDER)
 # default: broadcastSound: 199
 broadcastSound: 199
@@ -73,11 +81,24 @@ broadcastVolume: 1.0
 broadcastCommand: 'broadcast'
 
 # ============================================
+# Joining
+# ============================================
+# The time in milliseconds to wait after a 
+# player login before playing a sound.
+# Useful to prevent sound glitches.
+# default: delaySoundAfterJoin: 500
+delaySoundAfterJoin: 500
+
+# ============================================
 # Player Joins
 # ============================================
 # Whether to play a sound when normal players join.
 # default: joinPlayerEnabled: false
-joinPlayerEnabled: false
+joinPlayerEnabled: true
+
+# Should player join sounds should be "On" for new players?
+# default: joinPlayerDefaultOn: true
+joinPlayerDefaultOn: true
 
 # Recommended Sounds: 111 (BLOCK_WOODEN_DOOR_OPEN)
 # default: joinPlayerSound: 111
@@ -95,7 +116,11 @@ joinPlayerVolume: 0.5
 # Whether to play a sound when an admin joins.
 # Admin must have the messagetones.admin permission.
 # default: joinAdminEnabled: false
-joinAdminEnabled: false
+joinAdminEnabled: true
+
+# Should admin join sounds should be "On" for new players?
+# default: joinAdminDefaultOn: true
+joinAdminDefaultOn: true
 
 # Recommended Sounds: 203 (ENTITY_FIREWORK_TWINKLE)
 # default: joinAdminSound: 203
@@ -113,7 +138,11 @@ joinAdminVolume: 0.5
 # Whether to play a sound when an owner joins.
 # Owner must have the messagetones.owner permission.
 # default: joinOwnerEnabled: false
-joinOwnerEnabled: false
+joinOwnerEnabled: true
+
+# Should owner join sounds should be "On" for new players?
+# default: joinOwnerDefaultOn: true
+joinOwnerDefaultOn: true
 
 # Recommended Sounds: 293 (ENTITY_PLAYER_LEVELUP)
 # default: joinOwnerSound: 293
@@ -132,6 +161,10 @@ joinOwnerVolume: 0.5
 # default: hotbarEnabled: false
 hotbarEnabled: false
 
+# Should hotbar sounds should be "On" for new players?
+# default: hotbarDefaultOn: true
+hotbarDefaultOn: true
+
 # Recommended Sounds: 259 (ENTITY_ITEM_PICKUP)
 # default: hotbarSound: 259
 hotbarSound: 259
@@ -143,24 +176,42 @@ hotbarPitch: 0.5
 hotbarVolume: 0.2
 
 # ============================================
-# Language
+# Help Language
 # ============================================
-noconsole: '&cConsole cannot run MessageTones commands!'
-noargs: '&cPlease type a sound to test!'
-testmessage: '&7Played test message sound.'
-testbroadcast: '&7Played test broadcast sound.'
-testownerjoin: '&7Played test owner join sound.'
-testadminjoin: '&7Played test admin join sound.'
-testplayerjoin: '&7Played test player join sound.'
-testhotbar: '&7Played test hotbar sound.'
-help:
-- '&e---------- &6MessageTones &e----------'
-- '&b/mt message &7- Test message sound.'
-- '&b/mt broadcast &7- Test broadcast sound.'
-- '&b/mt ownerjoin &7- Test owner join sound.'
-- '&b/mt adminjoin &7- Test admin join sound.'
-- '&b/mt playerjoin &7- Test player join sound.'
-- '&b/mt hotbar &7- Test hotbar sound.'
+helpHeader: '&e---------- &6MessageTones &e- &6Help &e----------'
+helpFooter: '&e---------------------------------------'
+helpMessage: '&b{COMMAND} &7- {INFO}.'
+
+infoStatus: 'shows your preferences'
+infoTestSound: 'plays a test {SOUND} sound'
+infoToggleSound: 'toggles {SOUND} sound'
+
+# ============================================
+# Status Language
+# ============================================
+statusHeader: '&e--------- &6MessageTones &e- &6Status &e---------'
+statusFooter: '&e---------------------------------------'
+statusMessage: '&b{SOUND} &7- {STATUS}'
+
+toggleMessage: '&b{SOUND} &7is now {STATUS}&7!'
+
+nameMessage: 'Message'
+nameBroadcast: 'Broadcast'
+namePlayerJoin: 'Player Join'
+nameAdminJoin: 'Admin Join'
+nameOwnerJoin: 'Owner Join'
+nameHotbar: 'Hotbar'
+
+statusOn: '&aOn'
+statusOff: '&cOff'
+
+# ============================================
+# Misc Language
+# ============================================
+testMessage: '&7Played a test {SOUND} sound.'
+
+noConsole: '&cConsole cannot run MessageTones commands!'
+notPermitted: '&cYou are not permitted to do this!'
 
 # ============================================
 # Minecraft 1.9 - Sound IDs
@@ -594,8 +645,8 @@ help:
 # 427 - MUSIC_GAME
 # 428 - MUSIC_MENU
 # 429 - MUSIC_NETHER
-# 430 - RECORD_# 11
-# 431 - RECORD_# 13
+# 430 - RECORD_11
+# 431 - RECORD_13
 # 432 - RECORD_BLOCKS
 # 433 - RECORD_CAT
 # 434 - RECORD_CHIRP
