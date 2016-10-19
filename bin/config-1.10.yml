@@ -213,7 +213,6 @@ testMessage: '&7Played a test {SOUND} sound.'
 noConsole: '&cConsole cannot run MessageTones commands!'
 notPermitted: '&cYou are not permitted to do this!'
 
-
 # ============================================
 # Minecraft 1.10 - Sound IDs
 # ============================================
