@@ -45,7 +45,7 @@ public class MessageTones extends JavaPlugin implements Listener {
     
     // Create a sound converter
     ConvertSound soundConv = new ConvertSound();
-    ColorConverter colorConv = new ColorConverter(getConfig());
+    ColorConverter colorConv = new ColorConverter(this);
     
     ArrayList<CustomSound> soundList = new ArrayList<CustomSound>();
     CustomSound message = null;
