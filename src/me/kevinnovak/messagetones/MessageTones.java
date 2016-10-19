@@ -253,7 +253,7 @@ public class MessageTones extends JavaPlugin implements Listener {
                                         ownerJoin.playSound(player);
                     	            }
                     	        }, 
-                    	        1000 
+                    	        getConfig().getInt("delaySoundAfterJoin") 
                     	);
                     }
                 }
@@ -271,7 +271,7 @@ public class MessageTones extends JavaPlugin implements Listener {
                     	            	adminJoin.playSound(player);
                     	            }
                     	        }, 
-                    	        1000 
+                    	        getConfig().getInt("delaySoundAfterJoin") 
                     	);
                     }
                 }
@@ -288,7 +288,7 @@ public class MessageTones extends JavaPlugin implements Listener {
                                     playerJoin.playSound(player);
                 	            }
                 	        }, 
-                	        1000 
+                	        getConfig().getInt("delaySoundAfterJoin") 
                 	);
                 }
             }

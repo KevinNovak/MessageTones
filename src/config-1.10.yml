@@ -81,6 +81,15 @@ broadcastVolume: 1.0
 broadcastCommand: 'broadcast'
 
 # ============================================
+# Joining
+# ============================================
+# The time in milliseconds to wait after a 
+# player login before playing a sound.
+# Useful to prevent sound glitches.
+# default: delaySoundAfterJoin: 500
+delaySoundAfterJoin: 500
+
+# ============================================
 # Player Joins
 # ============================================
 # Whether to play a sound when normal players join.
