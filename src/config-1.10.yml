@@ -199,10 +199,10 @@ statusOff: '&cOff'
 # ============================================
 # Misc Language
 # ============================================
-testmessage: '&7Played a test {SOUND} sound.'
+testMessage: '&7Played a test {SOUND} sound.'
 
-noconsole: '&cConsole cannot run MessageTones commands!'
-notpermitted: '&cYou are not permitted to do this!'
+noConsole: '&cConsole cannot run MessageTones commands!'
+notPermitted: '&cYou are not permitted to do this!'
 
 
 # ============================================
