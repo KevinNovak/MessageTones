@@ -437,8 +437,12 @@ public class MessageTones extends JavaPlugin implements Listener {
     // ======================
     @Override
     public List<String> onTabComplete(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-        if (cmd.getName().equalsIgnoreCase("mt")) {
-            
+    	if (!(sender instanceof Player)) {
+    		return null;
+        }
+    	Player player = (Player) sender;
+    	
+    	if (cmd.getName().equalsIgnoreCase("mt")) {
             ArrayList<String> autocomplete = new ArrayList<String>();
             autocomplete.add("status");
             for (CustomSound sound : soundList) {
@@ -457,9 +461,21 @@ public class MessageTones extends JavaPlugin implements Listener {
                     }
                 }
                 return toReturn;
-            }
-            
+            }   
         }
+    	
+    	ArrayList<String> toReturn = new ArrayList<String>();
+     	for (CustomSound sound : soundList) {
+     		if (sound.getCommandName().equalsIgnoreCase(args[0])) {
+     			if (sound.isEnabled()) {
+     				if (player.hasPermission(sound.getTogglePerm())) {
+     					toReturn.add("on");
+     					toReturn.add("off");
+     					return toReturn;
+     				}
+     			}
+     		}
+     	}
         return null;
     }
     
