@@ -329,8 +329,18 @@ public class MessageTones extends JavaPlugin implements Listener {
         // ======================
         if (cmd.getName().equalsIgnoreCase("mt")) {
             if (args.length == 0) {
-                printHelp(player);
+                printHelp(player, 1);
             } else if (args.length == 1) {
+            	int test = 0;
+            	try {
+            		test = Integer.parseInt(args[0]);
+            	} catch (NumberFormatException nfe) {
+            		test = 0;
+            	}
+            	if (test > 0) {
+            		printHelp(player, test);
+            		return true;
+            	}
             	boolean playedSound = false;
             	for (CustomSound sound : soundList) {
             		if (sound.isEnabled()) {
@@ -345,7 +355,7 @@ public class MessageTones extends JavaPlugin implements Listener {
             		if (args[0].equalsIgnoreCase("status")) {
             			printStatus(player);
             		} else {
-                		printHelp(player);
+                		printHelp(player, 1);
             		}
             	}
             } else if (args.length == 2) {
@@ -384,10 +394,10 @@ public class MessageTones extends JavaPlugin implements Listener {
             		}
             	}
             	if (toggledSound != true) {
-            		printHelp(player);
+            		printHelp(player, 1);
             	}
             } else {
-            	printHelp(player);
+            	printHelp(player, 1);
             }
         }
         return true;
@@ -421,7 +431,7 @@ public class MessageTones extends JavaPlugin implements Listener {
 		return false;
     }
     
-    void printHelp(Player player) {
+    void printHelp(Player player, int page) {
     	ArrayList<String> lines = new ArrayList<String>();
     	lines.add(colorConv.convertConfig("helpMessage").replace("{COMMAND}", "/mt status").replace("{INFO}", colorConv.convertConfig("infoStatus")));
     	for (CustomSound sound : soundList) {
@@ -433,7 +443,7 @@ public class MessageTones extends JavaPlugin implements Listener {
     		}
     	}
     	CommandHelp commandHelp = new CommandHelp(player, lines, colorConv.convertConfig("helpHeader"), colorConv.convertConfig("helpFooter"), colorConv.convertConfig("helpPage"), colorConv.convertConfig("helpNoCommands"));
-    	commandHelp.print(1);
+    	commandHelp.print(page);
     }
 
 	// ======================
