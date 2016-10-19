@@ -422,17 +422,18 @@ public class MessageTones extends JavaPlugin implements Listener {
     }
     
     void printHelp(Player player) {
-    	player.sendMessage(colorConv.convertConfig("helpHeader"));
-    	player.sendMessage(colorConv.convertConfig("helpMessage").replace("{COMMAND}", "/mt status").replace("{INFO}", colorConv.convertConfig("infoStatus")));
+    	ArrayList<String> lines = new ArrayList<String>();
+    	lines.add(colorConv.convertConfig("helpMessage").replace("{COMMAND}", "/mt status").replace("{INFO}", colorConv.convertConfig("infoStatus")));
     	for (CustomSound sound : soundList) {
     		if (sound.isEnabled()) {
-    			sound.printHelpTestMessage(player);
+    			lines.add(sound.getHelpTestMessage());
         		if (player.hasPermission(sound.getTogglePerm())) {
-        			sound.printHelpToggleMessage(player);
+        			lines.add(sound.getHelpToggleMessage());
         		}
     		}
     	}
-    	player.sendMessage(colorConv.convertConfig("helpFooter"));
+    	CommandHelp commandHelp = new CommandHelp(player, lines, colorConv.convertConfig("helpHeader"), colorConv.convertConfig("helpFooter"), colorConv.convertConfig("helpPage"), colorConv.convertConfig("helpNoCommands"));
+    	commandHelp.print(1);
     }
 
 	// ======================

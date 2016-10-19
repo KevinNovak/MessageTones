@@ -1,47 +1,42 @@
 package me.kevinnovak.messagetones;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 
 import org.bukkit.entity.Player;
 
 public class CommandHelp {
 	private ArrayList<String> lines = new ArrayList<String>();
 	private Player player = null;
-	private ColorConverter colorConv = null;
-	private LinkedHashMap<String, String> permissionDesc = null;
+	private String header = "";
+	private String footer = "";
+	private String pageLine = "";
+	private String noLines = "";
 	
-	public CommandHelp(Player player, ColorConverter colorConv, LinkedHashMap<String, String> permissionDesc) {
+	public CommandHelp(Player player, ArrayList<String> lines, String header, String footer, String pageLine, String noLines) {
 		this.player = player;
-		this.colorConv = colorConv;
-		this.permissionDesc = permissionDesc;
-	}
-	
-	private void evaluate() {
-		for (String permission : permissionDesc.keySet()) {
-			if (player.hasPermission(permission)) {
-				lines.add(colorConv.convertConfig(permissionDesc.get(permission)));
-			}
-		}
+		this.lines = lines;
+		this.header = header;
+		this.footer = footer;
+		this.pageLine = pageLine;
+		this.noLines = noLines;
 	}
 	
 	public void print(int pageNum) {
-		this.evaluate();
 		if (pageNum > Math.ceil((double)lines.size()/7)) {
 			pageNum = 1;
 		}
-		player.sendMessage(colorConv.convert(colorConv.convertConfig("helpHeader")));
+		player.sendMessage(header);
 		if (!lines.isEmpty()) {
 			for (int i=7*(pageNum-1); i<lines.size() && i<(7*pageNum); i++) {
-				player.sendMessage(colorConv.convert(lines.get(i)));
+				player.sendMessage(lines.get(i));
 			}
 			if (lines.size() > 7*pageNum) {
 				int nextPageNum = pageNum + 1;
-				player.sendMessage(colorConv.convertConfig("helpPage").replace("{PAGE}", Integer.toString(nextPageNum)));
+				player.sendMessage(pageLine.replace("{PAGE}", Integer.toString(nextPageNum)));
 			}
 		} else {
-			player.sendMessage(colorConv.convertConfig("helpNoCommands"));
+			player.sendMessage(noLines);
 		}
-		player.sendMessage(colorConv.convert(colorConv.convertConfig("helpFooter")));
+		player.sendMessage(footer);
 	}
 }

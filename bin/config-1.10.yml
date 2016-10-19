@@ -181,6 +181,8 @@ hotbarVolume: 0.2
 helpHeader: '&e---------- &6MessageTones &e- &6Help &e----------'
 helpFooter: '&e---------------------------------------'
 helpMessage: '&b{COMMAND} &7- {INFO}.'
+helpPage: '&7Type &6/mt {PAGE} &7for more info.'
+helpNoCommands: '&7You are not allowed to use commands.'
 
 infoStatus: 'shows your preferences'
 infoTestSound: 'plays a test {SOUND} sound'

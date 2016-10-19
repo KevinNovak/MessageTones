@@ -63,11 +63,11 @@ public class CustomSound {
 	public void playSound(Player player) {
 		player.playSound(player.getLocation(), sound, volume, pitch);
 	}
-	public void printHelpTestMessage(Player player) {
-		player.sendMessage(helpMessage.replace("{COMMAND}", "/mt " + commandName).replace("{INFO}", infoTestSound).replace("{SOUND}", friendlyName));
+	public String getHelpTestMessage() {
+		return helpMessage.replace("{COMMAND}", "/mt " + commandName).replace("{INFO}", infoTestSound).replace("{SOUND}", friendlyName);
 	}
-	public void printHelpToggleMessage(Player player) {
-		player.sendMessage(helpMessage.replace("{COMMAND}", "/mt " + commandName + " [on/off]").replace("{INFO}", infoToggleSound).replace("{SOUND}", friendlyName));
+	public String getHelpToggleMessage() {
+		return helpMessage.replace("{COMMAND}", "/mt " + commandName + " [on/off]").replace("{INFO}", infoToggleSound).replace("{SOUND}", friendlyName);
 	}
 	public void printTestMessage(Player player) {
 		player.sendMessage(testMessage.replace("{SOUND}", friendlyName));
