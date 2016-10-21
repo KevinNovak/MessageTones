@@ -9,7 +9,7 @@ commands:
     mt:
         usage: /<command>
         description: Lists MessageTones commands.
-        aliases: [messagetones, messagetone, tone]
+        aliases: [messagetones]
         
 permissions:
     messagetones.broadcast:

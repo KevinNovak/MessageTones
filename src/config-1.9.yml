@@ -34,7 +34,7 @@ metrics: true
 # default: msgEnabled: true
 msgEnabled: true
 
-# Should private messages sounds should be "On" for new players?
+# Should private message sounds be "On" for new players?
 # default: msgDefaultOn: true
 msgDefaultOn: true
 
@@ -190,12 +190,9 @@ helpPage: '&7 Type &6/mt {PAGE} &7for more info.'
 helpNoCommands: '&7 You are not allowed to use commands.'
 
 infoStatus: 'shows your preferences'
-# for infoTestSound, place the variable "{SOUND}" where you would like the sound name.
-# default: infoTestSound: 'plays a test {SOUND} sound'
-infoTestSound: 'plays a test {SOUND} sound'
-# for infoToggleSound, place the variable "{SOUND}" where you would like the sound name.
-# default: infoToggleSound: 'toggles {SOUND} sound'
-infoToggleSound: 'toggles {SOUND} sound'
+infoList: 'lists available sounds'
+infoTestSound: 'plays a test sound'
+infoToggleSound: 'toggles sound'
 
 # ============================================
 # Status Language
@@ -209,6 +206,13 @@ statusMessage: '&b {SOUND} &7- {STATUS}'
 
 statusOn: '&aOn'
 statusOff: '&cOff'
+
+# ============================================
+# List Language
+# ============================================
+listSound: '&6Sounds&7: &b{SOUNDS}'
+listToggle: '&6Toggle&7: &b{SOUNDS}'
+listSeparater: ', '
 
 # ============================================
 # Sound Names

@@ -354,7 +354,9 @@ public class MessageTones extends JavaPlugin implements Listener {
             	if (playedSound != true) {
             		if (args[0].equalsIgnoreCase("status")) {
             			printStatus(player);
-            		} else {
+            		} else if (args[0].equalsIgnoreCase("list")) {
+                		printSoundList(player);
+                	} else {
                 		printHelp(player, 1);
             		}
             	}
@@ -431,17 +433,51 @@ public class MessageTones extends JavaPlugin implements Listener {
 		return false;
     }
     
+    void printSoundList(Player player) {
+    	String enabledList = "";
+    	String toggleList = "";
+    	String listSeparator = colorConv.convertConfig("listSeparater");
+    	int enabledNum = 0;
+    	int toggleNum = 0;
+    	for (CustomSound sound : soundList) {
+    		if(sound.isEnabled()) {
+    			enabledNum ++;
+    			enabledList += sound.getCommandName() + listSeparator;
+    			if (player.hasPermission(sound.getTogglePerm())) {
+    				toggleNum++;
+    				toggleList += sound.getCommandName() + listSeparator;
+    			}
+    		}
+    	}
+    	if (enabledNum > 0) {
+    		enabledList = enabledList.substring(0, enabledList.length() - listSeparator.length());
+    		String enabled = colorConv.convertConfig("listSound").replace("{SOUNDS}", enabledList);
+        	player.sendMessage(enabled);
+    	}
+    	if (toggleNum > 0) {
+    		toggleList = toggleList.substring(0, toggleList.length() - listSeparator.length());
+        	String toggle = colorConv.convertConfig("listToggle").replace("{SOUNDS}", toggleList);
+    		player.sendMessage(toggle);
+    	}
+    }
+    
     void printHelp(Player player, int page) {
     	ArrayList<String> lines = new ArrayList<String>();
     	lines.add(colorConv.convertConfig("helpMessage").replace("{COMMAND}", "/mt status").replace("{INFO}", colorConv.convertConfig("infoStatus")));
+    	lines.add(colorConv.convertConfig("helpMessage").replace("{COMMAND}", "/mt list").replace("{INFO}", colorConv.convertConfig("infoList")));
+    	lines.add(colorConv.convertConfig("helpMessage").replace("{COMMAND}", "/mt [sound]").replace("{INFO}", colorConv.convertConfig("infoTestSound")));
+    	boolean hasTogglePerm = false;
     	for (CustomSound sound : soundList) {
     		if (sound.isEnabled()) {
-    			lines.add(sound.getHelpTestMessage());
         		if (player.hasPermission(sound.getTogglePerm())) {
-        			lines.add(sound.getHelpToggleMessage());
+        			hasTogglePerm = true;
         		}
     		}
     	}
+    	if (hasTogglePerm) {
+    		lines.add(colorConv.convertConfig("helpMessage").replace("{COMMAND}", "/mt [sound] [on/off]").replace("{INFO}", colorConv.convertConfig("infoToggleSound")));
+    	}
+    	
     	CommandHelp commandHelp = new CommandHelp(player, lines, colorConv.convertConfig("helpHeader"), colorConv.convertConfig("helpFooter"), colorConv.convertConfig("helpPage"), colorConv.convertConfig("helpNoCommands"));
     	commandHelp.print(page);
     }
@@ -459,6 +495,7 @@ public class MessageTones extends JavaPlugin implements Listener {
     	if (cmd.getName().equalsIgnoreCase("mt")) {
             ArrayList<String> autocomplete = new ArrayList<String>();
             autocomplete.add("status");
+            autocomplete.add("list");
             for (CustomSound sound : soundList) {
             	if (sound.isEnabled()) {
             		autocomplete.add(sound.getCommandName());
