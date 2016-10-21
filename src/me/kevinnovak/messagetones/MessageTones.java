@@ -463,6 +463,7 @@ public class MessageTones extends JavaPlugin implements Listener {
     
     void printHelp(Player player, int page) {
     	ArrayList<String> lines = new ArrayList<String>();
+    	lines.add(colorConv.convertConfig("helpMessage").replace("{COMMAND}", "/mt").replace("{INFO}", colorConv.convertConfig("infoHelp")));
     	lines.add(colorConv.convertConfig("helpMessage").replace("{COMMAND}", "/mt status").replace("{INFO}", colorConv.convertConfig("infoStatus")));
     	lines.add(colorConv.convertConfig("helpMessage").replace("{COMMAND}", "/mt list").replace("{INFO}", colorConv.convertConfig("infoList")));
     	lines.add(colorConv.convertConfig("helpMessage").replace("{COMMAND}", "/mt [sound]").replace("{INFO}", colorConv.convertConfig("infoTestSound")));
