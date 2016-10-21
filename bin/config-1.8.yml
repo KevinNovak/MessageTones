@@ -189,6 +189,7 @@ helpMessage: '&b{COMMAND} &7- {INFO}.'
 helpPage: '&7 Type &6/mt {PAGE} &7for more info.'
 helpNoCommands: '&7 You are not allowed to use commands.'
 
+infoHelp: 'lists all commands'
 infoStatus: 'shows your preferences'
 infoList: 'lists available sounds'
 infoTestSound: 'plays a test sound'
@@ -212,7 +213,7 @@ statusOff: '&cOff'
 # ============================================
 listSound: '&6Sounds&7: &b{SOUNDS}'
 listToggle: '&6Toggle&7: &b{SOUNDS}'
-listSeparater: ', '
+listSeparater: '&7, &b'
 
 # ============================================
 # Sound Names
