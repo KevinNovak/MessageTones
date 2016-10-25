@@ -247,7 +247,7 @@ public class MessageTones extends JavaPlugin implements Listener {
     public void playerJoin(PlayerJoinEvent event) throws InterruptedException {
         if (ownerJoin.isEnabled()) {
             if (event.getPlayer().hasPermission("messagetones.owner")) {
-                for (Player player: Bukkit.getOnlinePlayers()) {
+                for (final Player player: Bukkit.getOnlinePlayers()) {
                     if (shouldPlaySound(player, ownerJoin)) {
                     	new java.util.Timer().schedule( 
                     	        new java.util.TimerTask() {
@@ -265,7 +265,7 @@ public class MessageTones extends JavaPlugin implements Listener {
         }
         if (adminJoin.isEnabled()) {
             if (event.getPlayer().hasPermission("messagetones.admin")) {
-                for (Player player: Bukkit.getOnlinePlayers()) {
+                for (final Player player: Bukkit.getOnlinePlayers()) {
                     if (shouldPlaySound(player, adminJoin)) {
                     	new java.util.Timer().schedule( 
                     	        new java.util.TimerTask() {
@@ -282,7 +282,7 @@ public class MessageTones extends JavaPlugin implements Listener {
             }
         }
         if (playerJoin.isEnabled()) {
-            for (Player player: Bukkit.getOnlinePlayers()) {
+            for (final Player player: Bukkit.getOnlinePlayers()) {
                 if (shouldPlaySound(player, playerJoin)) {
                 	new java.util.Timer().schedule( 
                 	        new java.util.TimerTask() {
