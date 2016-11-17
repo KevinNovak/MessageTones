@@ -102,7 +102,7 @@ public class MessageTones extends JavaPlugin implements Listener {
     // =========================
 	private void setVersion() {
         String fullVersion = Bukkit.getServer().getVersion();
-        Pattern versionPattern = Pattern.compile("\\d[.](\\d{1,2})[.]\\d{1,2}");
+        Pattern versionPattern = Pattern.compile("MC: \\d[.](\\d{1,2})");
         Matcher versionMatcher = versionPattern.matcher(fullVersion);
         if (versionMatcher.find()) {
             try{
@@ -125,9 +125,12 @@ public class MessageTones extends JavaPlugin implements Listener {
     	} else if (version == 9) {
     		in = getClass().getResourceAsStream("/config-1.9.yml");
     		Bukkit.getServer().getLogger().info("[MessageTones] Creating config.yml for Minecraft 1.9");
-    	} else {
+    	} else if (version == 10) {
     		in = getClass().getResourceAsStream("/config-1.10.yml");
     		Bukkit.getServer().getLogger().info("[MessageTones] Creating config.yml for Minecraft 1.10");
+    	} else {
+    		in = getClass().getResourceAsStream("/config-1.11.yml");
+    		Bukkit.getServer().getLogger().info("[MessageTones] Creating config.yml for Minecraft 1.11");
     	}
     	File targetFile = new File(this.getDataFolder() + File.separator + "config.yml");
     	OutputStream out = null;

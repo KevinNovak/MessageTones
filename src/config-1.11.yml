@@ -1,0 +1,740 @@
+# Configuration file for MessageTones 1.11
+# https://www.spigotmc.org/resources/messagetones.30529/
+# Created by KevinNovak
+
+# ============================================
+# Help
+# ============================================
+# Sound
+#  - The ID of the sound to play.
+#  - See the "Sound IDS" section for a list of IDs.
+# Pitch
+#  - The pitch to play the sound at.
+#  - For example 1.0 is the normal sound pitch.
+#  - 0.5 would create a lower pitch.
+#  - 2.0 would create a higher pitch.
+# Volume
+#  - The volume to play the sound at.
+#  - For example 1.0 is the normal sound volume.
+#  - 0.5 would create a quieter sound.
+#  - 2.0 would create a louder sound.
+
+# ============================================
+# Metrics
+# ============================================
+# Whether or not to collect data on plugin usage
+# Viewable at http://mcstats.org/plugin/MessageTones/
+# default: metrics: true
+metrics: true
+
+# ============================================
+# Private Messages
+# ============================================
+# Whether private messages should play sounds to players.
+# default: msgEnabled: true
+msgEnabled: true
+
+# Should private message sounds be "On" for new players?
+# default: msgDefaultOn: true
+msgDefaultOn: true
+
+# Recommended Sounds: 274 (ENTITY_ITEM_PICKUP), 73 (BLOCK_NOTE_PLING), 315 (ENTITY_PLAYER_BURP)
+# default: msgSound: 274
+msgSound: 274
+
+# default: msgPitch: 1.0
+msgPitch: 1.0
+
+# default: msgVolume: 0.8
+msgVolume: 0.8
+
+# The message text that triggers a sound.
+# Should uniquely identify private messages.
+# For example, in Essentials/EssentialsX every message contains " -> me]".
+# default: msgTrigger: ' -> me]'
+msgTrigger: ' -> me]'
+
+# ============================================
+# Broadcast
+# ============================================
+# Whether broadcasted messages should play sounds to players.
+# Broadcaster must have the messagetones.broadcast permission.
+# default: broadcastEnabled: true
+broadcastEnabled: true
+
+# Should broadcast sounds be "On" for new players?
+# default: msgDefaultOn: true
+broadcastDefaultOn: true
+
+# Recommended Sounds: 210 (ENTITY_FIREWORK_LARGE_BLAST), 278 (ENTITY_LIGHTNING_THUNDER)
+# default: broadcastSound: 210
+broadcastSound: 210
+
+# default: broadcastPitch: 1.0
+broadcastPitch: 1.0
+
+# default: broadcastVolume: 1.0
+broadcastVolume: 1.0
+
+# The broadcast command that triggers a sound.
+# default: broadcastCommand: 'broadcast'
+broadcastCommand: 'broadcast'
+
+# ============================================
+# Joining
+# ============================================
+# The time in milliseconds to wait after a 
+# player login before playing a sound.
+# Useful to prevent sound glitches.
+# default: delaySoundAfterJoin: 500
+delaySoundAfterJoin: 500
+
+# ============================================
+# Player Joins
+# ============================================
+# Whether to play a sound when normal players join.
+# default: joinPlayerEnabled: false
+joinPlayerEnabled: true
+
+# Should player join sounds should be "On" for new players?
+# default: joinPlayerDefaultOn: true
+joinPlayerDefaultOn: true
+
+# Recommended Sounds: 114 (BLOCK_WOODEN_DOOR_OPEN)
+# default: joinPlayerSound: 114
+joinPlayerSound: 114
+
+# default: joinPlayerPitch: 1.0
+joinPlayerPitch: 1.0
+
+# default: joinPlayerVolume: 0.5
+joinPlayerVolume: 0.5
+
+# ============================================
+# Admin Joins
+# ============================================
+# Whether to play a sound when an admin joins.
+# Admin must have the messagetones.admin permission.
+# default: joinAdminEnabled: false
+joinAdminEnabled: true
+
+# Should admin join sounds should be "On" for new players?
+# default: joinAdminDefaultOn: true
+joinAdminDefaultOn: true
+
+# Recommended Sounds: 214 (ENTITY_FIREWORK_TWINKLE)
+# default: joinAdminSound: 214
+joinAdminSound: 214
+
+# default: joinAdminPitch: 1.0
+joinAdminPitch: 1.0
+
+# default: joinAdminVolume: 0.5
+joinAdminVolume: 0.5
+
+# ============================================
+# Owner Joins
+# ============================================
+# Whether to play a sound when an owner joins.
+# Owner must have the messagetones.owner permission.
+# default: joinOwnerEnabled: false
+joinOwnerEnabled: true
+
+# Should owner join sounds should be "On" for new players?
+# default: joinOwnerDefaultOn: true
+joinOwnerDefaultOn: true
+
+# Recommended Sounds: 318 (ENTITY_PLAYER_LEVELUP)
+# default: joinOwnerSound: 318
+joinOwnerSound: 318
+
+# default: joinOwnerPitch: 1.0
+joinOwnerPitch: 1.0
+
+# default: joinOwnerVolume: 0.5
+joinOwnerVolume: 0.5
+
+# ============================================
+# Hotbar
+# ============================================
+# Whether to play a sound when players switch items in the hotbar.
+# default: hotbarEnabled: false
+hotbarEnabled: false
+
+# Should hotbar sounds should be "On" for new players?
+# default: hotbarDefaultOn: true
+hotbarDefaultOn: true
+
+# Recommended Sounds: 274 (ENTITY_ITEM_PICKUP)
+# default: hotbarSound: 274
+hotbarSound: 274
+
+# default: hotbarPitch: 0.5
+hotbarPitch: 0.5
+
+# default: hotbarVolume: 0.2
+hotbarVolume: 0.2
+
+# ============================================
+# Help Language
+# ============================================
+helpHeader: '&e ---- &6MessageTones &e- &6Help &e---------------'
+helpFooter: '&e --------------------------------------'
+# for helpMessage, place the variable "{COMMAND}" where you would like the command name,
+# and place the variable "{INFO}" where you would like the command description/info.
+# default: helpMessage: '&b{COMMAND} &7- {INFO}.'
+helpMessage: '&b{COMMAND} &7- {INFO}.'
+# for helpPage, place the variable "{PAGE}" where you would like the next page number.
+# default: helpPage: '&7 Type &6/mt {PAGE} &7for more info.'
+helpPage: '&7 Type &6/mt {PAGE} &7for more info.'
+helpNoCommands: '&7 You are not allowed to use commands.'
+
+infoHelp: 'lists all commands'
+infoStatus: 'shows your preferences'
+infoList: 'lists available sounds'
+infoTestSound: 'plays a test sound'
+infoToggleSound: 'toggles sound'
+
+# ============================================
+# Status Language
+# ============================================
+statusHeader: '&e ---- &6MessageTones &e- &6Status &e----'
+statusFooter: '&e -----------------------------'
+# for statusMessage, place the variable "{SOUND}" where you would like the sound name,
+# and place the variable "{STATUS}" where you would like the status (ex. On or Off).
+# default: statusMessage: '&b {SOUND} &7- {STATUS}'
+statusMessage: '&b {SOUND} &7- {STATUS}'
+
+statusOn: '&aOn'
+statusOff: '&cOff'
+
+# ============================================
+# List Language
+# ============================================
+listSound: '&6Sounds&7: &b{SOUNDS}'
+listToggle: '&6Toggle&7: &b{SOUNDS}'
+listSeparater: '&7, &b'
+
+# ============================================
+# Sound Names
+# ============================================
+nameMessage: 'Message'
+nameBroadcast: 'Broadcast'
+namePlayerJoin: 'Player Join'
+nameAdminJoin: 'Admin Join'
+nameOwnerJoin: 'Owner Join'
+nameHotbar: 'Hotbar'
+
+# ============================================
+# Misc Language
+# ============================================
+# for testMessage, place the variable "{SOUND}" where you would like the sound name.
+# default: testMessage: '&7Played a test {SOUND} sound.'
+testMessage: '&7Played a test {SOUND} sound.'
+# for toggleMessage, place the variable "{SOUND}" where you would like the sound name,
+# and place the variable "{STATUS}" where you would like the status (ex. On or Off).
+# default: toggleMessage: '&b{SOUND} &7is now {STATUS}&7!'
+toggleMessage: '&b{SOUND} &7is now {STATUS}&7!'
+
+noConsole: '&cConsole cannot run MessageTones commands!'
+notPermitted: '&cYou are not permitted to do this!'
+
+# ============================================
+# Minecraft 1.11 - Sound IDs
+# ============================================
+# 1 - AMBIENT_CAVE
+# 2 - BLOCK_ANVIL_BREAK
+# 3 - BLOCK_ANVIL_DESTROY
+# 4 - BLOCK_ANVIL_FALL
+# 5 - BLOCK_ANVIL_HIT
+# 6 - BLOCK_ANVIL_LAND
+# 7 - BLOCK_ANVIL_PLACE
+# 8 - BLOCK_ANVIL_STEP
+# 9 - BLOCK_ANVIL_USE
+# 10 - BLOCK_BREWING_STAND_BREW
+# 11 - BLOCK_CHEST_CLOSE
+# 12 - BLOCK_CHEST_LOCKED
+# 13 - BLOCK_CHEST_OPEN
+# 14 - BLOCK_CHORUS_FLOWER_DEATH
+# 15 - BLOCK_CHORUS_FLOWER_GROW
+# 16 - BLOCK_CLOTH_BREAK
+# 17 - BLOCK_CLOTH_FALL
+# 18 - BLOCK_CLOTH_HIT
+# 19 - BLOCK_CLOTH_PLACE
+# 20 - BLOCK_CLOTH_STEP
+# 21 - BLOCK_COMPARATOR_CLICK
+# 22 - BLOCK_DISPENSER_DISPENSE
+# 23 - BLOCK_DISPENSER_FAIL
+# 24 - BLOCK_DISPENSER_LAUNCH
+# 25 - BLOCK_ENCHANTMENT_TABLE_USE
+# 26 - BLOCK_ENDERCHEST_CLOSE
+# 27 - BLOCK_ENDERCHEST_OPEN
+# 28 - BLOCK_END_GATEWAY_SPAWN
+# 29 - BLOCK_FENCE_GATE_CLOSE
+# 30 - BLOCK_FENCE_GATE_OPEN
+# 31 - BLOCK_FIRE_AMBIENT
+# 32 - BLOCK_FIRE_EXTINGUISH
+# 33 - BLOCK_FURNACE_FIRE_CRACKLE
+# 34 - BLOCK_GLASS_BREAK
+# 35 - BLOCK_GLASS_FALL
+# 36 - BLOCK_GLASS_HIT
+# 37 - BLOCK_GLASS_PLACE
+# 38 - BLOCK_GLASS_STEP
+# 39 - BLOCK_GRASS_BREAK
+# 40 - BLOCK_GRASS_FALL
+# 41 - BLOCK_GRASS_HIT
+# 42 - BLOCK_GRASS_PLACE
+# 43 - BLOCK_GRASS_STEP
+# 44 - BLOCK_GRAVEL_BREAK
+# 45 - BLOCK_GRAVEL_FALL
+# 46 - BLOCK_GRAVEL_HIT
+# 47 - BLOCK_GRAVEL_PLACE
+# 48 - BLOCK_GRAVEL_STEP
+# 49 - BLOCK_IRON_DOOR_CLOSE
+# 50 - BLOCK_IRON_DOOR_OPEN
+# 51 - BLOCK_IRON_TRAPDOOR_CLOSE
+# 52 - BLOCK_IRON_TRAPDOOR_OPEN
+# 53 - BLOCK_LADDER_BREAK
+# 54 - BLOCK_LADDER_FALL
+# 55 - BLOCK_LADDER_HIT
+# 56 - BLOCK_LADDER_PLACE
+# 57 - BLOCK_LADDER_STEP
+# 58 - BLOCK_LAVA_AMBIENT
+# 59 - BLOCK_LAVA_EXTINGUISH
+# 60 - BLOCK_LAVA_POP
+# 61 - BLOCK_LEVER_CLICK
+# 62 - BLOCK_METAL_BREAK
+# 63 - BLOCK_METAL_FALL
+# 64 - BLOCK_METAL_HIT
+# 65 - BLOCK_METAL_PLACE
+# 66 - BLOCK_METAL_PRESSUREPLATE_CLICK_OFF
+# 67 - BLOCK_METAL_PRESSUREPLATE_CLICK_ON
+# 68 - BLOCK_METAL_STEP
+# 69 - BLOCK_NOTE_BASEDRUM
+# 70 - BLOCK_NOTE_BASS
+# 71 - BLOCK_NOTE_HARP
+# 72 - BLOCK_NOTE_HAT
+# 73 - BLOCK_NOTE_PLING
+# 74 - BLOCK_NOTE_SNARE
+# 75 - BLOCK_PISTON_CONTRACT
+# 76 - BLOCK_PISTON_EXTEND
+# 77 - BLOCK_PORTAL_AMBIENT
+# 78 - BLOCK_PORTAL_TRAVEL
+# 79 - BLOCK_PORTAL_TRIGGER
+# 80 - BLOCK_REDSTONE_TORCH_BURNOUT
+# 81 - BLOCK_SAND_BREAK
+# 82 - BLOCK_SAND_FALL
+# 83 - BLOCK_SAND_HIT
+# 84 - BLOCK_SAND_PLACE
+# 85 - BLOCK_SAND_STEP
+# 86 - BLOCK_SHULKER_BOX_CLOSE
+# 87 - BLOCK_SHULKER_BOX_OPEN
+# 88 - BLOCK_SLIME_BREAK
+# 89 - BLOCK_SLIME_FALL
+# 90 - BLOCK_SLIME_HIT
+# 91 - BLOCK_SLIME_PLACE
+# 92 - BLOCK_SLIME_STEP
+# 93 - BLOCK_SNOW_BREAK
+# 94 - BLOCK_SNOW_FALL
+# 95 - BLOCK_SNOW_HIT
+# 96 - BLOCK_SNOW_PLACE
+# 97 - BLOCK_SNOW_STEP
+# 98 - BLOCK_STONE_BREAK
+# 99 - BLOCK_STONE_BUTTON_CLICK_OFF
+# 100 - BLOCK_STONE_BUTTON_CLICK_ON
+# 101 - BLOCK_STONE_FALL
+# 102 - BLOCK_STONE_HIT
+# 103 - BLOCK_STONE_PLACE
+# 104 - BLOCK_STONE_PRESSUREPLATE_CLICK_OFF
+# 105 - BLOCK_STONE_PRESSUREPLATE_CLICK_ON
+# 106 - BLOCK_STONE_STEP
+# 107 - BLOCK_TRIPWIRE_ATTACH
+# 108 - BLOCK_TRIPWIRE_CLICK_OFF
+# 109 - BLOCK_TRIPWIRE_CLICK_ON
+# 110 - BLOCK_TRIPWIRE_DETACH
+# 111 - BLOCK_WATERLILY_PLACE
+# 112 - BLOCK_WATER_AMBIENT
+# 113 - BLOCK_WOODEN_DOOR_CLOSE
+# 114 - BLOCK_WOODEN_DOOR_OPEN
+# 115 - BLOCK_WOODEN_TRAPDOOR_CLOSE
+# 116 - BLOCK_WOODEN_TRAPDOOR_OPEN
+# 117 - BLOCK_WOOD_BREAK
+# 118 - BLOCK_WOOD_BUTTON_CLICK_OFF
+# 119 - BLOCK_WOOD_BUTTON_CLICK_ON
+# 120 - BLOCK_WOOD_FALL
+# 121 - BLOCK_WOOD_HIT
+# 122 - BLOCK_WOOD_PLACE
+# 123 - BLOCK_WOOD_PRESSUREPLATE_CLICK_OFF
+# 124 - BLOCK_WOOD_PRESSUREPLATE_CLICK_ON
+# 125 - BLOCK_WOOD_STEP
+# 126 - ENCHANT_THORNS_HIT
+# 127 - ENTITY_ARMORSTAND_BREAK
+# 128 - ENTITY_ARMORSTAND_FALL
+# 129 - ENTITY_ARMORSTAND_HIT
+# 130 - ENTITY_ARMORSTAND_PLACE
+# 131 - ENTITY_ARROW_HIT
+# 132 - ENTITY_ARROW_HIT_PLAYER
+# 133 - ENTITY_ARROW_SHOOT
+# 134 - ENTITY_BAT_AMBIENT
+# 135 - ENTITY_BAT_DEATH
+# 136 - ENTITY_BAT_HURT
+# 137 - ENTITY_BAT_LOOP
+# 138 - ENTITY_BAT_TAKEOFF
+# 139 - ENTITY_BLAZE_AMBIENT
+# 140 - ENTITY_BLAZE_BURN
+# 141 - ENTITY_BLAZE_DEATH
+# 142 - ENTITY_BLAZE_HURT
+# 143 - ENTITY_BLAZE_SHOOT
+# 144 - ENTITY_BOBBER_SPLASH
+# 145 - ENTITY_BOBBER_THROW
+# 146 - ENTITY_CAT_AMBIENT
+# 147 - ENTITY_CAT_DEATH
+# 148 - ENTITY_CAT_HISS
+# 149 - ENTITY_CAT_HURT
+# 150 - ENTITY_CAT_PURR
+# 151 - ENTITY_CAT_PURREOW
+# 152 - ENTITY_CHICKEN_AMBIENT
+# 153 - ENTITY_CHICKEN_DEATH
+# 154 - ENTITY_CHICKEN_EGG
+# 155 - ENTITY_CHICKEN_HURT
+# 156 - ENTITY_CHICKEN_STEP
+# 157 - ENTITY_COW_AMBIENT
+# 158 - ENTITY_COW_DEATH
+# 159 - ENTITY_COW_HURT
+# 160 - ENTITY_COW_MILK
+# 161 - ENTITY_COW_STEP
+# 162 - ENTITY_CREEPER_DEATH
+# 163 - ENTITY_CREEPER_HURT
+# 164 - ENTITY_CREEPER_PRIMED
+# 165 - ENTITY_DONKEY_AMBIENT
+# 166 - ENTITY_DONKEY_ANGRY
+# 167 - ENTITY_DONKEY_CHEST
+# 168 - ENTITY_DONKEY_DEATH
+# 169 - ENTITY_DONKEY_HURT
+# 170 - ENTITY_EGG_THROW
+# 171 - ENTITY_ELDER_GUARDIAN_AMBIENT
+# 172 - ENTITY_ELDER_GUARDIAN_AMBIENT_LAND
+# 173 - ENTITY_ELDER_GUARDIAN_CURSE
+# 174 - ENTITY_ELDER_GUARDIAN_DEATH
+# 175 - ENTITY_ELDER_GUARDIAN_DEATH_LAND
+# 176 - ENTITY_ELDER_GUARDIAN_FLOP
+# 177 - ENTITY_ELDER_GUARDIAN_HURT
+# 178 - ENTITY_ELDER_GUARDIAN_HURT_LAND
+# 179 - ENTITY_ENDERDRAGON_AMBIENT
+# 180 - ENTITY_ENDERDRAGON_DEATH
+# 181 - ENTITY_ENDERDRAGON_FIREBALL_EXPLODE
+# 182 - ENTITY_ENDERDRAGON_FLAP
+# 183 - ENTITY_ENDERDRAGON_GROWL
+# 184 - ENTITY_ENDERDRAGON_HURT
+# 185 - ENTITY_ENDERDRAGON_SHOOT
+# 186 - ENTITY_ENDEREYE_LAUNCH
+# 187 - ENTITY_ENDERMEN_AMBIENT
+# 188 - ENTITY_ENDERMEN_DEATH
+# 189 - ENTITY_ENDERMEN_HURT
+# 190 - ENTITY_ENDERMEN_SCREAM
+# 191 - ENTITY_ENDERMEN_STARE
+# 192 - ENTITY_ENDERMEN_TELEPORT
+# 193 - ENTITY_ENDERMITE_AMBIENT
+# 194 - ENTITY_ENDERMITE_DEATH
+# 195 - ENTITY_ENDERMITE_HURT
+# 196 - ENTITY_ENDERMITE_STEP
+# 197 - ENTITY_ENDERPEARL_THROW
+# 198 - ENTITY_EVOCATION_FANGS_ATTACK
+# 199 - ENTITY_EVOCATION_ILLAGER_AMBIENT
+# 200 - ENTITY_EVOCATION_ILLAGER_CAST_SPELL
+# 201 - ENTITY_EVOCATION_ILLAGER_DEATH
+# 202 - ENTITY_EVOCATION_ILLAGER_HURT
+# 203 - ENTITY_EVOCATION_ILLAGER_PREPARE_ATTACK
+# 204 - ENTITY_EVOCATION_ILLAGER_PREPARE_SUMMON
+# 205 - ENTITY_EVOCATION_ILLAGER_PREPARE_WOLOLO
+# 206 - ENTITY_EXPERIENCE_BOTTLE_THROW
+# 207 - ENTITY_EXPERIENCE_ORB_PICKUP
+# 208 - ENTITY_FIREWORK_BLAST
+# 209 - ENTITY_FIREWORK_BLAST_FAR
+# 210 - ENTITY_FIREWORK_LARGE_BLAST
+# 211 - ENTITY_FIREWORK_LARGE_BLAST_FAR
+# 212 - ENTITY_FIREWORK_LAUNCH
+# 213 - ENTITY_FIREWORK_SHOOT
+# 214 - ENTITY_FIREWORK_TWINKLE
+# 215 - ENTITY_FIREWORK_TWINKLE_FAR
+# 216 - ENTITY_GENERIC_BIG_FALL
+# 217 - ENTITY_GENERIC_BURN
+# 218 - ENTITY_GENERIC_DEATH
+# 219 - ENTITY_GENERIC_DRINK
+# 220 - ENTITY_GENERIC_EAT
+# 221 - ENTITY_GENERIC_EXPLODE
+# 222 - ENTITY_GENERIC_EXTINGUISH_FIRE
+# 223 - ENTITY_GENERIC_HURT
+# 224 - ENTITY_GENERIC_SMALL_FALL
+# 225 - ENTITY_GENERIC_SPLASH
+# 226 - ENTITY_GENERIC_SWIM
+# 227 - ENTITY_GHAST_AMBIENT
+# 228 - ENTITY_GHAST_DEATH
+# 229 - ENTITY_GHAST_HURT
+# 230 - ENTITY_GHAST_SCREAM
+# 231 - ENTITY_GHAST_SHOOT
+# 232 - ENTITY_GHAST_WARN
+# 233 - ENTITY_GUARDIAN_AMBIENT
+# 234 - ENTITY_GUARDIAN_AMBIENT_LAND
+# 235 - ENTITY_GUARDIAN_ATTACK
+# 236 - ENTITY_GUARDIAN_DEATH
+# 237 - ENTITY_GUARDIAN_DEATH_LAND
+# 238 - ENTITY_GUARDIAN_FLOP
+# 239 - ENTITY_GUARDIAN_HURT
+# 240 - ENTITY_GUARDIAN_HURT_LAND
+# 241 - ENTITY_HORSE_AMBIENT
+# 242 - ENTITY_HORSE_ANGRY
+# 243 - ENTITY_HORSE_ARMOR
+# 244 - ENTITY_HORSE_BREATHE
+# 245 - ENTITY_HORSE_DEATH
+# 246 - ENTITY_HORSE_EAT
+# 247 - ENTITY_HORSE_GALLOP
+# 248 - ENTITY_HORSE_HURT
+# 249 - ENTITY_HORSE_JUMP
+# 250 - ENTITY_HORSE_LAND
+# 251 - ENTITY_HORSE_SADDLE
+# 252 - ENTITY_HORSE_STEP
+# 253 - ENTITY_HORSE_STEP_WOOD
+# 254 - ENTITY_HOSTILE_BIG_FALL
+# 255 - ENTITY_HOSTILE_DEATH
+# 256 - ENTITY_HOSTILE_HURT
+# 257 - ENTITY_HOSTILE_SMALL_FALL
+# 258 - ENTITY_HOSTILE_SPLASH
+# 259 - ENTITY_HOSTILE_SWIM
+# 260 - ENTITY_HUSK_AMBIENT
+# 261 - ENTITY_HUSK_DEATH
+# 262 - ENTITY_HUSK_HURT
+# 263 - ENTITY_HUSK_STEP
+# 264 - ENTITY_IRONGOLEM_ATTACK
+# 265 - ENTITY_IRONGOLEM_DEATH
+# 266 - ENTITY_IRONGOLEM_HURT
+# 267 - ENTITY_IRONGOLEM_STEP
+# 268 - ENTITY_ITEMFRAME_ADD_ITEM
+# 269 - ENTITY_ITEMFRAME_BREAK
+# 270 - ENTITY_ITEMFRAME_PLACE
+# 271 - ENTITY_ITEMFRAME_REMOVE_ITEM
+# 272 - ENTITY_ITEMFRAME_ROTATE_ITEM
+# 273 - ENTITY_ITEM_BREAK
+# 274 - ENTITY_ITEM_PICKUP
+# 275 - ENTITY_LEASHKNOT_BREAK
+# 276 - ENTITY_LEASHKNOT_PLACE
+# 277 - ENTITY_LIGHTNING_IMPACT
+# 278 - ENTITY_LIGHTNING_THUNDER
+# 279 - ENTITY_LINGERINGPOTION_THROW
+# 280 - ENTITY_LLAMA_AMBIENT
+# 281 - ENTITY_LLAMA_ANGRY
+# 282 - ENTITY_LLAMA_CHEST
+# 283 - ENTITY_LLAMA_DEATH
+# 284 - ENTITY_LLAMA_EAT
+# 285 - ENTITY_LLAMA_HURT
+# 286 - ENTITY_LLAMA_SPIT
+# 287 - ENTITY_LLAMA_STEP
+# 288 - ENTITY_LLAMA_SWAG
+# 289 - ENTITY_MAGMACUBE_DEATH
+# 290 - ENTITY_MAGMACUBE_HURT
+# 291 - ENTITY_MAGMACUBE_JUMP
+# 292 - ENTITY_MAGMACUBE_SQUISH
+# 293 - ENTITY_MINECART_INSIDE
+# 294 - ENTITY_MINECART_RIDING
+# 295 - ENTITY_MOOSHROOM_SHEAR
+# 296 - ENTITY_MULE_AMBIENT
+# 297 - ENTITY_MULE_CHEST
+# 298 - ENTITY_MULE_DEATH
+# 299 - ENTITY_MULE_HURT
+# 300 - ENTITY_PAINTING_BREAK
+# 301 - ENTITY_PAINTING_PLACE
+# 302 - ENTITY_PIG_AMBIENT
+# 303 - ENTITY_PIG_DEATH
+# 304 - ENTITY_PIG_HURT
+# 305 - ENTITY_PIG_SADDLE
+# 306 - ENTITY_PIG_STEP
+# 307 - ENTITY_PLAYER_ATTACK_CRIT
+# 308 - ENTITY_PLAYER_ATTACK_KNOCKBACK
+# 309 - ENTITY_PLAYER_ATTACK_NODAMAGE
+# 310 - ENTITY_PLAYER_ATTACK_STRONG
+# 311 - ENTITY_PLAYER_ATTACK_SWEEP
+# 312 - ENTITY_PLAYER_ATTACK_WEAK
+# 313 - ENTITY_PLAYER_BIG_FALL
+# 314 - ENTITY_PLAYER_BREATH
+# 315 - ENTITY_PLAYER_BURP
+# 316 - ENTITY_PLAYER_DEATH
+# 317 - ENTITY_PLAYER_HURT
+# 318 - ENTITY_PLAYER_LEVELUP
+# 319 - ENTITY_PLAYER_SMALL_FALL
+# 320 - ENTITY_PLAYER_SPLASH
+# 321 - ENTITY_PLAYER_SWIM
+# 322 - ENTITY_POLAR_BEAR_AMBIENT
+# 323 - ENTITY_POLAR_BEAR_BABY_AMBIENT
+# 324 - ENTITY_POLAR_BEAR_DEATH
+# 325 - ENTITY_POLAR_BEAR_HURT
+# 326 - ENTITY_POLAR_BEAR_STEP
+# 327 - ENTITY_POLAR_BEAR_WARNING
+# 328 - ENTITY_RABBIT_AMBIENT
+# 329 - ENTITY_RABBIT_ATTACK
+# 330 - ENTITY_RABBIT_DEATH
+# 331 - ENTITY_RABBIT_HURT
+# 332 - ENTITY_RABBIT_JUMP
+# 333 - ENTITY_SHEEP_AMBIENT
+# 334 - ENTITY_SHEEP_DEATH
+# 335 - ENTITY_SHEEP_HURT
+# 336 - ENTITY_SHEEP_SHEAR
+# 337 - ENTITY_SHEEP_STEP
+# 338 - ENTITY_SHULKER_AMBIENT
+# 339 - ENTITY_SHULKER_BULLET_HIT
+# 340 - ENTITY_SHULKER_BULLET_HURT
+# 341 - ENTITY_SHULKER_CLOSE
+# 342 - ENTITY_SHULKER_DEATH
+# 343 - ENTITY_SHULKER_HURT
+# 344 - ENTITY_SHULKER_HURT_CLOSED
+# 345 - ENTITY_SHULKER_OPEN
+# 346 - ENTITY_SHULKER_SHOOT
+# 347 - ENTITY_SHULKER_TELEPORT
+# 348 - ENTITY_SILVERFISH_AMBIENT
+# 349 - ENTITY_SILVERFISH_DEATH
+# 350 - ENTITY_SILVERFISH_HURT
+# 351 - ENTITY_SILVERFISH_STEP
+# 352 - ENTITY_SKELETON_AMBIENT
+# 353 - ENTITY_SKELETON_DEATH
+# 354 - ENTITY_SKELETON_HORSE_AMBIENT
+# 355 - ENTITY_SKELETON_HORSE_DEATH
+# 356 - ENTITY_SKELETON_HORSE_HURT
+# 357 - ENTITY_SKELETON_HURT
+# 358 - ENTITY_SKELETON_SHOOT
+# 359 - ENTITY_SKELETON_STEP
+# 360 - ENTITY_SLIME_ATTACK
+# 361 - ENTITY_SLIME_DEATH
+# 362 - ENTITY_SLIME_HURT
+# 363 - ENTITY_SLIME_JUMP
+# 364 - ENTITY_SLIME_SQUISH
+# 365 - ENTITY_SMALL_MAGMACUBE_DEATH
+# 366 - ENTITY_SMALL_MAGMACUBE_HURT
+# 367 - ENTITY_SMALL_MAGMACUBE_SQUISH
+# 368 - ENTITY_SMALL_SLIME_DEATH
+# 369 - ENTITY_SMALL_SLIME_HURT
+# 370 - ENTITY_SMALL_SLIME_JUMP
+# 371 - ENTITY_SMALL_SLIME_SQUISH
+# 372 - ENTITY_SNOWBALL_THROW
+# 373 - ENTITY_SNOWMAN_AMBIENT
+# 374 - ENTITY_SNOWMAN_DEATH
+# 375 - ENTITY_SNOWMAN_HURT
+# 376 - ENTITY_SNOWMAN_SHOOT
+# 377 - ENTITY_SPIDER_AMBIENT
+# 378 - ENTITY_SPIDER_DEATH
+# 379 - ENTITY_SPIDER_HURT
+# 380 - ENTITY_SPIDER_STEP
+# 381 - ENTITY_SPLASH_POTION_BREAK
+# 382 - ENTITY_SPLASH_POTION_THROW
+# 383 - ENTITY_SQUID_AMBIENT
+# 384 - ENTITY_SQUID_DEATH
+# 385 - ENTITY_SQUID_HURT
+# 386 - ENTITY_STRAY_AMBIENT
+# 387 - ENTITY_STRAY_DEATH
+# 388 - ENTITY_STRAY_HURT
+# 389 - ENTITY_STRAY_STEP
+# 390 - ENTITY_TNT_PRIMED
+# 391 - ENTITY_VEX_AMBIENT
+# 392 - ENTITY_VEX_CHARGE
+# 393 - ENTITY_VEX_DEATH
+# 394 - ENTITY_VEX_HURT
+# 395 - ENTITY_VILLAGER_AMBIENT
+# 396 - ENTITY_VILLAGER_DEATH
+# 397 - ENTITY_VILLAGER_HURT
+# 398 - ENTITY_VILLAGER_NO
+# 399 - ENTITY_VILLAGER_TRADING
+# 400 - ENTITY_VILLAGER_YES
+# 401 - ENTITY_VINDICATION_ILLAGER_AMBIENT
+# 402 - ENTITY_VINDICATION_ILLAGER_DEATH
+# 403 - ENTITY_VINDICATION_ILLAGER_HURT
+# 404 - ENTITY_WITCH_AMBIENT
+# 405 - ENTITY_WITCH_DEATH
+# 406 - ENTITY_WITCH_DRINK
+# 407 - ENTITY_WITCH_HURT
+# 408 - ENTITY_WITCH_THROW
+# 409 - ENTITY_WITHER_AMBIENT
+# 410 - ENTITY_WITHER_BREAK_BLOCK
+# 411 - ENTITY_WITHER_DEATH
+# 412 - ENTITY_WITHER_HURT
+# 413 - ENTITY_WITHER_SHOOT
+# 414 - ENTITY_WITHER_SKELETON_AMBIENT
+# 415 - ENTITY_WITHER_SKELETON_DEATH
+# 416 - ENTITY_WITHER_SKELETON_HURT
+# 417 - ENTITY_WITHER_SKELETON_STEP
+# 418 - ENTITY_WITHER_SPAWN
+# 419 - ENTITY_WOLF_AMBIENT
+# 420 - ENTITY_WOLF_DEATH
+# 421 - ENTITY_WOLF_GROWL
+# 422 - ENTITY_WOLF_HOWL
+# 423 - ENTITY_WOLF_HURT
+# 424 - ENTITY_WOLF_PANT
+# 425 - ENTITY_WOLF_SHAKE
+# 426 - ENTITY_WOLF_STEP
+# 427 - ENTITY_WOLF_WHINE
+# 428 - ENTITY_ZOMBIE_AMBIENT
+# 429 - ENTITY_ZOMBIE_ATTACK_DOOR_WOOD
+# 430 - ENTITY_ZOMBIE_ATTACK_IRON_DOOR
+# 431 - ENTITY_ZOMBIE_BREAK_DOOR_WOOD
+# 432 - ENTITY_ZOMBIE_DEATH
+# 433 - ENTITY_ZOMBIE_HORSE_AMBIENT
+# 434 - ENTITY_ZOMBIE_HORSE_DEATH
+# 435 - ENTITY_ZOMBIE_HORSE_HURT
+# 436 - ENTITY_ZOMBIE_HURT
+# 437 - ENTITY_ZOMBIE_INFECT
+# 438 - ENTITY_ZOMBIE_PIG_AMBIENT
+# 439 - ENTITY_ZOMBIE_PIG_ANGRY
+# 440 - ENTITY_ZOMBIE_PIG_DEATH
+# 441 - ENTITY_ZOMBIE_PIG_HURT
+# 442 - ENTITY_ZOMBIE_STEP
+# 443 - ENTITY_ZOMBIE_VILLAGER_AMBIENT
+# 444 - ENTITY_ZOMBIE_VILLAGER_CONVERTED
+# 445 - ENTITY_ZOMBIE_VILLAGER_CURE
+# 446 - ENTITY_ZOMBIE_VILLAGER_DEATH
+# 447 - ENTITY_ZOMBIE_VILLAGER_HURT
+# 448 - ENTITY_ZOMBIE_VILLAGER_STEP
+# 449 - ITEM_ARMOR_EQUIP_CHAIN
+# 450 - ITEM_ARMOR_EQUIP_DIAMOND
+# 451 - ITEM_ARMOR_EQUIP_ELYTRA
+# 452 - ITEM_ARMOR_EQUIP_GENERIC
+# 453 - ITEM_ARMOR_EQUIP_GOLD
+# 454 - ITEM_ARMOR_EQUIP_IRON
+# 455 - ITEM_ARMOR_EQUIP_LEATHER
+# 456 - ITEM_BOTTLE_EMPTY
+# 457 - ITEM_BOTTLE_FILL
+# 458 - ITEM_BOTTLE_FILL_DRAGONBREATH
+# 459 - ITEM_BUCKET_EMPTY
+# 460 - ITEM_BUCKET_EMPTY_LAVA
+# 461 - ITEM_BUCKET_FILL
+# 462 - ITEM_BUCKET_FILL_LAVA
+# 463 - ITEM_CHORUS_FRUIT_TELEPORT
+# 464 - ITEM_ELYTRA_FLYING
+# 465 - ITEM_FIRECHARGE_USE
+# 466 - ITEM_FLINTANDSTEEL_USE
+# 467 - ITEM_HOE_TILL
+# 468 - ITEM_SHIELD_BLOCK
+# 469 - ITEM_SHIELD_BREAK
+# 470 - ITEM_SHOVEL_FLATTEN
+# 471 - ITEM_TOTEM_USE
+# 472 - MUSIC_CREATIVE
+# 473 - MUSIC_CREDITS
+# 474 - MUSIC_DRAGON
+# 475 - MUSIC_END
+# 476 - MUSIC_GAME
+# 477 - MUSIC_MENU
+# 478 - MUSIC_NETHER
+# 479 - RECORD_11
+# 480 - RECORD_13
+# 481 - RECORD_BLOCKS
+# 482 - RECORD_CAT
+# 483 - RECORD_CHIRP
+# 484 - RECORD_FAR
+# 485 - RECORD_MALL
+# 486 - RECORD_MELLOHI
+# 487 - RECORD_STAL
+# 488 - RECORD_STRAD
+# 489 - RECORD_WAIT
+# 490 - RECORD_WARD
+# 491 - UI_BUTTON_CLICK
+# 492 - WEATHER_RAIN
+# 493 - WEATHER_RAIN_ABOVE
+
+# Do not touch:
+copied: true
